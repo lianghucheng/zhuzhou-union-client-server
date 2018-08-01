@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"os"
-	_ "zhuzhou-union-client-server/admin"
+	"zhuzhou-union-client-server/admin"
 	"zhuzhou-union-client-server/models"
 	_ "zhuzhou-union-client-server/routers"
 )
@@ -14,6 +14,7 @@ func init() {
 }
 
 func main() {
+	beego.Handler("/admin", admin.GetHandler(), true)
 	beego.Run()
 }
 

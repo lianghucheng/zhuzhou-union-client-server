@@ -2,19 +2,15 @@ package admin
 
 import "zhuzhou-union-client-server/models"
 import (
-	"github.com/astaxie/beego"
 	"github.com/qor/admin"
+	"net/http"
+	"zhuzhou-union-client-server/admin/user"
 )
 
-func init() {
+func GetHandler() http.Handler {
 	Admin := admin.New(&admin.AdminConfig{DB: models.DB})
 
-	Admin.AddResource(&models.User{})
-	Admin.AddResource(&models.Category{})
-	article := Admin.AddResource(&models.Article{})
+	user.SetAdmin(Admin)
 
-	article.Meta(&admin.Meta{Name: "Content", Type: "rich_editor"})
-	article.Meta(&admin.Meta{Name: "Status", Config: &admin.SelectOneConfig{Collection: []string{"显示", "不显示", "审核中"}}})
-
-	beego.Handler("/admin", Admin.NewServeMux("/admin"), true)
+	return Admin.NewServeMux("/admin")
 }
