@@ -8,6 +8,8 @@ import (
 type Article struct {
 	gorm.Model
 	Status            uint
+	User              *User
+	UserID            uint
 	Title             string
 	Source            string
 	Author            string
