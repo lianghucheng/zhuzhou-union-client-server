@@ -6,5 +6,5 @@ import (
 )
 
 func SetAdmin(admin *admin.Admin) {
-	Aadmin.AddResource(&models.Menu{})
+	admin.AddResource(&models.Menu{})
 }
