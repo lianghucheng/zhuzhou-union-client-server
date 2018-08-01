@@ -8,4 +8,5 @@ type Menu struct {
 	Higher   *Category
 	HigherID uint
 	Category *Category
+	URL      string
 }
