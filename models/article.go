@@ -16,7 +16,7 @@ type Article struct {
 	Category          Category
 	CategoryID        uint
 	Cover             oss.OSS
-	Content           string `gorm:"longtext"`
+	Content           string `gorm:"longtext"` //type:rich_editor
 	Editor            string
 	ResponsibleEditor string
 }

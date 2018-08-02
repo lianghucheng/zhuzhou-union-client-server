@@ -10,6 +10,7 @@ import (
 	"net/url"
 	"os"
 	"time"
+	"github.com/qor/media/asset_manager"
 )
 
 var DB *gorm.DB
@@ -20,11 +21,12 @@ func SyncDB() {
 	DB.
 		Set("gorm:table_options", "ENGINE=InnoDB").
 		AutoMigrate(
-			&User{},
-			&Article{},
-			&Category{},
-			&Menu{},
-		)
+		&User{},
+		&Article{},
+		&Category{},
+		&Menu{},
+		&asset_manager.AssetManager{},
+	)
 }
 
 /**
