@@ -25,7 +25,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Content", Type: "kindeditor"})
 
 	//下拉选项文章作者
-	article.Meta(&admin.Meta{Name: "User", Label: "用户名", Type: "select_many",
+	article.Meta(&admin.Meta{Name: "User", Label: "User", Type: "select_many",
 		Config: &admin.SelectOneConfig{
 			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
 				var users []models.User
@@ -41,6 +41,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 			},
 		},
 	})
+
+
 
 	//
 
