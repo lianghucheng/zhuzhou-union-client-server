@@ -1,21 +1,37 @@
 package admin
 
 import (
-	"github.com/astaxie/beego"
-	"fmt"
+	"zhuzhou-union-client-server/models"
+	"zhuzhou-union-client-server/utils"
+	"zhuzhou-union-client-server/controllers"
 )
 
 type LoginController struct {
-	beego.Controller
+	controllers.Common
 }
 
 //@router /auth/login [*]
 func (this *LoginController) Index() {
-	fmt.Println("this is login index")
-	this.TplName = "login.html"
+	this.TplName = "index.html"
 }
 
 //@router /auth/login/submit [*]
 func (this *LoginController) LoginSubmit() {
-	this.Ctx.Redirect(302, "/admin")
+	username := this.GetString("username")
+	password := this.GetString("password")
+
+	var user models.User
+
+	enPassword := utils.Md5(password)
+	if err := models.DB.
+		Where("username=? and password=?", username, enPassword).
+		First(&user).
+		Error;
+		err != nil {
+		this.ReturnJson(10001, "用户名或密码错误")
+		return
+	}
+	this.SetSession("adminuser", user)
+	this.ReturnSuccess()
+
 }

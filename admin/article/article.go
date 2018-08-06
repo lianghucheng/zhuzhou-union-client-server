@@ -10,6 +10,8 @@ import (
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{})
 
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor", "Category.Name")
+
 	//富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
 	article.Meta(&admin.Meta{Name: "Content", Config: &admin.RichEditorConfig{
@@ -42,9 +44,25 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	})
 
+	//顶部扩展栏 通过选择选项来执行
+	article.Action(
+		&admin.Action{
+			Name:  "enable",
+			Label: "审核通过/撤销通过",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
 
+					if a, ok := record.(models.Article); ok {
+						//执行a.status更新状态
+						fmt.Println(a)
+					}
 
-	//
-
+					fmt.Println(record)
+				}
+				return nil
+			},
+			Modes: []string{"batch", "edit", "show"},
+		},
+	)
 
 }

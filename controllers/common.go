@@ -24,9 +24,6 @@ func (this *Common) GetByID(obj interface{}) (int64, error) {
 	return id, models.DB.Where("id=?", id).First(obj).Error
 }
 
-func (this *Common) LoadUser() (user models.User, err error) {
-
-}
 
 func (this *Common) ReturnJson(status int, message string, args ...interface{}) {
 	result := make(map[string]interface{})
