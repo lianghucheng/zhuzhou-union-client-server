@@ -4,19 +4,18 @@ import (
 	"github.com/qor/admin"
 	"zhuzhou-union-client-server/models"
 	"github.com/qor/media/asset_manager"
-	"fmt"
 	"github.com/qor/qor"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{})
 
+	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor", "Status")
-
 	article.EditAttrs("Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
-
 	article.NewAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
-	//富文本
+
+	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
 	article.Meta(&admin.Meta{Name: "Content", Config: &admin.RichEditorConfig{
 		AssetManager: assetManager,
@@ -30,6 +29,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 	article.Meta(&admin.Meta{Name: "Content", Type: "kindeditor"})
 
+	//重置Status显示
 	article.Meta(&admin.Meta{Name: "Status", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
@@ -43,6 +43,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 
+
+	//添加审核模块
 	article.Action(
 		&admin.Action{
 			Name:  "enable",
@@ -57,7 +59,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 						} else {
 							a.Status = 1
 						}
-						fmt.Println(a.Status)
 						models.DB.Model(&a).Update("status", a.Status)
 
 					}
@@ -68,6 +69,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	)
 
+	//重置删除
 	article.Action(
 		&admin.Action{
 			Name:  "Delete",
@@ -83,7 +85,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"batch", "show", "menu_item", "edit"},
+			Modes: []string{"show", "menu_item",},
 		},
 	)
 }
