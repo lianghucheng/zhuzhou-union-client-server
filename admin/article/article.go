@@ -7,10 +7,11 @@ import (
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
 	"fmt"
+	"github.com/jinzhu/gorm"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	article := adminConfig.AddResource(&models.Article{})
+	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor", "Status")
 	article.EditAttrs("Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
@@ -18,7 +19,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
-	article.Meta(&admin.Meta{Name: "Content", Config: &admin.RichEditorConfig{
+	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Config: &admin.RichEditorConfig{
 		AssetManager: assetManager,
 		Plugins: []admin.RedactorPlugin{
 			{Name: "medialibrary", Source: "/admin/assets/javascripts/qor_redactor_medialibrary.js"},
@@ -28,10 +29,13 @@ func SetAdmin(adminConfig *admin.Admin) {
 			"medialibraryUrl": "/admin/product_images",
 		},
 	}})
-	article.Meta(&admin.Meta{Name: "Content", Type: "kindeditor"})
+	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
 
-	article.Meta(&admin.Meta{Name: "Cover"})
-
+	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
+	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
+	article.Meta(&admin.Meta{Name: "Author", Label: "作者"})
+	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
+	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
 
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
@@ -47,7 +51,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	//重置Status显示
-	article.Meta(&admin.Meta{Name: "Status", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.Status == 1 {
@@ -104,6 +108,20 @@ func SetAdmin(adminConfig *admin.Admin) {
 			Modes: []string{"show", "menu_item",},
 		},
 	)
+
+	//添加搜索
+
+	article.SearchAttrs("Title", "Content", "Editor", "ResponsibleEditor", "Author", "ID")
+
+	//添加过滤条件
+	article.Scope(&admin.Scope{Name: "已审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
+		return db.Where("status = ?", "1")
+	}})
+
+	article.Scope(&admin.Scope{Name: "未审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
+		return db.Where("status = ?", "0")
+	}})
+
 
 
 }
