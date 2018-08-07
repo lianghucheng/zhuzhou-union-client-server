@@ -8,6 +8,9 @@ import (
 	"github.com/qor/qor/resource"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"zhuzhou-union-client-server/utils"
+	"github.com/spf13/cast"
+	"io/ioutil"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -42,9 +45,25 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			fmt.Println("--------------------")
 			if a, ok := value.(*models.Article); ok {
+				fname := cast.ToString(a.Cover.FileName)
 
+				file, err := a.Cover.FileHeader.Open()
+
+				fmt.Println(file)
+
+				f, err := ioutil.ReadAll(file)
+
+				if err != nil {
+					return err
+				}
+				url, err := utils.UploadFile(fname, f)
+
+				if err != nil {
+					return err
+				}
+
+				a.Cover.Url = url
 				//调用文件上传函数 更新url
-				fmt.Println(a.Cover.FileHeader)
 			}
 			return nil
 		},
@@ -121,7 +140,5 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Scope(&admin.Scope{Name: "未审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
 		return db.Where("status = ?", "0")
 	}})
-
-
 
 }
