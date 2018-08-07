@@ -5,11 +5,12 @@ import (
 	"zhuzhou-union-client-server/models"
 	"github.com/qor/media/asset_manager"
 	"github.com/qor/qor"
+	"github.com/qor/qor/resource"
+	"fmt"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{})
-
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor", "Status")
 	article.EditAttrs("Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
@@ -29,6 +30,20 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 	article.Meta(&admin.Meta{Name: "Content", Type: "kindeditor"})
 
+	article.Meta(&admin.Meta{Name: "Cover"})
+
+	article.AddProcessor(&resource.Processor{
+		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+			fmt.Println("--------------------")
+			if a, ok := value.(*models.Article); ok {
+				fmt.Println(a.Cover.FileHeader)
+
+				fmt.Println(a)
+			}
+			return nil
+		},
+	})
+
 	//重置Status显示
 	article.Meta(&admin.Meta{Name: "Status", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
@@ -42,7 +57,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 		}
 		return txt
 	}})
-
 
 	//添加审核模块
 	article.Action(
