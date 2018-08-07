@@ -1,0 +1,31 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "iUVML8mS1nzCo8Eu/z1FyiVAGHo=",
+			"path": "github.com/qiniu/api.v7",
+			"revision": "056764add0530a5ff576eaee3a2ccc689d1769ad",
+			"revisionTime": "2018-07-19T07:43:34Z"
+		},
+		{
+			"checksumSHA1": "S8HOwhDrcgqDyywBZHDVf0/8j0Q=",
+			"path": "github.com/qiniu/api.v7/auth/qbox",
+			"revision": "056764add0530a5ff576eaee3a2ccc689d1769ad",
+			"revisionTime": "2018-07-19T07:43:34Z"
+		},
+		{
+			"checksumSHA1": "Rm1Flt1onpkNJ9XYxVtelrb6UiA=",
+			"path": "github.com/qiniu/api.v7/storage",
+			"revision": "056764add0530a5ff576eaee3a2ccc689d1769ad",
+			"revisionTime": "2018-07-19T07:43:34Z"
+		},
+		{
+			"checksumSHA1": "F3LHTrjbi6xZiFlSdlg0z1KwSCM=",
+			"path": "github.com/qiniu/x",
+			"revision": "f512abcf45ab4e2ba0fd4784c57b53d495997d66",
+			"revisionTime": "2015-07-21T03:41:13Z"
+		}
+	],
+	"rootPath": "zhuzhou-union-client-server"
+}
