@@ -2,7 +2,6 @@ package admin
 
 import (
 	"github.com/qor/admin"
-	"github.com/astaxie/beego/logs"
 	"github.com/qor/qor"
 	"github.com/qor/session/manager"
 	"github.com/astaxie/beego"
@@ -13,12 +12,10 @@ type AdminAuth struct {
 }
 
 func (AdminAuth) LoginURL(c *admin.Context) string {
-	logs.Info(" user not login ")
 	return "/auth/login"
 }
 
 func (AdminAuth) LogoutURL(c *admin.Context) string {
-	logs.Info(" user  logout ")
 	return "/auth/logout"
 }
 

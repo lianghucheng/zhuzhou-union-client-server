@@ -10,7 +10,7 @@ import (
 )
 
 func GetHandler() http.Handler {
-	Admin := admin.New(&admin.AdminConfig{DB: models.DB})
+	Admin := admin.New(&admin.AdminConfig{DB: models.DB, Auth: AdminAuth{}})
 
 	user.SetAdmin(Admin)
 	article.SetAdmin(Admin)
