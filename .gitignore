@@ -31,7 +31,11 @@
 .idea/**/dynamic.xml
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
+<<<<<<< HEAD
+.idea/
+=======
 
+>>>>>>> 1a8a0874055cef5da9da6302703cc899076d64ca
 # Gradle
 .idea/**/gradle.xml
 .idea/**/libraries
@@ -76,3 +80,8 @@ fabric.properties
 
 zhuzhou-union-client-server
 
+<<<<<<< HEAD
+routers/c*
+
+=======
+>>>>>>> 1a8a0874055cef5da9da6302703cc899076d64ca
