@@ -16,7 +16,7 @@ import (
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
-	article.IndexAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor", "Status")
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "Editor", "ResponsibleEditor", "Status")
 	article.EditAttrs("Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
 	article.NewAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
 
@@ -43,10 +43,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-			fmt.Println("--------------------")
 			if a, ok := value.(*models.Article); ok {
 				fname := cast.ToString(a.Cover.FileName)
-
+				//调用文件上传函数 更新url
 				file, err := a.Cover.FileHeader.Open()
 
 				fmt.Println(file)
@@ -63,7 +62,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				a.Cover.Url = url
-				//调用文件上传函数 更新url
+
 			}
 			return nil
 		},

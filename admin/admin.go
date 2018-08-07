@@ -8,6 +8,7 @@ import (
 	"zhuzhou-union-client-server/admin/menu"
 	"zhuzhou-union-client-server/admin/user"
 	"zhuzhou-union-client-server/pkg/LocalI18n"
+	"zhuzhou-union-client-server/admin/i18n"
 )
 
 func GetHandler() http.Handler {
@@ -16,6 +17,6 @@ func GetHandler() http.Handler {
 	user.SetAdmin(Admin)
 	article.SetAdmin(Admin)
 	menu.SetAdmin(Admin)
-	Admin.AddResource(LocalI18n.LocalI18n)
+	i18n.SetAdmin(Admin)
 	return Admin.NewServeMux("/admin")
 }
