@@ -8,3 +8,7 @@ type User struct {
 	Password string `json:"password"`
 	Prioty   int
 }
+
+func (userInfo User) DisplayName() string {
+	return userInfo.Username
+}

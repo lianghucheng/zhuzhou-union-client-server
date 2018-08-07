@@ -1,0 +1,13 @@
+{
+	"comment": "",
+	"ignore": "test",
+	"package": [
+		{
+			"checksumSHA1": "iUVML8mS1nzCo8Eu/z1FyiVAGHo=",
+			"path": "github.com/qiniu/api.v7",
+			"revision": "056764add0530a5ff576eaee3a2ccc689d1769ad",
+			"revisionTime": "2018-07-19T07:43:34Z"
+		}
+	],
+	"rootPath": "zhuzhou-union-client-server"
+}

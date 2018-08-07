@@ -32,13 +32,15 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	article.Meta(&admin.Meta{Name: "Cover"})
 
+
+	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			fmt.Println("--------------------")
 			if a, ok := value.(*models.Article); ok {
-				fmt.Println(a.Cover.FileHeader)
 
-				fmt.Println(a)
+				//调用文件上传函数 更新url
+				fmt.Println(a.Cover.FileHeader)
 			}
 			return nil
 		},
@@ -102,4 +104,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 			Modes: []string{"show", "menu_item",},
 		},
 	)
+
+
 }

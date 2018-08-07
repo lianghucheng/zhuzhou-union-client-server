@@ -4,6 +4,8 @@ import (
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
 	"zhuzhou-union-client-server/controllers"
+	"github.com/qor/session/manager"
+	"github.com/astaxie/beego"
 )
 
 type LoginController struct {
@@ -31,7 +33,18 @@ func (this *LoginController) LoginSubmit() {
 		this.ReturnJson(10001, "用户名或密码错误")
 		return
 	}
-	this.SetSession("adminuser", user)
+	manager.SessionManager.Add(this.Ctx.ResponseWriter, this.Ctx.Request, beego.AppConfig.String("adminsessionKey"), user.Username)
 	this.ReturnSuccess()
 
+}
+
+//@router /auth/logout [*]
+func (this *LoginController) Logout() {
+	if this.CruSession == nil {
+		this.StartSession()
+	}
+	//设置 SessionDomain 名称。
+	this.DestroySession()
+	//设置返回对象。
+	this.Ctx.Redirect(302, "/auth/login")
 }
