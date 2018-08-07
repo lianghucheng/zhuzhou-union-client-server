@@ -25,7 +25,6 @@ func (this *LoginController) LoginSubmit() {
 	var user models.User
 
 	enPassword := utils.Md5(password)
-	beego.Debug(enPassword)
 	if err := models.DB.
 		Where("username=? and password=?", username, enPassword).
 		First(&user).
