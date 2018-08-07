@@ -17,8 +17,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "Editor", "ResponsibleEditor", "Status")
-	article.EditAttrs("Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
-	article.NewAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
+	article.EditAttrs("Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor")
+	article.NewAttrs("ID", "Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor")
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
@@ -140,4 +140,19 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return db.Where("status = ?", "0")
 	}})
 
+	//添加分类选项
+	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类", Type: "select_many",
+		Config: &admin.SelectOneConfig{
+			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
+				var cates []models.Category
+				context.GetDB().Find(&cates)
+				for _, c := range cates {
+					idStr := fmt.Sprintf("%d", c.ID)
+					var option = []string{idStr, c.Name}
+					options = append(options, option)
+				}
+				return options
+			},
+		},
+	})
 }
