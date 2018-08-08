@@ -6,6 +6,7 @@ import (
 	"github.com/qor/session/manager"
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
+	"fmt"
 )
 
 type AdminAuth struct {
@@ -21,8 +22,9 @@ func (AdminAuth) LogoutURL(c *admin.Context) string {
 
 //从session中获得当前用户。
 func (AdminAuth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
-	adminUserName := manager.SessionManager.Get(c.Request, beego.AppConfig.String("adminsessionKey"))
 
+	adminUserName := manager.SessionManager.Get(c.Request, beego.AppConfig.String("adminsessionKey"))
+	fmt.Println("this is auth", adminUserName)
 	var user models.User
 
 	if err := models.DB.
@@ -31,5 +33,9 @@ func (AdminAuth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
 		Error; err != nil {
 		return nil
 	}
+	if user.Username == "" {
+		return nil
+	}
+
 	return &user;
 }
