@@ -38,30 +38,34 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
 	article.Meta(&admin.Meta{Name: "Author", Label: "作者"})
 	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
+	article.Meta(&admin.Meta{Name: "Source", Label: "来源"})
 	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
 
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			if a, ok := value.(*models.Article); ok {
+				fmt.Println("thiss is a :", a)
 				fname := cast.ToString(a.Cover.FileName)
 				//调用文件上传函数 更新url
-				file, err := a.Cover.FileHeader.Open()
+				if a.Cover.FileHeader != nil {
+					file, err := a.Cover.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
 
-				fmt.Println(file)
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fname, f)
 
-				f, err := ioutil.ReadAll(file)
-
-				if err != nil {
-					return err
+					if err != nil {
+						return err
+					}
+					a.Cover.Url = url
 				}
-				url, err := utils.UploadFile(fname, f)
 
-				if err != nil {
-					return err
+				if a.Category != nil {
+					a.CategoryID = a.Category.ID
 				}
-
-				a.Cover.Url = url
 
 			}
 			return nil
@@ -141,18 +145,5 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 
 	//添加分类选项
-	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类", Type: "select_many",
-		Config: &admin.SelectOneConfig{
-			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
-				var cates []models.Category
-				context.GetDB().Find(&cates)
-				for _, c := range cates {
-					idStr := fmt.Sprintf("%d", c.ID)
-					var option = []string{idStr, c.Name}
-					options = append(options, option)
-				}
-				return options
-			},
-		},
-	})
+	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类"})
 }
