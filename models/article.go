@@ -13,7 +13,7 @@ type Article struct {
 	Title             string
 	Source            string
 	Author            string
-	Category          Category
+	Category          *Category
 	CategoryID        uint
 	Cover             oss.OSS
 	Content           string `gorm:"longtext"` //type:rich_editor

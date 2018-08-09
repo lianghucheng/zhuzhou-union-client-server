@@ -40,11 +40,9 @@ func (this *LoginController) LoginSubmit() {
 
 //@router /auth/logout [*]
 func (this *LoginController) Logout() {
-	if this.CruSession == nil {
-		this.StartSession()
-	}
-	//设置 SessionDomain 名称。
-	this.DestroySession()
+
+	manager.SessionManager.Pop(this.Ctx.ResponseWriter, this.Ctx.Request, beego.AppConfig.String("adminsessionKey"))
 	//设置返回对象。
 	this.Ctx.Redirect(302, "/auth/login")
+	return
 }

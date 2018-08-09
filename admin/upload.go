@@ -23,15 +23,19 @@ func (c *FileUploadController) Upload() {
 	data, err := ioutil.ReadAll(file)
 	if err != nil {
 		c.returnFail()
+		return
 	}
 
-	url:=utils.UploadFile(fileHeader,data)
-
+	url, err := utils.UploadFile(fileHeader.Filename, data)
+	if err != nil {
+		c.returnFail()
+		return
+	}
 	c.returnSuccess(url)
 	return
 }
 
-func (c *FileUploadController)returnSuccess(url string){
+func (c *FileUploadController) returnSuccess(url string) {
 	result := make(map[string]interface{})
 	result["error"] = 0
 	result["message"] = "上传成功"
@@ -41,7 +45,7 @@ func (c *FileUploadController)returnSuccess(url string){
 	c.StopRun()
 }
 
-func (c *FileUploadController)returnFail(){
+func (c *FileUploadController) returnFail() {
 	result := make(map[string]interface{})
 	result["error"] = 1
 	result["message"] = "上传失败"

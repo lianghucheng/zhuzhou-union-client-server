@@ -8,14 +8,17 @@ import (
 	"github.com/qor/qor/resource"
 	"fmt"
 	"github.com/jinzhu/gorm"
+	"zhuzhou-union-client-server/utils"
+	"github.com/spf13/cast"
+	"io/ioutil"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
-	article.IndexAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor", "Status")
-	article.EditAttrs("Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
-	article.NewAttrs("ID", "Title", "Author", "Cover", "Content", "Editor", "ResponsibleEditor")
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "Editor", "ResponsibleEditor", "Status")
+	article.EditAttrs("Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor")
+	article.NewAttrs("ID", "Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor")
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
@@ -35,16 +38,37 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
 	article.Meta(&admin.Meta{Name: "Author", Label: "作者"})
 	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
+	article.Meta(&admin.Meta{Name: "Source", Label: "来源"})
 	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
 
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-			fmt.Println("--------------------")
 			if a, ok := value.(*models.Article); ok {
-
+				fmt.Println("thiss is a :", a)
+				fname := cast.ToString(a.Cover.FileName)
 				//调用文件上传函数 更新url
-				fmt.Println(a.Cover.FileHeader)
+				if a.Cover.FileHeader != nil {
+					file, err := a.Cover.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
+
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fname, f)
+
+					if err != nil {
+						return err
+					}
+					a.Cover.Url = url
+				}
+
+				context.GetDB().Where("ID =?", a.CategoryID).First(&a.Category)
+
+				if a.Category != nil {
+					a.CategoryID = a.Category.ID
+				}
+
 			}
 			return nil
 		},
@@ -122,6 +146,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return db.Where("status = ?", "0")
 	}})
 
-
-
+	//添加分类选项
+	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类(可不选)"})
 }

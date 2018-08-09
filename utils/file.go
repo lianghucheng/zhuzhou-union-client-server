@@ -6,14 +6,13 @@ import (
 	"github.com/qiniu/api.v7/storage"
 	"github.com/qiniu/api.v7/auth/qbox"
 	"fmt"
-	"mime/multipart"
 	"github.com/google/uuid"
 	"golang.org/x/net/context"
 	"bytes"
 )
 
-func UploadFile(fileHeader *multipart.FileHeader,data []byte)string{
-	fileName := fileHeader.Filename
+func UploadFile(fname string, data []byte) (url string, err error) {
+	fileName := fname
 	fileNameUuid, _ := uuid.NewUUID()
 	fileNameExt := filepath.Ext(fileName)
 	filename := fileNameUuid.String() + fileNameExt
@@ -50,11 +49,11 @@ func UploadFile(fileHeader *multipart.FileHeader,data []byte)string{
 
 	dataLen := int64(len(data))
 
-	err := formUploader.Put(context.Background(), &ret, upToken, key, bytes.NewReader(data), dataLen, &putExtra)
+	err = formUploader.Put(context.Background(), &ret, upToken, key, bytes.NewReader(data), dataLen, &putExtra)
 	if err != nil {
 		fmt.Println(err)
-		return ""
+		return "", err
 	}
-	url := beego.AppConfig.String("qiniuUrl") + filename
-	return url
+	url = beego.AppConfig.String("qiniuUrl") + filename
+	return url, nil
 }
