@@ -107,7 +107,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 						cate.HigherID = cate.HigherID
 						cate.ID = cate.ID
 						cate.Higher = &subcate
-						fmt.Println("end :", cate.ID, cate.HigherID, cate.Higher)
 
 						context.GetDB().Model(&cate).UpdateColumn("higher_id", cate.HigherID)
 						return nil

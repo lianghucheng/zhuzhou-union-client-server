@@ -63,6 +63,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 					a.Cover.Url = url
 				}
 
+				context.GetDB().Where("ID =?", a.CategoryID).First(&a.Category)
+
 				if a.Category != nil {
 					a.CategoryID = a.Category.ID
 				}
@@ -145,5 +147,5 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 
 	//添加分类选项
-	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类"})
+	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类(可不选)"})
 }
