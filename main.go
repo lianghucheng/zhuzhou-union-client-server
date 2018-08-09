@@ -30,7 +30,7 @@ func main() {
 		Endpoint:  beego.AppConfig.String("qiniuUrl"),
 	})
 	beego.Handler("/admin", admin.GetHandler(), true)
-	beego.Handler("/admina/*", admin.GetHandlera(), true)
+	beego.Handler("/admina/*", admin.GetHandler(), true)
 	beego.Run()
 }
 
