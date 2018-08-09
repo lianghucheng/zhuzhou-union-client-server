@@ -11,6 +11,7 @@ import (
 	"github.com/qor/qor/utils"
 	"github.com/qor/validations"
 	"github.com/pkg/errors"
+	"fmt"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -86,14 +87,35 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//添加分类时父分类不能为自己
 	cate.AddProcessor(&resource.Processor{
 		Name: "process_cate_data",
+
 		Handler: func(record interface{}, values *resource.MetaValues, context *qor.Context) error {
 
 			if cate, ok := record.(*models.Category); ok {
 				if cate.Higher != nil {
+					fmt.Println("not nil higher ", cate)
 					if cate.ID == cate.Higher.ID {
 						return errors.New("请不要选择自身为父分类")
 					}
+
+					if cate.ID != 0 {
+						var subcate models.Category
+						if err := context.GetDB().
+							Where("id =?", cate.HigherID).
+							First(&subcate).Error; err != nil {
+						}
+
+						cate.HigherID = cate.HigherID
+						cate.ID = cate.ID
+						cate.Higher = &subcate
+						fmt.Println("end :", cate.ID, cate.HigherID, cate.Higher)
+
+						context.GetDB().Model(&cate).UpdateColumn("higher_id", cate.HigherID)
+						return nil
+
+					}
+
 				}
+
 			}
 
 			return nil
