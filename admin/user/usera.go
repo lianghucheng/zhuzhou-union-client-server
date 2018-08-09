@@ -3,17 +3,18 @@ package user
 import (
 	"github.com/qor/admin"
 	"zhuzhou-union-client-server/models"
-	"github.com/qor/qor/resource"
+	"github.com/astaxie/beego"
 	"github.com/qor/qor"
-	"zhuzhou-union-client-server/utils"
 	"github.com/jinzhu/gorm"
+	"github.com/qor/qor/resource"
+	"zhuzhou-union-client-server/utils"
 )
 
-func SetAdmin(adminConfig *admin.Admin) {
+func SetAdmina(adminConfig *admin.Admin) {
 	user := adminConfig.AddResource(&models.User{},&admin.Config{Name:"用户管理"})
+	beego.Debug(user)
 
 	user.IndexAttrs("Username","Password","Prioty")
-	user.SearchAttrs("Username")
 	user.Meta(&admin.Meta{Name:"Username",Label:"用户名"})
 	user.Meta(&admin.Meta{Name:"Password",Label:"密码"})
 	user.Meta(&admin.Meta{Name:"Prioty",Label:"权限"})
@@ -38,3 +39,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return db.Where("prioty = ?", 3)
 	}})
 }
+/*
+1。显示每个用户提交的文章的数量（资源）
+2。点击出现符合条件的文章列表（资源）
+3。再点击可以编辑文章
+ */

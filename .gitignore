@@ -80,8 +80,11 @@ fabric.properties
 
 zhuzhou-union-client-server
 
-<<<<<<< HEAD
+
 routers/c*
 
-=======
->>>>>>> 1a8a0874055cef5da9da6302703cc899076d64ca
+lastupdate.tmp
+
+conf/
+
+admin/admina.go

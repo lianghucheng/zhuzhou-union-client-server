@@ -31,5 +31,5 @@ func (AdminAuth) GetCurrentUser(c *admin.Context) qor.CurrentUser {
 		Error; err != nil {
 		return nil
 	}
-	return &user;
+	return &user
 }
