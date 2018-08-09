@@ -11,6 +11,9 @@ import (
 	"zhuzhou-union-client-server/utils"
 	"github.com/spf13/cast"
 	"io/ioutil"
+	"strings"
+	"github.com/qor/validations"
+	utils2 "github.com/qor/qor/utils"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -37,9 +40,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
 	article.Meta(&admin.Meta{Name: "Author", Label: "作者"})
-	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
+	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑人"})
 	article.Meta(&admin.Meta{Name: "Source", Label: "来源"})
-	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
+	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑人"})
 
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
@@ -147,5 +150,34 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 
 	//添加分类选项
-	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类(可不选)"})
+	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类"})
+
+	//添加字段验证
+	article.AddValidator(&resource.Validator{
+		Name: "check_article_col",
+		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+
+			if meta := metaValues.Get("Title"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Title", "标题不能为空")
+				}
+			}
+			if meta := metaValues.Get("Editor"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Editor", "编辑人不能为空")
+				}
+			}
+			if meta := metaValues.Get("ResponsibleEditor"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "ResponsibleEditor", "责任编辑不能为空")
+				}
+			}
+			if meta := metaValues.Get("Source"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Title", "来源不能为空")
+				}
+			}
+			return nil
+		},
+	})
 }

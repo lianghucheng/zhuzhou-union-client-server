@@ -19,18 +19,24 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	cate.SearchAttrs("Name")
 
-	cate.IndexAttrs("ID", "Name", "Sequence", "Category")
+	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.NewAttrs("ID", "Name", "Sequence", "Category", "Higher")
 
+	//分类名
 	cate.Meta(&admin.Meta{Name: "Name",
 		Label: "分类名"})
-
+	//顺序
 	cate.Meta(&admin.Meta{Name: "Sequence",
 		Label: "顺序"})
 
+	//上级分类
+	cate.Meta(&admin.Meta{Name: "Higher",
+		Label: "上级分类"})
 	//页面分类
-	cate.Meta(&admin.Meta{Name: "Category", Label: "类别", Type: "String",
+	cate.Meta(&admin.Meta{Name: "Category",
+		Label: "类别",
+		Type: "String",
 		FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 			txt := ""
 			cateNames := strings.Split(beego.AppConfig.String("catename"), ",")
@@ -61,9 +67,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return options
 			},
 		},
-	})
-
-	cate.Meta(&admin.Meta{Name: "Higher", Label: "请选择父分类",
 	})
 
 	//新增时候的验证
@@ -97,21 +100,16 @@ func SetAdmin(adminConfig *admin.Admin) {
 						return errors.New("请不要选择自身为父分类")
 					}
 
-					if cate.ID != 0 {
-						var subcate models.Category
-						if err := context.GetDB().
-							Where("id =?", cate.HigherID).
-							First(&subcate).Error; err != nil {
-						}
+					//var subcate models.Category
 
-						cate.HigherID = cate.HigherID
-						cate.ID = cate.ID
-						cate.Higher = &subcate
-
-						context.GetDB().Model(&cate).UpdateColumn("higher_id", cate.HigherID)
-						return nil
-
+					fmt.Println("start :", cate.ID, cate.HigherID, cate.Higher)
+					if err := context.GetDB().
+						Where("id =?", cate.HigherID).
+						First(&cate.Higher).Error; err != nil {
 					}
+
+					fmt.Println("end :", cate.ID, cate.HigherID, cate.Higher)
+					return nil
 
 				}
 
@@ -122,22 +120,38 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	//重置删除
-	cate.Action(
-		&admin.Action{
-			Name:  "Delete",
-			Label: "删除",
-			Handler: func(argument *admin.ActionArgument) error {
-				for _, record := range argument.FindSelectedRecords() {
+	cate.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
 
-					if a, ok := record.(*models.Category); ok {
-						if err := models.DB.Delete(&a).Error; err != nil {
-							return err
-						}
+				if a, ok := record.(*models.Category); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
 					}
 				}
-				return nil
-			},
-			Modes: []string{"show", "menu_item",},
+			}
+			return nil
 		},
-	)
+		Modes: []string{"show", "menu_item",},
+	}, )
+
+	//将节点设置为根分类
+	cate.Action(&admin.Action{
+		Name:  "enable",
+		Label: "置为根分类",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if c, ok := record.(*models.Category); ok {
+
+					models.DB.Model(&c).Update("higher_id", 0)
+				}
+			}
+			return nil
+		},
+		Modes: []string{"batch", "show", "menu_item", "edit"},
+	}, )
+
 }
