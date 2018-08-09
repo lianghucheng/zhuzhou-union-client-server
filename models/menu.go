@@ -10,5 +10,4 @@ type Menu struct {
 	Category   Category
 	CategoryID uint
 	URL        string
-	Sequence   uint
 }

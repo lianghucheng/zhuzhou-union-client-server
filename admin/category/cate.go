@@ -17,7 +17,7 @@ import (
 func SetAdmin(adminConfig *admin.Admin) {
 	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理"})
 
-	cate.SearchAttrs("Name")
+	cate.SearchAttrs("Name", "Category", "Higher","ID")
 
 	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher")
@@ -97,7 +97,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				if cate.Higher != nil {
 					fmt.Println("not nil higher ", cate)
 					if cate.ID == cate.Higher.ID {
-						return errors.New("请不要选择自身为父分类")
+						return errors.New("请不要选择自身为上级分类")
 					}
 
 					//var subcate models.Category
@@ -140,7 +140,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//将节点设置为根分类
 	cate.Action(&admin.Action{
 		Name:  "enable",
-		Label: "置为根分类",
+		Label: "置为一级分类",
 		Handler: func(argument *admin.ActionArgument) error {
 			for _, record := range argument.FindSelectedRecords() {
 
