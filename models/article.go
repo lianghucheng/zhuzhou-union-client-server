@@ -16,7 +16,9 @@ type Article struct {
 	Category          *Category
 	CategoryID        uint
 	Cover             oss.OSS
-	Content           string `gorm:"longtext"` //type:rich_editor
+	Content           string `gorm:"type:longtext"` //type:rich_editor
 	Editor            string
 	ResponsibleEditor string
+	ReadNum           uint //阅读数
+	Url               string//媒体聚焦链接或者微信图文链接
 }
