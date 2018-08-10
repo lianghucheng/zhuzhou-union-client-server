@@ -7,7 +7,6 @@ type User struct {
 	Username string `json:"username" gorm:"unique"`
 	Password string `json:"password"`
 	Prioty   int
-	Article []Article `gorm:"foreignkey:UserID"`
 }
 
 func (userInfo User) DisplayName() string {
