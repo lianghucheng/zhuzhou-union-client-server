@@ -19,7 +19,7 @@ import (
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
-	article.IndexAttrs("ID", "Title", "Author", "Cover", "Editor", "ResponsibleEditor", "Status")
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "Editor", "ResponsibleEditor", "Status", "ReadNum")
 	article.EditAttrs("Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor")
 	article.NewAttrs("ID", "Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor")
 
@@ -43,7 +43,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑人"})
 	article.Meta(&admin.Meta{Name: "Source", Label: "来源"})
 	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑人"})
-
+	article.Meta(&admin.Meta{Name: "ReadNum", Label: "阅读数"})
+	article.Meta(&admin.Meta{Name: "Url", Label: "转载链接(选填)"})
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {

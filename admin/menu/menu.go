@@ -22,8 +22,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 	menu.EditAttrs("ID", "Name", "URL", "Category", "Higher")
 	menu.NewAttrs("ID", "Name", "URL", "Category", "Higher")
 
-
-
 	//重置删除
 	menu.Action(&admin.Action{
 		Name:  "Delete",
@@ -46,7 +44,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Label: "导航名"})
 	//URL
 	menu.Meta(&admin.Meta{Name: "URL",
-		Label: "链接"})
+		Label: "链接(可不填)"})
 
 	//上级导航
 	menu.Meta(&admin.Meta{Name: "Higher",
@@ -54,7 +52,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//栏目分类
 	menu.Meta(&admin.Meta{Name: "Category",
-		Label: "栏目分类"})
+		Label: "栏目分类(可不选)"})
 
 	//设置为一级导航
 	menu.Action(&admin.Action{
@@ -119,6 +117,13 @@ func SetAdmin(adminConfig *admin.Admin) {
 					return validations.NewError(record, "Name", "导航名不能为空")
 				}
 			}
+
+			url := metaValues.Get("Url");
+			cate := utils.ToArray(metaValues.Get("Category").Value)
+			if url == nil && len(cate) == 0 {
+				return errors.New("链接和分类必须任选其一")
+			}
+
 			return nil
 		},
 	})
