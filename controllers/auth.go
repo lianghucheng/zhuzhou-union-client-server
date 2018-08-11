@@ -38,7 +38,14 @@ func (this *AuthController) Login() {
 			this.ReturnJson(10004, "您的输入不完整")
 			return
 		} else {
-			//验证验证码是否正确
+			if code := this.GetSession(username).(string); code != randNum {
+				this.ReturnJson(10005, "验证码不正确")
+				return
+			} else {
+				this.SetSession("userinfo", &u)
+				this.ReturnSuccess()
+				return
+			}
 		}
 	} else {
 		if models.DB.Where("username = ? and password = ?", username, utils.Md5(password)).RecordNotFound() {
@@ -102,6 +109,18 @@ func (this *AuthController) Logout() {
 
 //@router /api/auth/send/sms [*]
 func (this *AuthController) SendSms() {
+	username := this.GetString("username")
+	if username == "" {
+		this.ReturnJson(10001, "手机号不能为空")
+		return
+	}
+	if !MobileRegexp(username) {
+		this.ReturnJson(10001, "请输入正确的手机号码")
+		return
+	}
+	code := string(utils.Krand(6, 0))
+	this.SetSession(username, code)
+	go utils.SendMsg(username, code)
 
 }
 
