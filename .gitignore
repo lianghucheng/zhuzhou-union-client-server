@@ -85,3 +85,4 @@ conf/
 
 admin/admina.go
 admin/user/usera.go
+utils/send_msg_test.go
