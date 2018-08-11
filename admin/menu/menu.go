@@ -24,7 +24,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//重置删除
 	menu.Action(&admin.Action{
-		Name:  "Delete",
+		Name: "Delete",
+
 		Label: "删除",
 		Handler: func(argument *admin.ActionArgument) error {
 			for _, record := range argument.FindSelectedRecords() {
