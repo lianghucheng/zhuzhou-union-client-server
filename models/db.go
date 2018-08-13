@@ -25,6 +25,7 @@ func SyncDB() {
 		&Article{},
 		&Category{},
 		&Menu{},
+		&Home{},
 		&asset_manager.AssetManager{},
 	)
 }
