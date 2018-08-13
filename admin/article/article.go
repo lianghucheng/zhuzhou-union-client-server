@@ -6,7 +6,6 @@ import (
 	"github.com/qor/media/asset_manager"
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
-	"fmt"
 	"github.com/jinzhu/gorm"
 	"zhuzhou-union-client-server/utils"
 	"github.com/spf13/cast"
@@ -49,7 +48,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			if a, ok := value.(*models.Article); ok {
-				fmt.Println("thiss is a :", a)
 				fname := cast.ToString(a.Cover.FileName)
 				//调用文件上传函数 更新url
 				if a.Cover.FileHeader != nil {
@@ -157,6 +155,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.AddValidator(&resource.Validator{
 		Name: "check_article_col",
 		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+
 
 			if meta := metaValues.Get("Title"); meta != nil {
 				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {

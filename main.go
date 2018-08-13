@@ -11,7 +11,6 @@ import (
 	"path/filepath"
 	"github.com/qor/l10n"
 	"zhuzhou-union-client-server/pkg/LocalI18n"
-	"zhuzhou-union-client-server/utils"
 )
 
 func init() {
@@ -21,7 +20,6 @@ func init() {
 }
 
 func main() {
-	utils.SendMsg("18374878791","123456")
 	beego.Handler("/admin", admin.GetHandler(), true)
 	beego.Run()
 }
