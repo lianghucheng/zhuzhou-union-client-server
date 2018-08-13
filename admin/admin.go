@@ -10,6 +10,7 @@ import (
 	"zhuzhou-union-client-server/pkg/LocalI18n"
 	"zhuzhou-union-client-server/admin/i18n"
 	"zhuzhou-union-client-server/admin/category"
+	"zhuzhou-union-client-server/admin/home"
 )
 
 func GetHandler() http.Handler {
@@ -19,8 +20,10 @@ func GetHandler() http.Handler {
 	user.SetAdmin(Admin)
 	article.SetAdmin(Admin)
 	menu.SetAdmin(Admin)
-	i18n.SetAdmin(Admin)
 	category.SetAdmin(Admin)
+	home.SetAdmin(Admin)
+	i18n.SetAdmin(Admin)
+
 
 	return Admin.NewServeMux("/admin")
 }
