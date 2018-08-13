@@ -6,7 +6,7 @@ import (
 )
 
 type BaseController struct {
-	beego.Controller
+	Common
 }
 
 func (this *BaseController) Prepare() {

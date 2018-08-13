@@ -10,9 +10,8 @@ func SendMsg(username string){
 	clnt := ypclnt.New("037ced20fb015ee88829cd3e6248aa6f")
 	param := ypclnt.NewParam(2)
 	param[ypclnt.MOBILE] = username
-	code:=GetCode(username)
-	param[ypclnt.TEXT] = "【易正网络】您的验证码是"+code
 	param[ypclnt.SIGN]="【易正网络】"
+	param[ypclnt.TEXT] = beego.AppConfig.String("msg_template")+code
 	r := clnt.Sms().SingleSend(param)
 	beego.Debug(r)
 }
