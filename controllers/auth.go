@@ -8,7 +8,6 @@ import (
 )
 
 type AuthController struct {
-	beego.Controller
 	Common
 }
 
@@ -78,7 +77,7 @@ func (this *AuthController) Register() {
 	}
 
 	//验证码验证
-	if randNum != "" {
+	if !this.VerityCode(randNum) {
 		this.ReturnJson(10004, "验证码错误")
 		return
 	}
