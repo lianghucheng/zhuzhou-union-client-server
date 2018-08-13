@@ -9,6 +9,7 @@ type Common struct {
 	beego.Controller
 	UserID int64
 	Token  string
+	Userinfo *models.User
 }
 
 type CommonController struct {
@@ -24,6 +25,21 @@ func (this *Common) GetByID(obj interface{}) (int64, error) {
 	return id, models.DB.Where("id=?", id).First(obj).Error
 }
 
+func (this *Common) VerityCode(code string)bool{
+	if code==""{
+		return false
+	}
+
+	if local_code,ok:=this.GetSession(this.Userinfo.Username).(string);ok{
+		if local_code==code{
+			return true
+		}else{
+			return false
+		}
+	}else{
+		return ok
+	}
+}
 
 func (this *Common) ReturnJson(status int, message string, args ...interface{}) {
 	result := make(map[string]interface{})
@@ -65,3 +81,4 @@ func (this *Common) ReturnSuccess(args ...interface{}) {
 	this.ServeJSON()
 	this.StopRun()
 }
+
