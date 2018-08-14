@@ -15,11 +15,10 @@ func (this *BaseController) Prepare() {
 			this.Ctx.Redirect(302, "/")
 			return
 		}
-		this.Userinfo=u
+		this.Userinfo = u
+		this.Data["user"] = u
 	} else {
 		this.Ctx.Redirect(302, "/")
 		return
 	}
 }
-
-
