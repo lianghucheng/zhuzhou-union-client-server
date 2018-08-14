@@ -14,6 +14,8 @@ type HomeController struct {
 func (this *HomeController) Index() {
 	var homes []*models.Home
 	var subCatesM []map[string]interface{}
+
+	//首页文章
 	if err := models.DB.Preload("Category").Preload("IndexArticle").Find(&homes).Error; err != nil {
 		log.Error("获取首页表数据错误", err)
 		this.Abort("500")
