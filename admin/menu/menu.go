@@ -6,9 +6,6 @@ import (
 	"github.com/qor/qor/resource"
 	"github.com/qor/qor"
 	"errors"
-	"github.com/qor/qor/utils"
-	"strings"
-	"github.com/qor/validations"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -16,11 +13,11 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//
 
-	menu.SearchAttrs("Name", "ID", "URL", "Category", "Higher")
+	menu.SearchAttrs("Name", "ID", "URL", "Category", "Higher", "Sequence")
 
-	menu.IndexAttrs("ID", "Name", "URL", "Category", "Higher")
-	menu.EditAttrs("ID", "Name", "URL", "Category", "Higher")
-	menu.NewAttrs("ID", "Name", "URL", "Category", "Higher")
+	menu.IndexAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
+	menu.EditAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
+	menu.NewAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
 
 	//重置删除
 	menu.Action(&admin.Action{
@@ -54,6 +51,10 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//栏目分类
 	menu.Meta(&admin.Meta{Name: "Category",
 		Label: "栏目分类(可不选)"})
+
+	//顺序
+	menu.Meta(&admin.Meta{Name: "Sequence",
+		Label: "菜单顺序"})
 
 	//设置为一级导航
 	menu.Action(&admin.Action{
@@ -113,17 +114,17 @@ func SetAdmin(adminConfig *admin.Admin) {
 	menu.AddValidator(&resource.Validator{
 		Name: "check_menu_col",
 		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-			if meta := metaValues.Get("Name"); meta != nil {
-				if name := utils.ToString(meta.Value); strings.TrimSpace(name) == "" {
-					return validations.NewError(record, "Name", "导航名不能为空")
-				}
-			}
-
-			url := metaValues.Get("Url");
-			cate := utils.ToArray(metaValues.Get("Category").Value)
-			if url == nil && len(cate) == 0 {
-				return errors.New("链接和分类必须任选其一")
-			}
+			//if meta := metaValues.Get("Name"); meta != nil {
+			//	if name := utils.ToString(meta.Value); strings.TrimSpace(name) == "" {
+			//		return validations.NewError(record, "Name", "导航名不能为空")
+			//	}
+			//}
+			//
+			//url := metaValues.Get("Url");
+			//cate := utils.ToArray(metaValues.Get("Category").Value)
+			//if utils.ToString(url.Value) == "" && len(cate) == 0 {
+			//	return errors.New("链接和分类必须任选其一")
+			//}
 
 			return nil
 		},
