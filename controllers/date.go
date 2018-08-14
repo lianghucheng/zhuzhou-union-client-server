@@ -1,6 +1,11 @@
 package controllers
 
-
+import (
+	"time"
+	"github.com/astaxie/beego"
+	"strconv"
+	"unsafe"
+)
 /*
 #include <stdio.h>
 #include <time.h>
@@ -203,8 +208,8 @@ const char *ChDay[] = {"*","初一","初二","初三","初四","初五",
 };
 
 const char *ChMonth[] = {"*","正","二","三","四","五","六","七","八","九","十","十一","腊"};
-char *str=(char *)malloc(18*sizeof(char));
-strcpy(str,"");
+char *str=(char *)malloc(24);
+    strcpy(str,"");
 strcat(str,"农历");
 if (LunarCalendar(year,month,day))
 {
@@ -218,20 +223,76 @@ strcat(str,ChDay[LunarCalendarDay & 0x3F]);
 return str;
 }
  */
-import (
-	"time"
-	"C"
-	"github.com/astaxie/beego"
-)
+import "C"
 
-type DateControllor struct{
+type DateControllor struct {
 	Common
 }
 
 //@router /date [get]
-func (this *DateControllor)Date(){
-	timestamp:=time.Now().Unix()
+func (this *DateControllor) Date() {
+	timestamp := time.Now().Unix()
 	tm := time.Unix(timestamp, 0)
-	gongli_date:=tm.Format("2006-01-02 03:04:05 PM")
-	beego.Debug(gongli_date)
+
+	gongli_date := tm.Format("2006-01-02 03:04:05 PM Monday")
+	beego.Debug("公历：" + gongli_date)
+	gongli:=gongli_date[:4]+"年"+gongli_date[5:7]+"月"+gongli_date[8:10]+"日"
+	time:=gongli_date[11:16]
+	year, _ := strconv.Atoi(gongli_date[:4])
+	month, _ := strconv.Atoi(gongli_date[5:7])
+	day, _ := strconv.Atoi(gongli_date[8:10])
+	beego.Debug("整形的年月日：", year, month, day)
+	beego.Debug("cint形的年月日：", C.int(year), C.int(month), C.int(day))
+
+	nongli_date := getNongLi(C.int(year), C.int(month), C.int(day))
+	beego.Debug("农历：" + nongli_date)
+
+	weekday := gongli_date[23:]
+	beego.Debug("周几：", weekday)
+	switch {
+	case weekday == "Monday":
+		weekday="星期一"
+	case weekday == "Tuesday":
+		weekday="星期二"
+	case weekday == "Wednesday":
+		weekday="星期三"
+	case weekday == "Thursday":
+		weekday="星期四"
+	case weekday == "Friday":
+		weekday="星期五"
+	case weekday == "Saturday":
+		weekday="星期六"
+	case weekday == "Sunday":
+		weekday="星期天"
+	}
+	beego.Debug("周几：", weekday)
+	type date struct{
+		GongLiDate string
+		NongLiDate string
+		Time string
+		Weekday string
+	}
+	d:=date{}
+	d.GongLiDate=gongli
+	d.NongLiDate=nongli_date
+	d.Time=time
+	d.Weekday=weekday
+	this.ReturnSuccess("date",d)
+}
+
+func getNongLi(year, month, day C.int) (nongli string) {
+	p := C.output(C.int(year), C.int(month), C.int(day))
+	fp := uintptr(unsafe.Pointer(p))
+	var byte_nongli []byte
+	for {
+		b := *(*byte)(unsafe.Pointer(fp))
+		if b == 0 {
+			break
+		}
+		byte_nongli = append(byte_nongli, b)
+		fp += 1
+		//beego.Debug(byte_nongli,fp)
+	}
+	nongli = string(byte_nongli)
+	return
 }
