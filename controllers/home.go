@@ -22,6 +22,8 @@ func (this *HomeController) Index() {
 		return
 	}
 	output := make([]map[string]interface{}, 0)
+
+	//首页子分类
 	for _, h := range homes {
 		var articles1 []*models.Article
 		subCatesM = make([]map[string]interface{}, 0)
@@ -70,10 +72,24 @@ func (this *HomeController) Index() {
 		a["home"] = h
 		output = append(output, a)
 	}
+	//首页底部图片链接
+	var imageLinks []*models.ImageLinks
+	if err := models.DB.Find(&imageLinks).Error; err != nil {
+		beego.Error("获取首页图片链接错误", err)
+	}
+
+	//首页底部下拉框链接
+	var boxImages []*models.BoxLinks
+
+	if err := models.DB.Find(&boxImages).Error; err != nil {
+		beego.Error("获取首页下拉链接错误", err)
+	}
 
 	if len(subCatesM) != 0 {
 		this.Data["subCatesM"] = subCatesM
 	}
+
+	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes
 	this.Data["output"] = output
 	this.TplName = "index.html"

@@ -3,6 +3,7 @@ package controllers
 import (
 	"zhuzhou-union-client-server/models"
 	"fmt"
+	"github.com/astaxie/beego"
 )
 
 type Menu struct {
@@ -69,4 +70,46 @@ func (this *CommonController) GetMenus() {
 
 	this.ReturnSuccess("menus", outputMenus)
 
+}
+
+func (this *CommonController) Nav() {
+	var Menus []*models.Menu
+
+	if err := models.DB.Preload("Category").Find(&Menus).Error; err != nil {
+		beego.Error("查询菜单错误", err)
+	}
+
+	var outputMenus []models.Menu
+	for _, menu := range Menus {
+		var outputMenu models.Menu
+		if menu.CategoryID != 0 {
+			category := menu.Category
+
+			var categoryMenu models.Menu
+			categoryMenu.Name = category.Name
+			categoryMenu.URL = "/category/" + fmt.Sprintf("%s", category.ID)
+
+			var subCategorys []*models.Category
+			if err := models.DB.
+				Where("higher_id = ?", category.ID).
+				Find(&subCategorys).Error; err != nil {
+				beego.Error("查询子菜单错误")
+			}
+
+			for _, subCategory := range subCategorys {
+				var itemMenu models.Menu
+				itemMenu.Name = subCategory.Name
+				itemMenu.URL = "/category/" + fmt.Sprintf("%s", subCategory.ID)
+				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
+			}
+			outputMenu = categoryMenu
+
+		} else {
+			var notCategoryMenu models.Menu
+			notCategoryMenu.Name = menu.Name
+			notCategoryMenu.URL = menu.URL
+			outputMenu = notCategoryMenu
+		}
+		outputMenus = append(outputMenus, outputMenu)
+	}
 }
