@@ -17,5 +17,4 @@ func init() {
 		&controllers.CommonController{},
 	)
 	beego.SetStaticPath("/image/kindeditor/upload", "/upload")
-
 }
