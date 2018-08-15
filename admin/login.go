@@ -35,7 +35,7 @@ func (this *LoginController) LoginSubmit() {
 	}
 	if user.Prioty == 3 {
 		beego.Debug("该用户不是管理员")
-		this.ReturnJson(10001,"您不是管理员")
+		this.ReturnJson(10003,"您不是管理员")
 	}
 	manager.SessionManager.Add(this.Ctx.ResponseWriter, this.Ctx.Request, beego.AppConfig.String("adminsessionKey"), user.Username)
 	this.ReturnSuccess()

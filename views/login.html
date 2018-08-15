@@ -81,6 +81,8 @@
 
                         } else if (data.status == 10001) {
                             $.toast("用户名或密码错误", "cancel")
+                        }else if (data.status == 10003) {
+                            $.toast("对不起，您不是管理员", "cancel")
                         } else {
                             $.toast("登录失败", "cancel")
                         }
