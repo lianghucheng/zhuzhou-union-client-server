@@ -58,7 +58,6 @@ func (this *HomeController) Index() {
 	//首页文章
 	if err := models.DB.
 		Preload("Category").
-		Preload("IndexArticle").
 		Find(&homes).Error; err != nil {
 		log.Error("获取首页表数据错误", err)
 		this.Abort("500")
@@ -111,6 +110,7 @@ func (this *HomeController) Index() {
 			}
 		}
 
+		beego.Debug(h.CategoryID)
 		if err := models.DB.
 			Where("category_id = ? and status = ?", h.CategoryID, 1).
 			Find(&articles1).Error; err != nil {
