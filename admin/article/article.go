@@ -18,7 +18,7 @@ import (
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
-	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex", "Editor", "ResponsibleEditor", "Status", "ReadNum", "Url")
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex", "Editor", "ResponsibleEditor", "Status", "IsIndexUp", "ReadNum", "Url")
 	article.EditAttrs("Title", "Author", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
 	article.NewAttrs("ID", "Title", "Author", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
 
@@ -36,6 +36,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
 	article.Meta(&admin.Meta{Name: "VideoIndex", Label: "首页封面视频"})
+	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页置顶"})
 
 	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
@@ -106,10 +107,21 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 
+	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页分类置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.Article); ok {
+			if v.IsIndexUp == 1 {
+				txt = "置顶"
+			} else {
+				txt = "不置顶"
+			}
+		}
+		return txt
+	}})
 	//添加审核模块
 	article.Action(
 		&admin.Action{
-			Name:  "enable",
+			Name:  "verify",
 			Label: "审核/撤销",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
@@ -128,6 +140,31 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return nil
 			},
 			Modes: []string{"batch", "show", "menu_item", "edit"},
+		},
+	)
+	//添加是否置顶
+	article.Action(
+		&admin.Action{
+			Name:  "isUp",
+			Label: "置顶/不置顶",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
+
+					if a, ok := record.(*models.Article); ok {
+						//执行a.status更新状态
+						if a.IsIndexUp == 1 {
+							a.IsIndexUp = 0
+						} else {
+							a.IsIndexUp = 1
+						}
+
+						models.DB.Model(&a).Update("IsIndexUp", a.IsIndexUp)
+
+					}
+				}
+				return nil
+			},
+			Modes: []string{"show", "menu_item", "edit"},
 		},
 	)
 
