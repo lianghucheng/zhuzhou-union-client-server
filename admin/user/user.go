@@ -8,17 +8,35 @@ import (
 	"github.com/jinzhu/gorm"
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/utils"
+	"github.com/qor/roles"
+	"net/http"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	user := adminConfig.AddResource(&models.User{}, &admin.Config{Name: "用户管理"})
+	roles.Register("admin",func(req *http.Request, currentUser interface{}) bool {
+		return currentUser.(*models.User) != nil && currentUser.(*models.User).Prioty == 1
+	})
+	user := adminConfig.AddResource(
+		&models.User{},
+		&admin.Config{
+			Name: "用户管理",
+			Permission: roles.
+				Allow(roles.Update, "admin").
+				Allow(roles.Delete, "admin").
+				Allow(roles.Create, "admin").
+				Allow(roles.Read, roles.Anyone),
+		},
+	)
 
 	user.IndexAttrs("Username", "Password", "Prioty")
+	user.EditAttrs("Username", "Password", "Prioty")
 	user.SearchAttrs("Username")
+
 	user.Meta(&admin.Meta{Name: "Username", Label: "用户名"})
 	user.Meta(&admin.Meta{Name: "Password", Label: "密码", Type: "password"})
 	user.Meta(
-		&admin.Meta{Name: "Prioty",
+		&admin.Meta{
+			Name: "Prioty",
 			Type: "text",
 			FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 				if a, ok := record.(*models.User); ok {

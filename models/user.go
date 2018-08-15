@@ -6,13 +6,13 @@ type User struct {
 	gorm.Model
 	Username string `json:"username" gorm:"unique"`
 	Password string `json:"password"`
-	Prioty   int
-	Name string
-	Sex int //0女   1男
-	Icon string
-	QQ string
-	Email string
-	Sign string
+	Prioty   int	//1,root管理员   2,普通管理员	2,用户
+	Name     string
+	Sex      int //0女   1男
+	Icon     string
+	QQ       string
+	Email    string
+	Sign     string
 }
 
 func (userInfo User) DisplayName() string {
