@@ -8,10 +8,15 @@ import (
 )
 
 func init() {
-	beego.Include(&admin.FileUploadController{})
-	beego.Include(&admin.LoginController{})
-	beego.Include(&user.UserController{})
-	beego.Include(&controllers.DateControllor{}, &controllers.HomeController{})
+	beego.Include(
+		&admin.FileUploadController{},
+		&admin.LoginController{},
+		&user.UserController{},
+		&controllers.DateControllor{},
+		&controllers.AuthController{},
+		&controllers.HomeController{},
+		&controllers.CommonController{},
+	)
 	beego.SetStaticPath("/image/kindeditor/upload", "/upload")
 
 }

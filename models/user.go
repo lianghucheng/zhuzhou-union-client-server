@@ -8,7 +8,7 @@ type User struct {
 	Password string `json:"password"`
 	Prioty   int	//1,root管理员   2,普通管理员	2,用户
 	Name     string
-	Sex      int //0女   1男
+	Sex      int //1男   2女
 	Icon     string
 	QQ       string
 	Email    string

@@ -25,19 +25,23 @@ func (this *Common) GetByID(obj interface{}) (int64, error) {
 	return id, models.DB.Where("id=?", id).First(obj).Error
 }
 
-func (this *Common) VerityCode(code string)bool{
+func (this *Common) VerityCode(username string){
+	code:=this.GetString("code")
 	if code==""{
-		return false
+		this.DelSession(username)
+		this.ReturnJson(10003, "验证码不能为空")
 	}
 
-	if local_code,ok:=this.GetSession(this.Userinfo.Username).(string);ok{
+	if local_code,ok:=this.GetSession(username).(string);ok{
 		if local_code==code{
-			return true
+			this.DelSession(username)
 		}else{
-			return false
+			this.DelSession(username)
+			this.ReturnJson(10003, "验证码无效")
 		}
 	}else{
-		return ok
+		this.DelSession(username)
+		this.ReturnJson(10004, "验证码无效")
 	}
 }
 

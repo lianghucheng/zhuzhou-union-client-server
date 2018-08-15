@@ -10,12 +10,14 @@ import (
 	"zhuzhou-union-client-server/utils"
 	"github.com/qor/roles"
 	"net/http"
+	"reflect"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	roles.Register("admin",func(req *http.Request, currentUser interface{}) bool {
+	roles.Register("admin", func(req *http.Request, currentUser interface{}) bool {
 		return currentUser.(*models.User) != nil && currentUser.(*models.User).Prioty == 1
 	})
+
 	user := adminConfig.AddResource(
 		&models.User{},
 		&admin.Config{
@@ -28,16 +30,17 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	)
 
-	user.IndexAttrs("Username", "Password", "Prioty")
-	user.EditAttrs("Username", "Password", "Prioty")
+	user.IndexAttrs("-ID","-Password","-Icon")
+	user.EditAttrs("-ID","-Password","-Icon")
 	user.SearchAttrs("Username")
 
 	user.Meta(&admin.Meta{Name: "Username", Label: "用户名"})
 	user.Meta(&admin.Meta{Name: "Password", Label: "密码", Type: "password"})
 	user.Meta(
 		&admin.Meta{
-			Name: "Prioty",
-			Type: "text",
+			Name:  "Prioty",
+			Type:  "text",
+			Label: "身份",
 			FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 				if a, ok := record.(*models.User); ok {
 					if a.Prioty == 1 {
@@ -52,11 +55,12 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return beego.AppConfig.String("paseAdminERR")
 			},
-			Config: &admin.SelectOneConfig{Collection: []string{
-				beego.AppConfig.String("rootAdmin"),
-				beego.AppConfig.String("commonAdmin"),
-				beego.AppConfig.String("user"),
-			},
+			Config: &admin.SelectOneConfig{
+				Collection: []string{
+					beego.AppConfig.String("rootAdmin"),
+					beego.AppConfig.String("commonAdmin"),
+					beego.AppConfig.String("user"),
+				},
 			},
 			Setter: func(val interface{}, values *resource.MetaValue, context *qor.Context) {
 				if user, ok := val.(*models.User); ok {
@@ -89,52 +93,99 @@ func SetAdmin(adminConfig *admin.Admin) {
 							}
 						}
 					}
-
-					beego.Debug(context)
-					beego.Debug("--------------")
-					user.Password = utils.Md5(user.Password) // do something...
 				}
 				return
 			},
 		})
-	user.AddProcessor(&resource.Processor{
-		Name: "process_user_data",
-		Handler: func(val interface{}, values *resource.MetaValues, context *qor.Context) error {
-			if user, ok := val.(*models.User); ok {
-				beego.Debug("--------------")
-				beego.Debug(val)
-				for _, v := range values.Values {
-					if v.Name == beego.AppConfig.String("userPowerField") {
-						if a, ok := v.Value.([]string); ok {
+	user.Meta(&admin.Meta{Name: "Name", Label: "姓名"})
+	user.Meta(
+		&admin.Meta{
+			Type:  "text",
+			Config: &admin.SelectOneConfig{
+				Collection: []string{
+					"男",
+					"女",
+				},
+			},
+			Name:  "Sex",
+			Label: "性别",
+			Setter: func(val interface{}, values *resource.MetaValue, context *qor.Context) {
+				if user, ok := val.(*models.User); ok {
+					beego.Debug("--------------")
+					beego.Debug(val)
+					beego.Debug(values)
+					if values.Name == beego.AppConfig.String("userPowerField") {
+						if a, ok := values.Value.([]string); ok {
 							beego.Debug(a[0])
-							if a[0] == beego.AppConfig.String("rootAdmin") {
-								var prioty []int
-								prioty = append(prioty, 1)
-								beego.Debug(prioty)
-								user.Prioty = 1
-								v.Value = prioty
+							if a[0] == "男" {
+								var sex []int
+								sex = append(sex, 1)
+								beego.Debug(sex)
+								user.Sex = 1
+								values.Value = sex
 							}
-							if a[0] == beego.AppConfig.String("commonAdmin") {
-								var prioty []int
-								prioty = append(prioty, 2)
-								beego.Debug(prioty)
-								user.Prioty = 2
-								v.Value = prioty
+							if a[0] == "女" {
+								var sex []int
+								sex = append(sex, 2)
+								beego.Debug(sex)
+								user.Sex = 2
+								values.Value = sex
 							}
-							if a[0] == beego.AppConfig.String("user") {
-								var prioty []int
-								prioty = append(prioty, 3)
-								beego.Debug(prioty)
-								user.Prioty = 3
-								v.Value = prioty
+						}
+					}else{
+						beego.Debug(reflect.TypeOf(values.Value))
+						beego.Debug("性别断言：",ok)
+						if ok {
+							a:=values.Value.([]string)
+							beego.Debug(a[0])
+							if a[0] == "男" {
+								var sex []int
+								sex = append(sex, 1)
+								beego.Debug(sex)
+								user.Sex = 1
+								values.Value = sex
+							}
+							if a[0] == "女" {
+								var sex []int
+								sex = append(sex, 2)
+								beego.Debug(sex)
+								user.Sex = 2
+								values.Value = sex
 							}
 						}
 					}
 				}
-
+				return
+			},
+			FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+				if a, ok := record.(*models.User); ok {
+					if a.Sex == 2 {
+						return "女"
+					}
+					if a.Sex == 1 {
+						return "男"
+					}
+					if a.Sex == 0 {
+						return "未填写"
+					}
+				}
+				return beego.AppConfig.String("paseAdminERR")
+			},
+		},
+	)
+	user.Meta(&admin.Meta{Name: "Icon", Label: "头像"})
+	user.Meta(&admin.Meta{Name: "QQ", Label: "QQ"})
+	user.Meta(&admin.Meta{Name: "Email", Label: "邮箱"})
+	user.Meta(&admin.Meta{Name: "Sign", Label: "个性签名"})
+	user.AddProcessor(&resource.Processor{
+		Name: "process_user_data",
+		Handler: func(val interface{}, values *resource.MetaValues, context *qor.Context) error {
+			if user, ok := val.(*models.User); ok {
 				beego.Debug(context)
 				beego.Debug("--------------")
+				beego.Debug(user.Password)
 				user.Password = utils.Md5(user.Password) // do something...
+				beego.Debug(user.Password)
 			}
 			return nil
 		},
@@ -151,3 +202,4 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return db.Where("prioty = ?", 3)
 	}})
 }
+

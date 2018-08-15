@@ -15,8 +15,6 @@ type AuthController struct {
 func (this *AuthController) Login() {
 	username := this.GetString("username")
 	password := this.GetString("password")
-	randNum := this.GetString("randNum")
-
 	if username == "" {
 		this.ReturnJson(10001, "用户名不能为空")
 		return
@@ -24,76 +22,50 @@ func (this *AuthController) Login() {
 
 	if !MobileRegexp(username) {
 		this.ReturnJson(10002, "请输入正确的手机号码")
-		return
 	}
-	var u *models.User
+	u := models.User{}
 	if models.DB.Where("username = ?", username).First(&u).RecordNotFound() {
 		this.ReturnJson(10003, "用户名不存在")
-		return
 	}
 
 	if password == "" {
-		if randNum == "" {
-			this.ReturnJson(10004, "您的输入不完整")
-			return
-		} else {
-			if code := this.GetSession(username).(string); code != randNum {
-				this.ReturnJson(10005, "验证码不正确")
-				return
-			} else {
-				this.SetSession("userinfo", &u)
-				this.ReturnSuccess()
-				return
-			}
-		}
+		this.ReturnJson(10004, "您的输入不完整")
 	} else {
-		if models.DB.Where("username = ? and password = ?", username, utils.Md5(password)).RecordNotFound() {
+		//this.VerityCode(username)
+		if models.DB.Where("username = ? and password = ?", username, utils.Md5(password)).Find(&u).RecordNotFound() {
 			this.ReturnJson(10005, "用户名或者密码错误")
-			return
+		}else{
+			this.SetSession("userinfo", &u)
+			this.ReturnSuccess()
 		}
-		this.SetSession("userinfo", &u)
-		this.ReturnSuccess()
 	}
-
 }
 
 //@router /api/auth/register [*]
 func (this *AuthController) Register() {
 	username := this.GetString("username")
 	password := this.GetString("password")
-	randNum := this.GetString("randNum")
 	if !MobileRegexp(username) {
 		this.ReturnJson(10001, "请输入正确的手机号码")
-		return
 	}
 	if password == "" {
 		this.ReturnJson(10002, "密码不能为空")
-		return
-	}
-
-	if randNum == "" {
-		this.ReturnJson(10003, "验证码不能为空")
-		return
 	}
 
 	//验证码验证
-	if !this.VerityCode(randNum) {
-		this.ReturnJson(10004, "验证码错误")
-		return
-	}
+	//this.VerityCode(username)
 
-	var u *models.User
+	u := models.User{}
 	if !models.DB.Where("username = ?", username).First(&u).RecordNotFound() {
 		this.ReturnJson(10005, "该用户已经注册")
-		return
 	}
-
+	beego.Debug(username, password)
 	u.Username = username
 	u.Password = utils.Md5(password)
+	u.Prioty = 3
 
 	if err := models.DB.Create(&u).Error; err != nil {
 		this.ReturnJson(10006, "注册用户失败")
-		return
 	}
 
 	this.SetSession("userinfo", &u)
@@ -106,7 +78,7 @@ func (this *AuthController) Logout() {
 	this.ReturnSuccess()
 }
 
-//@router /api/auth/send/sms [*]
+//@router /api/auth/send/sms [post]
 func (this *AuthController) SendSms() {
 	username := this.GetString("username")
 	if username == "" {
@@ -120,7 +92,7 @@ func (this *AuthController) SendSms() {
 	code := string(utils.Krand(6, 0))
 	this.SetSession(username, code)
 	go utils.SendMsg(username, code)
-
+	this.ReturnSuccess()
 }
 
 //传入手机号码，返回处理结果的字符串类型信息

@@ -7,7 +7,7 @@ import (
 
 type Article struct {
 	gorm.Model
-	Status            uint //0已审核   1未审核
+	Status            uint	//0未审核   1已审核
 	User              *User
 	UserID            uint
 	Title             string
