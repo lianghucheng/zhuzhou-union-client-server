@@ -11,6 +11,7 @@ type Article struct {
 	User              *User
 	UserID            uint
 	Title             string
+	Summary           string
 	Source            string
 	Author            string
 	Category          *Category

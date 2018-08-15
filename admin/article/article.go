@@ -19,8 +19,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex", "Editor", "ResponsibleEditor", "Status", "IsIndexUp", "ReadNum", "Url")
-	article.EditAttrs("Title", "Author", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
-	article.NewAttrs("ID", "Title", "Author", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+	article.NewAttrs("ID", "Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
@@ -37,6 +37,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
 	article.Meta(&admin.Meta{Name: "VideoIndex", Label: "首页封面视频"})
 	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页置顶"})
+	article.Meta(&admin.Meta{Name: "Summary", Label: "文章摘要"})
 
 	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
