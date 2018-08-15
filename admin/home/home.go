@@ -16,16 +16,16 @@ func SetAdmin(adminConfig *admin.Admin) {
 	home := adminConfig.AddResource(&models.Home{}, &admin.Config{Menu: []string{"首页管理"}, Name: "中间文章模块管理"})
 
 	//对增删查改的局部显示
-	home.IndexAttrs("ID", "Name", "Category", "IndexArticle", "Position", "Layout", "Url")
+	home.IndexAttrs("ID", "Name", "Category", "Position", "Layout", "Url")
 	home.EditAttrs("Name", "Category", "IndexArticle", "Position", "Layout", "Url")
-	home.NewAttrs("Name", "Category", "IndexArticle", "Position", "Layout", "Url")
+	home.NewAttrs("Name", "Category", "Position", "Layout", "Url")
 
 	home.Meta(&admin.Meta{Name: "Name", Label: "分类名"})
 	home.Meta(&admin.Meta{Name: "Url", Label: "具体链接(可不填)"})
 	home.Meta(&admin.Meta{Name: "Category", Label: "首页分类"})
 	home.Meta(&admin.Meta{Name: "Position", Label: "具体位置"})
 	home.Meta(&admin.Meta{Name: "Layout", Label: "模块位置"})
-	home.Meta(&admin.Meta{Name: "IndexArticle", Label: "单个分类置顶文章"})
+	//home.Meta(&admin.Meta{Name: "IndexArticle", Label: "单个分类置顶文章"})
 
 	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理"})
 
