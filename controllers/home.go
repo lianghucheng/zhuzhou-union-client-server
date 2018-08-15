@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
 	"github.com/lexkong/log"
+	"fmt"
 )
 
 type HomeController struct {
@@ -13,9 +14,47 @@ type HomeController struct {
 //@router /	[*]
 func (this *HomeController) Index() {
 	var homes []*models.Home
-	var subCatesM []map[string]interface{}
-	var rotation []*models.Rotation
 
+	var rotation []*models.Rotation
+	var Menus []*models.Menu
+
+	if err := models.DB.Preload("Category").Find(&Menus).Error; err != nil {
+		beego.Error("查询菜单错误", err)
+	}
+
+	var outputMenus []models.Menu
+	for _, menu := range Menus {
+		var outputMenu models.Menu
+		if menu.CategoryID != 0 {
+			category := menu.Category
+
+			var categoryMenu models.Menu
+			categoryMenu.Name = category.Name
+			categoryMenu.URL = "/category/" + fmt.Sprintf("%s", category.ID)
+
+			var subCategorys []*models.Category
+			if err := models.DB.
+				Where("higher_id = ?", category.ID).
+				Find(&subCategorys).Error; err != nil {
+				beego.Error("查询子菜单错误")
+			}
+
+			for _, subCategory := range subCategorys {
+				var itemMenu models.Menu
+				itemMenu.Name = subCategory.Name
+				itemMenu.URL = "/category/" + fmt.Sprintf("%s", subCategory.ID)
+				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
+			}
+			outputMenu = categoryMenu
+
+		} else {
+			var notCategoryMenu models.Menu
+			notCategoryMenu.Name = menu.Name
+			notCategoryMenu.URL = menu.URL
+			outputMenu = notCategoryMenu
+		}
+		outputMenus = append(outputMenus, outputMenu)
+	}
 	//首页文章
 	if err := models.DB.
 		Preload("Category").
@@ -31,18 +70,18 @@ func (this *HomeController) Index() {
 		beego.Error("获取首页轮播图错误", err)
 	}
 
-	output := make([]map[string]interface{}, 0)
+	outputIndex := make([]map[string]interface{}, 0)
 
 	//首页子分类
 	for _, h := range homes {
 		var articles1 []*models.Article
-		subCatesM = make([]map[string]interface{}, 0)
+		subCatesM := make([]map[string]interface{}, 0)
 		a := make(map[string]interface{})
 		var subCategorys []*models.Category
-		if (h.Position == 1 && h.Layout == 1) || (h.Position == 4 && h.Layout == 1) {
+		if (h.Position == 1 && h.Layout == 1) {
 			if err := models.DB.
 				Where("higher_id = ?", h.CategoryID).
-				Find(subCategorys).Error; err != nil {
+				Find(&subCategorys).Error; err != nil {
 				beego.Error("读取首页子分类错误", err)
 				this.Abort("500")
 				return
@@ -53,7 +92,7 @@ func (this *HomeController) Index() {
 				subCateM := make(map[string]interface{})
 
 				if err := models.DB.
-					Where("category_id = ?", subCategory.ID).
+					Where("category_id = ? and status =?", subCategory.ID, 1).
 					Find(&articles).Error; err != nil {
 					beego.Error("读取首页子分类错误", err)
 					this.Abort("500")
@@ -73,14 +112,15 @@ func (this *HomeController) Index() {
 		}
 
 		if err := models.DB.
-			Where("category_id = ?", h.CategoryID).
+			Where("category_id = ? and status = ?", h.CategoryID, 1).
 			Find(&articles1).Error; err != nil {
 			this.Abort("500")
 			return
 		}
-		a["articles"] = articles1
-		a["home"] = h
-		output = append(output, a)
+		a["Articles"] = articles1
+		a["Home"] = h
+		a["SubCates"] = subCatesM
+		outputIndex = append(outputIndex, a)
 	}
 	//首页底部图片链接
 	var imageLinks []*models.ImageLinks
@@ -95,13 +135,10 @@ func (this *HomeController) Index() {
 		beego.Error("获取首页下拉链接错误", err)
 	}
 
-	if len(subCatesM) != 0 {
-		this.Data["subCatesM"] = subCatesM
-	}
-
+	this.Data["outputMenus"] = outputMenus
 	this.Data["rotation"] = rotation
 	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes
-	this.Data["output"] = output
+	this.Data["output"] = outputIndex
 	this.TplName = "index.html"
 }
