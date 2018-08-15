@@ -14,13 +14,23 @@ type HomeController struct {
 func (this *HomeController) Index() {
 	var homes []*models.Home
 	var subCatesM []map[string]interface{}
+	var rotation []*models.Rotation
 
 	//首页文章
-	if err := models.DB.Preload("Category").Preload("IndexArticle").Find(&homes).Error; err != nil {
+	if err := models.DB.
+		Preload("Category").
+		Preload("IndexArticle").
+		Find(&homes).Error; err != nil {
 		log.Error("获取首页表数据错误", err)
 		this.Abort("500")
 		return
 	}
+
+	if err := models.DB.
+		Find(&rotation).Error; err != nil {
+		beego.Error("获取首页轮播图错误", err)
+	}
+
 	output := make([]map[string]interface{}, 0)
 
 	//首页子分类
@@ -89,6 +99,7 @@ func (this *HomeController) Index() {
 		this.Data["subCatesM"] = subCatesM
 	}
 
+	this.Data["rotation"] = rotation
 	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes
 	this.Data["output"] = output
