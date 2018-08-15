@@ -17,7 +17,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//对增删查改的局部显示
 	home.IndexAttrs("ID", "Name", "Category", "Position", "Layout", "Url")
-	home.EditAttrs("Name", "Category", "IndexArticle", "Position", "Layout", "Url")
+	home.EditAttrs("Name", "Category", "Position", "Layout", "Url")
 	home.NewAttrs("Name", "Category", "Position", "Layout", "Url")
 
 	home.Meta(&admin.Meta{Name: "Name", Label: "分类名"})
