@@ -11,6 +11,7 @@ type Article struct {
 	User              *User
 	UserID            uint
 	Title             string
+	Summary           string
 	Source            string
 	Author            string
 	Category          *Category
@@ -19,7 +20,9 @@ type Article struct {
 	Content           string `gorm:"type:longtext"` //type:rich_editor
 	Editor            string
 	ResponsibleEditor string
-	ReadNum           uint //阅读数
-	Url               string//媒体聚焦链接或者微信图文链接
-	IsSpecial         int //是否为文章 用作特殊页面的渲染
+	ReadNum           uint   //阅读数
+	Url               string //媒体聚焦链接或者微信图文链接
+	IsSpecial         int    //是否为文章 用作特殊页面的渲染
+	VideoIndex        oss.OSS
+	IsIndexUp         int
 }

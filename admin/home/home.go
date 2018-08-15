@@ -16,14 +16,50 @@ func SetAdmin(adminConfig *admin.Admin) {
 	home := adminConfig.AddResource(&models.Home{}, &admin.Config{Menu: []string{"首页管理"}, Name: "中间文章模块管理"})
 
 	//对增删查改的局部显示
-	home.IndexAttrs("ID", "Category", "IndexArticle", "Position", "Layout")
-	home.EditAttrs("Category", "IndexArticle", "Position", "Layout")
-	home.NewAttrs("Category", "IndexArticle", "Position", "Layout")
+	home.IndexAttrs("ID", "Name", "Category", "Position", "Layout", "Url")
+	home.EditAttrs("Name", "Category", "Position", "Layout", "Url")
+	home.NewAttrs("Name", "Category", "Position", "Layout", "Url")
 
+	home.Meta(&admin.Meta{Name: "Name", Label: "分类名"})
+	home.Meta(&admin.Meta{Name: "Url", Label: "具体链接(可不填)"})
 	home.Meta(&admin.Meta{Name: "Category", Label: "首页分类"})
 	home.Meta(&admin.Meta{Name: "Position", Label: "具体位置"})
 	home.Meta(&admin.Meta{Name: "Layout", Label: "模块位置"})
-	home.Meta(&admin.Meta{Name: "IndexArticle", Label: "单个分类置顶文章"})
+	//home.Meta(&admin.Meta{Name: "IndexArticle", Label: "单个分类置顶文章"})
+
+	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理"})
+
+	rotation.IndexAttrs("ID", "Url", "Position", "Sequence")
+	rotation.EditAttrs("Url", "Position", "Sequence")
+	rotation.NewAttrs("Url", "Position", "Sequence")
+
+	rotation.Meta(&admin.Meta{Name: "Url", Label: "轮播图"})
+	rotation.Meta(&admin.Meta{Name: "Position", Label: "位置"})
+	rotation.Meta(&admin.Meta{Name: "Sequence", Label: "顺序"})
+
+	rotation.AddProcessor(&resource.Processor{
+		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+			if r, ok := value.(*models.Rotation); ok {
+				fname := cast.ToString(r.Url.FileName)
+				//调用文件上传函数 更新url
+				if r.Url.FileHeader != nil {
+					file, err := r.Url.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
+
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fname, f)
+
+					if err != nil {
+						return err
+					}
+					r.Url.Url = url
+				}
+			}
+			return nil
+		},
+	})
 
 	imageLinks := adminConfig.AddResource(&models.ImageLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部图片链接管理"})
 	imageLinks.IndexAttrs("ID", "Url", "Image")

@@ -18,9 +18,9 @@ import (
 func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
 	//对增删查改的局部显示
-	article.IndexAttrs("ID", "Title", "Author", "Cover", "Editor", "ResponsibleEditor", "Status", "ReadNum","Url")
-	article.EditAttrs("Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor","Url")
-	article.NewAttrs("ID", "Title", "Author", "Category", "Cover", "Content", "Editor", "ResponsibleEditor","Url")
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex", "Editor", "ResponsibleEditor", "Status", "IsIndexUp", "ReadNum", "Url")
+	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+	article.NewAttrs("ID", "Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
@@ -35,6 +35,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	}})
 	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
+	article.Meta(&admin.Meta{Name: "VideoIndex", Label: "首页封面视频"})
+	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页置顶"})
+	article.Meta(&admin.Meta{Name: "Summary", Label: "文章摘要"})
 
 	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
@@ -48,7 +51,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			if a, ok := value.(*models.Article); ok {
-				fname := cast.ToString(a.Cover.FileName)
+				fnameCover := cast.ToString(a.Cover.FileName)
 				//调用文件上传函数 更新url
 				if a.Cover.FileHeader != nil {
 					file, err := a.Cover.FileHeader.Open()
@@ -57,12 +60,27 @@ func SetAdmin(adminConfig *admin.Admin) {
 					if err != nil {
 						return err
 					}
-					url, err := utils.UploadFile(fname, f)
+					url, err := utils.UploadFile(fnameCover, f)
 
 					if err != nil {
 						return err
 					}
 					a.Cover.Url = url
+				}
+				fnameVideo := cast.ToString(a.VideoIndex.FileName)
+				if a.VideoIndex.FileHeader != nil {
+					file, err := a.VideoIndex.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
+
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fnameVideo, f)
+
+					if err != nil {
+						return err
+					}
+					a.VideoIndex.Url = url
 				}
 
 				context.GetDB().Where("ID =?", a.CategoryID).First(&a.Category)
@@ -90,10 +108,21 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 
+	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页分类置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.Article); ok {
+			if v.IsIndexUp == 1 {
+				txt = "置顶"
+			} else {
+				txt = "不置顶"
+			}
+		}
+		return txt
+	}})
 	//添加审核模块
 	article.Action(
 		&admin.Action{
-			Name:  "enable",
+			Name:  "verify",
 			Label: "审核/撤销",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
@@ -112,6 +141,31 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return nil
 			},
 			Modes: []string{"batch", "show", "menu_item", "edit"},
+		},
+	)
+	//添加是否置顶
+	article.Action(
+		&admin.Action{
+			Name:  "isUp",
+			Label: "置顶/不置顶",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
+
+					if a, ok := record.(*models.Article); ok {
+						//执行a.status更新状态
+						if a.IsIndexUp == 1 {
+							a.IsIndexUp = 0
+						} else {
+							a.IsIndexUp = 1
+						}
+
+						models.DB.Model(&a).Update("IsIndexUp", a.IsIndexUp)
+
+					}
+				}
+				return nil
+			},
+			Modes: []string{"show", "menu_item", "edit"},
 		},
 	)
 
@@ -155,7 +209,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.AddValidator(&resource.Validator{
 		Name: "check_article_col",
 		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
-
 
 			if meta := metaValues.Get("Title"); meta != nil {
 				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
