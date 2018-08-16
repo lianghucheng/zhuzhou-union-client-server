@@ -7,7 +7,7 @@ import (
 
 type Article struct {
 	gorm.Model
-	Status            uint	//0未审核   1已审核
+	Status            uint //0未审核   1已审核
 	User              *User
 	UserID            uint
 	Title             string
@@ -25,4 +25,5 @@ type Article struct {
 	IsSpecial         int    //是否为文章 用作特殊页面的渲染
 	VideoIndex        oss.OSS
 	IsIndexUp         int
+	IsIndex           int
 }

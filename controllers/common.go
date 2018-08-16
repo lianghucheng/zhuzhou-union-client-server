@@ -161,6 +161,7 @@ func (this *Common) CheckLogin() {
 		return
 	}
 }
+
 func (this *Common) CheckLoginPost() {
 	if !this.IsLogin() {
 		this.ReturnJson(10043, "请登录")

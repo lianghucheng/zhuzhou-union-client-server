@@ -25,7 +25,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 	home.Meta(&admin.Meta{Name: "Category", Label: "首页分类"})
 	home.Meta(&admin.Meta{Name: "Position", Label: "具体位置"})
 	home.Meta(&admin.Meta{Name: "Layout", Label: "模块位置"})
-	//home.Meta(&admin.Meta{Name: "IndexArticle", Label: "单个分类置顶文章"})
 
 	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理", PageCount: 10})
 
@@ -122,7 +121,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//添加是否置顶显示
 	boxLinks.Action(
 		&admin.Action{
-			Name:  "isUp",
+			Name:  "isUpb",
 			Label: "显示/取消",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
