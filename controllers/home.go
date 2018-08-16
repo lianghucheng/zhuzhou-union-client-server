@@ -23,8 +23,6 @@ func (this *HomeController) Prepare() {
 	}
 	this.SetSession("userinfo", user)
 	user, ok := this.GetSession("userinfo").(models.User)
-
-	beego.Debug(user)
 	if ok {
 
 		this.Data["user"] = user
