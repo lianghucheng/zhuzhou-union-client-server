@@ -11,6 +11,28 @@ type HomeController struct {
 	beego.Controller
 }
 
+func (this *HomeController) Prepare() {
+	var code models.QrCode
+
+	user := models.User{
+		Username: "test",
+	}
+
+	if err := models.DB.First(&code).Error; err != nil {
+		beego.Error("没有发现二维码")
+	}
+	this.SetSession("userinfo", user)
+	user, ok := this.GetSession("userinfo").(models.User)
+
+	beego.Debug(user)
+	if ok {
+
+		this.Data["user"] = user
+	}
+	this.Data["Code"] = code
+
+}
+
 //@router /	[*]
 func (this *HomeController) Index() {
 	var homes []*models.Home
