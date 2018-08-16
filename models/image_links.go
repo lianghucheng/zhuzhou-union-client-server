@@ -9,5 +9,5 @@ type ImageLinks struct {
 	gorm.Model
 	Url      string
 	Image    oss.OSS
-	Position int
+	Position uint
 }

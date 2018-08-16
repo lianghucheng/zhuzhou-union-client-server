@@ -7,7 +7,7 @@ type Home struct {
 	Name           string //首页分类名称
 	Category       Category
 	CategoryID     uint
-	Position       int //每个分类的位置
+	Position       uint //每个分类的位置
 	IndexArticleID uint
 	Url            string
 	Layout         int //模块

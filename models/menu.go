@@ -11,5 +11,5 @@ type Menu struct {
 	CategoryID uint
 	URL        string
 	Menus      []Menu
-	Sequence   int
+	Sequence   uint
 }
