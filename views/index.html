@@ -1196,12 +1196,57 @@
     </div>
     <div class="other-link">
         <div class="d-lg-flex s-panel justify-content-around">
-        {{range .imageLinks}}
-            <a href="{{.Url}}" target="_blank"
+
+        {{range $index,$elem:=.imageLinks}}
+        {{if eq $elem.Position 1}}
+
+            <a href="{{$elem.Url}}" target="_blank"
                style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
-                <img src="{{.Image}}" class="other-link-image" alt="图片介绍">
+                <img src="{{$elem.Image}}" class="other-link-image" alt="图片介绍">
+            </a>
+
+        {{end}}
+        {{end}}
+        {{range $index,$elem:=.imageLinks}}
+        {{if eq $elem.Position 2}}
+
+            <a href="{{$elem.Url}}" target="_blank"
+               style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="{{$elem.Image}}" class="other-link-image" alt="图片介绍">
+            </a>
+
+        {{end}}
+        {{end}}
+        {{range $index,$elem:=.imageLinks}}
+        {{if eq $elem.Position 3}}
+
+            <a href="{{$elem.Url}}" target="_blank"
+               style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="{{$elem.Image}}" class="other-link-image" alt="图片介绍">
+            </a>
+
+        {{end}}
+        {{end}}
+        {{range $index,$elem:=.imageLinks}}
+        {{if eq $elem.Position 4}}
+
+            <a href="{{$elem.Url}}" target="_blank"
+               style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="{{$elem.Image}}" class="other-link-image" alt="图片介绍">
+            </a>
+
+        {{end}}
+        {{end}}
+        {{range $index,$elem:=.imageLinks}}
+        {{if eq $elem.Position 5}}
+
+            <a href="{{$elem.Url}}" target="_blank"
+               style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="{{$elem.Image}}" class="other-link-image" alt="图片介绍">
             </a>
         {{end}}
+        {{end}}
+
         </div>
     </div>
 </section>
@@ -1210,45 +1255,71 @@
         <div class="col-10" style="padding:40px 0 0">
             <div class="row" style="padding: 0 30px">
                 <div class="dropdown show col-4">
-                    <a class="btn dropdown-toggle other-link-btn" href="#" role="button" id="dropdownMenuLink1"
+                {{range $index,$elem:=.boxLinks}}
+                {{if eq $elem.Position 1}}
+                {{if  $elem.IsUp }}
+                    <a class="btn dropdown-toggle other-link-btn" target="_blank" href="{{$elem.Url}}" role="button"
+                       id="dropdownMenuLink1"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
-                        Dropdown link
+                    {{$elem.Name}}
                     </a>
+                {{end}}
+                {{end}}
+                {{end}}
+
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                    {{range $index,$elem:=.boxLinks}}
+                    {{if eq $elem.Position 1}}
+                    {{if eq $elem.IsUp 0}}
+                        <a class="dropdown-item" target="_blank" href="{{$elem.Url}}">{{$elem.Name}}</a>
+                    {{end}}
+                    {{end}}
+                    {{end}}
                     </div>
                 </div>
+
                 <div class="dropdown show col-4">
-                    <a class="btn dropdown-toggle other-link-btn" href="#" role="button" id="dropdownMenuLink2"
+                {{range $index,$elem:=.boxLinks}}
+                {{if eq $elem.Position 2}}
+                {{if  $elem.IsUp }}
+                    <a class="btn dropdown-toggle other-link-btn" target="_blank" href="{{$elem.Url}}" role="button"
+                       id="dropdownMenuLink2"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
-                        Dropdown link
+                    {{$elem.Name}}
                     </a>
+                {{end}}
+                {{end}}
+                {{end}}
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                    {{range $index,$elem:=.boxLinks}}
+                    {{if eq $elem.Position 2}}
+                    {{if eq $elem.IsUp 0}}
+                        <a class="dropdown-item" target="_blank" href="{{$elem.Url}}">{{$elem.Name}}</a>
+                    {{end}}
+                    {{end}}
+                    {{end}}
                     </div>
                 </div>
                 <div class="dropdown show col-4">
-                    <a class="btn dropdown-toggle other-link-btn" href="#" role="button" id="dropdownMenuLink3"
+                {{range $index,$elem:=.boxLinks}}
+                {{if eq $elem.Position 3}}
+                {{if  $elem.IsUp }}
+                    <a class="btn dropdown-toggle other-link-btn" href="{{$elem.Url}}" target="_blank" role="button"
+                       id="dropdownMenuLink3"
                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
-                        Dropdown link
+                    {{$elem.Name}}
                     </a>
+                {{end}}
+                {{end}}
+                {{end}}
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuLink3">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                        <a class="dropdown-item" href="#">Action</a>
-                        <a class="dropdown-item" href="#">Another action</a>
-                        <a class="dropdown-item" href="#">Something else here</a>
+                    {{range $index,$elem:=.boxLinks}}
+                    {{if eq $elem.Position 3}}
+                    {{if eq $elem.IsUp 0}}
+                        <a class="dropdown-item" target="_blank" href="{{$elem.Url}}">{{$elem.Name}}</a>
+                    {{end}}
+                    {{end}}
+                    {{end}}
                     </div>
                 </div>
             </div>

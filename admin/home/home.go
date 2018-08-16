@@ -96,13 +96,53 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	boxLinks := adminConfig.AddResource(&models.BoxLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部下拉链接管理", PageCount: 10})
-	boxLinks.IndexAttrs("ID", "Name", "Url", "Position")
-	boxLinks.EditAttrs("Name", "Url", "Position")
-	boxLinks.NewAttrs("Name", "Url", "Position")
+	boxLinks.IndexAttrs("ID", "Name", "Url", "Position", "IsUp")
+	boxLinks.EditAttrs("Name", "Url", "Position", "IsUp")
+	boxLinks.NewAttrs("Name", "Url", "Position", "IsUp")
 
 	boxLinks.Meta(&admin.Meta{Name: "Name", Label: "名称"})
 	boxLinks.Meta(&admin.Meta{Name: "Url", Label: "链接"})
 	boxLinks.Meta(&admin.Meta{Name: "Position", Label: "下拉框位置"})
+	boxLinks.Meta(&admin.Meta{Name: "IsUp", Label: "是否最先显示"})
+
+	//重置IsUp显示
+	boxLinks.Meta(&admin.Meta{Name: "IsUp", Label: "是否最先显示", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.BoxLinks); ok {
+			if v.IsUp == 1 {
+
+				txt = "显示"
+			} else {
+				txt = "不显示"
+			}
+		}
+		return txt
+	}})
+
+	//添加是否置顶显示
+	boxLinks.Action(
+		&admin.Action{
+			Name:  "isUp",
+			Label: "显示/取消",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
+
+					if a, ok := record.(*models.BoxLinks); ok {
+						//执行a.status更新状态
+						if a.IsUp == 1 {
+							a.IsUp = 0
+						} else {
+							a.IsUp = 1
+						}
+						models.DB.Model(&a).Update("IsUp", a.IsUp)
+
+					}
+				}
+				return nil
+			},
+			Modes: []string{"show", "menu_item"},
+		},
+	)
 
 	imageLinks.AddValidator(&resource.Validator{
 		Name: "check_article_col",

@@ -137,14 +137,14 @@ func (this *HomeController) Index() {
 	}
 	//首页底部图片链接
 	var imageLinks []*models.ImageLinks
-	if err := models.DB.Find(&imageLinks).Error; err != nil {
+	if err := models.DB.Limit(5).Find(&imageLinks).Error; err != nil {
 		beego.Error("获取首页图片链接错误", err)
 	}
 
 	//首页底部下拉框链接
-	var boxImages []*models.BoxLinks
+	var boxLinks []*models.BoxLinks
 
-	if err := models.DB.Find(&boxImages).Error; err != nil {
+	if err := models.DB.Find(&boxLinks).Error; err != nil {
 		beego.Error("获取首页下拉链接错误", err)
 	}
 
@@ -153,5 +153,6 @@ func (this *HomeController) Index() {
 	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes
 	this.Data["output"] = outputIndex
+	this.Data["boxLinks"] = boxLinks
 	this.TplName = "index.html"
 }
