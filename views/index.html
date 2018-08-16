@@ -823,16 +823,16 @@
                                 <div class="panel-title">
                                     <span class="panel-title-span">{{$elem.Home.Name}}</span>
                                 </div>
-                            {{range $index,$article:=$elem.Articles}}
-                            {{if $article.Status}}
                                 <ul class="pc-list" style="padding:10px 0;">
+                                {{range $index,$article:=$elem.Articles}}
+                                {{if $article.Status}}
                                     <li class="pc-list-item"><a href="#" target="_blank"
                                                                 class="text-ov">{{$article.Title}}</a><span
                                             class="item-time">{{dateformat $article.CreatedAt "2006-01-02"}}</span>
                                     </li>
+                                {{end}}
+                                {{end}}
                                 </ul>
-                            {{end}}
-                            {{end}}
                             </div>
                         {{end}}
                         {{end}}

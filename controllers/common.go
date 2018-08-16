@@ -18,12 +18,12 @@ type CommonController struct {
 }
 
 func (this *Common) Prepare() {
+	if this.IsLogin() {
+		this.Data["user"] = this.GetSessionUser()
+	}
 
 	var code models.QrCode
 
-	user := models.User{
-		Username: "test",
-	}
 	var Menus []*models.Menu
 	if err := models.DB.Preload("Category").Where("higher_id = ?", 0).Find(&Menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
@@ -71,13 +71,10 @@ func (this *Common) Prepare() {
 	if err := models.DB.First(&code).Error; err != nil {
 		beego.Error("没有发现二维码")
 	}
-	this.SetSession("userinfo", user)
-	user, ok := this.GetSession("userinfo").(models.User)
-	if ok {
-		this.Data["user"] = user
-	}
+
 	this.Data["Code"] = code
 	this.Data["outputMenus"] = outputMenus
+
 }
 
 func (this *Common) UserFilter() {
@@ -147,4 +144,32 @@ func (this *Common) ReturnSuccess(args ...interface{}) {
 	this.Data["json"] = result
 	this.ServeJSON()
 	this.StopRun()
+}
+
+func (this *Common) DoLogin(user models.User) {
+	this.SetSession("userinfo", user)
+}
+
+func (this *Common) IsLogin() bool {
+	return this.GetSession("userinfo") != nil
+}
+
+func (this *Common) CheckLogin() {
+	if !this.IsLogin() {
+		this.Ctx.Redirect(302, "/user/login")
+		this.StopRun()
+		return
+	}
+}
+func (this *Common) CheckLoginPost() {
+	if !this.IsLogin() {
+		this.ReturnJson(10043, "请登录")
+		this.StopRun()
+		return
+	}
+}
+
+func (this *Common) GetSessionUser() (user *models.User) {
+	return this.GetSession("userinfo").(*models.User)
+
 }
