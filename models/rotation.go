@@ -8,6 +8,6 @@ import (
 type Rotation struct {
 	gorm.Model
 	Url      oss.OSS
-	Position uint
+	Position int
 	Sequence int
 }
