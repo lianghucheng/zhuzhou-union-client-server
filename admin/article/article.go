@@ -16,7 +16,7 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理"})
+	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理",PageCount:10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex", "Editor", "ResponsibleEditor", "Status", "IsIndexUp", "ReadNum", "Url")
 	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")

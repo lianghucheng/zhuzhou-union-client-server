@@ -7,6 +7,7 @@ import (
 
 type ImageLinks struct {
 	gorm.Model
-	Url   string
-	Image oss.OSS
+	Url      string
+	Image    oss.OSS
+	Position int
 }

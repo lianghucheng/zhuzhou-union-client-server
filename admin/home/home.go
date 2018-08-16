@@ -13,7 +13,7 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	home := adminConfig.AddResource(&models.Home{}, &admin.Config{Menu: []string{"首页管理"}, Name: "中间文章模块管理"})
+	home := adminConfig.AddResource(&models.Home{}, &admin.Config{Menu: []string{"首页管理"}, Name: "中间文章模块管理", PageCount: 10})
 
 	//对增删查改的局部显示
 	home.IndexAttrs("ID", "Name", "Category", "Position", "Layout", "Url")
@@ -27,7 +27,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	home.Meta(&admin.Meta{Name: "Layout", Label: "模块位置"})
 	//home.Meta(&admin.Meta{Name: "IndexArticle", Label: "单个分类置顶文章"})
 
-	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理"})
+	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理", PageCount: 10})
 
 	rotation.IndexAttrs("ID", "Url", "Position", "Sequence")
 	rotation.EditAttrs("Url", "Position", "Sequence")
@@ -61,13 +61,14 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	})
 
-	imageLinks := adminConfig.AddResource(&models.ImageLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部图片链接管理"})
-	imageLinks.IndexAttrs("ID", "Url", "Image")
-	imageLinks.EditAttrs("Url", "Image")
-	imageLinks.NewAttrs("Url", "Image")
+	imageLinks := adminConfig.AddResource(&models.ImageLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部图片链接管理", PageCount: 10})
+	imageLinks.IndexAttrs("ID", "Url", "Image", "Position")
+	imageLinks.EditAttrs("Url", "Image", "Position")
+	imageLinks.NewAttrs("Url", "Image", "Position")
 
 	imageLinks.Meta(&admin.Meta{Name: "Url", Label: "具体链接地址"})
 	imageLinks.Meta(&admin.Meta{Name: "Image", Label: "显示图片"})
+	imageLinks.Meta(&admin.Meta{Name: "Position", Label: "位置"})
 
 	imageLinks.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
@@ -94,7 +95,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	})
 
-	boxLinks := adminConfig.AddResource(&models.BoxLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部下拉链接管理"})
+	boxLinks := adminConfig.AddResource(&models.BoxLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部下拉链接管理", PageCount: 10})
 	boxLinks.IndexAttrs("ID", "Name", "Url", "Position")
 	boxLinks.EditAttrs("Name", "Url", "Position")
 	boxLinks.NewAttrs("Name", "Url", "Position")

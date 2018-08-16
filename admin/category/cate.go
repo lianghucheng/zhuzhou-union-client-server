@@ -15,7 +15,7 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理"})
+	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理",PageCount:10})
 
 	cate.SearchAttrs("Name", "Category", "Higher","ID")
 

@@ -17,6 +17,12 @@ func (this *HomeController) Index() {
 
 	var rotation []*models.Rotation
 	var Menus []*models.Menu
+	var indexPer int
+
+	indexPer, _ = beego.AppConfig.Int("indexPer")
+	if indexPer == 0 {
+		indexPer = 5
+	}
 
 	if err := models.DB.Preload("Category").Find(&Menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
@@ -91,7 +97,7 @@ func (this *HomeController) Index() {
 				subCateM := make(map[string]interface{})
 
 				if err := models.DB.
-					Where("category_id = ? and status =?", subCategory.ID, 1).
+					Where("category_id = ? and status =?", subCategory.ID, 1).Limit(indexPer).
 					Find(&articles).Error; err != nil {
 					beego.Error("读取首页子分类错误", err)
 					this.Abort("500")
@@ -110,13 +116,20 @@ func (this *HomeController) Index() {
 			}
 		}
 
-		beego.Debug(h.CategoryID)
+		if h.Position == 13 || h.Position == 14 {
+			indexPer = 5
+		}
+
+		if h.Position == 15 || h.Position == 16 {
+			indexPer = 10
+		}
 		if err := models.DB.
-			Where("category_id = ? and status = ?", h.CategoryID, 1).
+			Where("category_id = ? and status = ?", h.CategoryID, 1).Limit(indexPer).
 			Find(&articles1).Error; err != nil {
 			this.Abort("500")
 			return
 		}
+
 		a["Articles"] = articles1
 		a["Home"] = h
 		a["SubCates"] = subCatesM

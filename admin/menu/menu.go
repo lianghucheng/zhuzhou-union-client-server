@@ -9,7 +9,7 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理"})
+	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理",PageCount:10})
 
 	//
 
