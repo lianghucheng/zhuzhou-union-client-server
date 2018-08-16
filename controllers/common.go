@@ -25,10 +25,9 @@ func (this *Common) Prepare() {
 		Username: "test",
 	}
 	var Menus []*models.Menu
-	if err := models.DB.Preload("Category").Find(&Menus).Error; err != nil {
+	if err := models.DB.Preload("Category").Where("higher_id = ?", 0).Find(&Menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
 	}
-
 	var outputMenus []models.Menu
 	for _, menu := range Menus {
 		var outputMenu models.Menu
@@ -36,9 +35,9 @@ func (this *Common) Prepare() {
 			category := menu.Category
 
 			var categoryMenu models.Menu
-			categoryMenu.Name = category.Name
-			categoryMenu.URL = "/category/" + fmt.Sprintf("%s", category.ID)
-			categoryMenu.Sequence = category.Sequence
+			categoryMenu.Name = menu.Name
+			categoryMenu.URL = "/category/" + fmt.Sprintf("%d", category.ID)
+			categoryMenu.Sequence = menu.Sequence
 			var subCategorys []*models.Category
 			if err := models.DB.
 				Where("higher_id = ?", category.ID).
@@ -49,14 +48,14 @@ func (this *Common) Prepare() {
 			for _, subCategory := range subCategorys {
 				var itemMenu models.Menu
 				itemMenu.Name = subCategory.Name
-				itemMenu.URL = "/category/" + fmt.Sprintf("%s", subCategory.ID)
-				itemMenu.Sequence = subCategory.Sequence
+				itemMenu.URL = "/category/" + fmt.Sprintf("%d", subCategory.ID)
+
 				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
 			}
 			outputMenu = categoryMenu
-
 		} else {
 			var notCategoryMenu models.Menu
+
 			notCategoryMenu.Name = menu.Name
 			notCategoryMenu.URL = menu.URL
 			notCategoryMenu.Sequence = menu.Sequence
@@ -70,14 +69,13 @@ func (this *Common) Prepare() {
 	this.SetSession("userinfo", user)
 	user, ok := this.GetSession("userinfo").(models.User)
 	if ok {
-
 		this.Data["user"] = user
 	}
 	this.Data["Code"] = code
+	this.Data["outputMenus"] = outputMenus
 }
 
 func (this *Common) UserFilter() {
-
 }
 
 func (this *Common) GetByID(obj interface{}) (int64, error) {

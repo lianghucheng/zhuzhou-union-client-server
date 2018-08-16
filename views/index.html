@@ -817,13 +817,23 @@
 
                         {{range $index,$elem:=.output}}
                         {{if eq $elem.Home.Position 3}}
-                        {{range $index,$article:=$elem.Articles}}
-                        {{if $article.Status}}
+
                             <div class="tab-pane fade" id="list-messages" role="tabpanel"
-                                 aria-labelledby="list-messages-list">{{$article.Title}}
+                                 aria-labelledby="list-messages-list">
+                                <div class="panel-title">
+                                    <span class="panel-title-span">{{$elem.Home.Name}}</span>
+                                </div>
+                            {{range $index,$article:=$elem.Articles}}
+                            {{if $article.Status}}
+                                <ul class="pc-list" style="padding:10px 0;">
+                                    <li class="pc-list-item"><a href="#" target="_blank"
+                                                                class="text-ov">{{$article.Title}}</a><span
+                                            class="item-time">{{dateformat $article.CreatedAt "2006-01-02"}}</span>
+                                    </li>
+                                </ul>
+                            {{end}}
+                            {{end}}
                             </div>
-                        {{end}}
-                        {{end}}
                         {{end}}
                         {{end}}
                         </div>
@@ -907,7 +917,8 @@
                         <li class="panel-nav-item active">
                             <a href="{{$elem.Home.Url}}" target="_blank">
                                 <img src="/static/images/pannel_04.png"
-                                     alt="工作指南" style="margin-right: 20px;">{{$elem.Home.Name}}</a>
+                                     alt="工作指南" style="margin-right: 20px;">{{$elem.Home.Name}}
+                            </a>
                         </li>
                     {{end}}
                     {{end}}
