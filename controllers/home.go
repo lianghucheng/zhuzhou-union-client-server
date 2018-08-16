@@ -4,41 +4,21 @@ import (
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
 	"github.com/lexkong/log"
-	"fmt"
+
 )
 
 type HomeController struct {
-	beego.Controller
+	Common
 }
 
-func (this *HomeController) Prepare() {
-	var code models.QrCode
 
-	user := models.User{
-		Username: "test",
-	}
-
-	if err := models.DB.First(&code).Error; err != nil {
-		beego.Error("没有发现二维码")
-	}
-	this.SetSession("userinfo", user)
-	user, ok := this.GetSession("userinfo").(models.User)
-
-	beego.Debug(user)
-	if ok {
-
-		this.Data["user"] = user
-	}
-	this.Data["Code"] = code
-
-}
 
 //@router /	[*]
 func (this *HomeController) Index() {
 	var homes []*models.Home
 
 	var rotation []*models.Rotation
-	var Menus []*models.Menu
+
 	var indexPer int
 
 	indexPer, _ = beego.AppConfig.Int("indexPer")
@@ -46,43 +26,7 @@ func (this *HomeController) Index() {
 		indexPer = 5
 	}
 
-	if err := models.DB.Preload("Category").Find(&Menus).Error; err != nil {
-		beego.Error("查询菜单错误", err)
-	}
 
-	var outputMenus []models.Menu
-	for _, menu := range Menus {
-		var outputMenu models.Menu
-		if menu.CategoryID != 0 {
-			category := menu.Category
-
-			var categoryMenu models.Menu
-			categoryMenu.Name = category.Name
-			categoryMenu.URL = "/category/" + fmt.Sprintf("%s", category.ID)
-
-			var subCategorys []*models.Category
-			if err := models.DB.
-				Where("higher_id = ?", category.ID).
-				Find(&subCategorys).Error; err != nil {
-				beego.Error("查询子菜单错误")
-			}
-
-			for _, subCategory := range subCategorys {
-				var itemMenu models.Menu
-				itemMenu.Name = subCategory.Name
-				itemMenu.URL = "/category/" + fmt.Sprintf("%s", subCategory.ID)
-				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
-			}
-			outputMenu = categoryMenu
-
-		} else {
-			var notCategoryMenu models.Menu
-			notCategoryMenu.Name = menu.Name
-			notCategoryMenu.URL = menu.URL
-			outputMenu = notCategoryMenu
-		}
-		outputMenus = append(outputMenus, outputMenu)
-	}
 	//首页文章
 	if err := models.DB.
 		Preload("Category").
@@ -170,7 +114,6 @@ func (this *HomeController) Index() {
 		beego.Error("获取首页下拉链接错误", err)
 	}
 
-	this.Data["outputMenus"] = outputMenus
 	this.Data["rotation"] = rotation
 	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes

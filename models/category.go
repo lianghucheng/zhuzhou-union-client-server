@@ -5,7 +5,7 @@ import "github.com/jinzhu/gorm"
 type Category struct {
 	gorm.Model
 	Name     string
-	Sequence uint
+	Sequence int
 	Higher   *Category
 	HigherID uint
 	Category int

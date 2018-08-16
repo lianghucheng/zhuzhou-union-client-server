@@ -1,12 +1,11 @@
+{{template "common.html".}}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{{define "meta"}}
     <title>首页</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.css">
-    <script src="/static/js/jquery.js"></script>
-    <script src="/static/js/bootstrap.bundle.js"></script>
+{{end}}
+{{define "css"}}
     <style>
         input {
             outline: none;
@@ -544,97 +543,16 @@
         }
 
     </style>
+{{end}}
 </head>
 <body>
 <header style="width:100%;" class="header">
-    <div class="h-bar-box -box">
-        <div class="h-bar h-cell">
-            <div><span>2018年8月4号/农历六月廿三 12:07/星期六</span><span style="margin-left: 40px">长沙<img src="" alt=""
-                                                                                               style="width: 30px;height:28px;"></span><span
-                    style="color:red;">36°C ~ 27°C</span></div>
-            <div>
-            {{if .user}}
-                <p>欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">{{$.user.Username}}</a><a
-                        href="">我要反馈</a>
-                </p>
-            {{else}}
-                <p>欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">登录|注册</a><a
-                        href="">我要反馈</a>
-                </p>
-            {{end}}
-            </div>
-        </div>
-    </div>
-    <div class="h-logo-box -box">
-        <div class="h-logo h-cell">
-            <a href="#"><img src="/static/images/logo.png" alt=""></a>
-            <div style="padding:4px 10px;border-radius:40px;border:1px solid #666666;height:36px;display:flex;flex-direction:row;align-items: center">
-                <label for="search">
-                    <img
-                            src="/static/images/search.png" alt=""
-                            style="height:20px;">
-                </label>
-                <div style="width:1px;height:24px;background-color: #666666;margin: 0 3px;"></div>
-                <input
-                        id="search"
-                        type="text"
-                >
-            </div>
-        </div>
-    </div>
-    <div class="-box">
-        <nav class="navbar navbar-expand-lg navbar-light h-cell">
-            <!--<a class="navbar-brand" href="#">Navbar</a>-->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
-                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                <ul class="navbar-nav">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">市总概况</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">新闻中心</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link subnav" href="javascript:;">
-                            劳模风采
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">惠民服务</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">工会文件</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">政策法规</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">职工才艺</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">政务公开</a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-    </div>
-    <div class="border-top-red">
-        <div class="h-subnav">
-            <div class="d-flex justify-content-center">
-                <a class="subnav-item" href="#">Action</a>
-                <a class="subnav-item" href="#">Another action</a>
-                <a class="subnav-item" href="#">Something else here</a>
-            </div>
-        </div>
-    </div>
-
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
 </header>
+{{define "content"}}
 <section>
     <div class="s-carousel">
         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
@@ -899,13 +817,23 @@
 
                         {{range $index,$elem:=.output}}
                         {{if eq $elem.Home.Position 3}}
-                        {{range $index,$article:=$elem.Articles}}
-                        {{if $article.Status}}
+
                             <div class="tab-pane fade" id="list-messages" role="tabpanel"
-                                 aria-labelledby="list-messages-list">{{$article.Title}}
+                                 aria-labelledby="list-messages-list">
+                                <div class="panel-title">
+                                    <span class="panel-title-span">{{$elem.Home.Name}}</span>
+                                </div>
+                            {{range $index,$article:=$elem.Articles}}
+                            {{if $article.Status}}
+                                <ul class="pc-list" style="padding:10px 0;">
+                                    <li class="pc-list-item"><a href="#" target="_blank"
+                                                                class="text-ov">{{$article.Title}}</a><span
+                                            class="item-time">{{dateformat $article.CreatedAt "2006-01-02"}}</span>
+                                    </li>
+                                </ul>
+                            {{end}}
+                            {{end}}
                             </div>
-                        {{end}}
-                        {{end}}
                         {{end}}
                         {{end}}
                         </div>
@@ -989,7 +917,8 @@
                         <li class="panel-nav-item active">
                             <a href="{{$elem.Home.Url}}" target="_blank">
                                 <img src="/static/images/pannel_04.png"
-                                     alt="工作指南" style="margin-right: 20px;">{{$elem.Home.Name}}</a>
+                                     alt="工作指南" style="margin-right: 20px;">{{$elem.Home.Name}}
+                            </a>
                         </li>
                     {{end}}
                     {{end}}
@@ -1258,103 +1187,9 @@
         </div>
     </div>
 </section>
-<footer class="footer">
-    <div class="f-content s-panel row">
-        <div class="col-10" style="padding:40px 0 0">
-            <div class="row" style="padding: 0 30px">
-                <div class="dropdown show col-4">
-                {{range $index,$elem:=.boxLinks}}
-                {{if eq $elem.Position 1}}
-                {{if  $elem.IsUp }}
-                    <a class="btn dropdown-toggle other-link-btn" target="_blank" href="{{$elem.Url}}" role="button"
-                       id="dropdownMenuLink1"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
-                    {{$elem.Name}}
-                    </a>
-                {{end}}
-                {{end}}
-                {{end}}
-
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
-                    {{range $index,$elem:=.boxLinks}}
-                    {{if eq $elem.Position 1}}
-                    {{if eq $elem.IsUp 0}}
-                        <a class="dropdown-item" target="_blank" href="{{$elem.Url}}">{{$elem.Name}}</a>
-                    {{end}}
-                    {{end}}
-                    {{end}}
-                    </div>
-                </div>
-
-                <div class="dropdown show col-4">
-                {{range $index,$elem:=.boxLinks}}
-                {{if eq $elem.Position 2}}
-                {{if  $elem.IsUp }}
-                    <a class="btn dropdown-toggle other-link-btn" target="_blank" href="{{$elem.Url}}" role="button"
-                       id="dropdownMenuLink2"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
-                    {{$elem.Name}}
-                    </a>
-                {{end}}
-                {{end}}
-                {{end}}
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
-                    {{range $index,$elem:=.boxLinks}}
-                    {{if eq $elem.Position 2}}
-                    {{if eq $elem.IsUp 0}}
-                        <a class="dropdown-item" target="_blank" href="{{$elem.Url}}">{{$elem.Name}}</a>
-                    {{end}}
-                    {{end}}
-                    {{end}}
-                    </div>
-                </div>
-                <div class="dropdown show col-4">
-                {{range $index,$elem:=.boxLinks}}
-                {{if eq $elem.Position 3}}
-                {{if  $elem.IsUp }}
-                    <a class="btn dropdown-toggle other-link-btn" href="{{$elem.Url}}" target="_blank" role="button"
-                       id="dropdownMenuLink3"
-                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
-                    {{$elem.Name}}
-                    </a>
-                {{end}}
-                {{end}}
-                {{end}}
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink3">
-                    {{range $index,$elem:=.boxLinks}}
-                    {{if eq $elem.Position 3}}
-                    {{if eq $elem.IsUp 0}}
-                        <a class="dropdown-item" target="_blank" href="{{$elem.Url}}">{{$elem.Name}}</a>
-                    {{end}}
-                    {{end}}
-                    {{end}}
-                    </div>
-                </div>
-            </div>
-            <div class="copyright" style="padding:30px 30px 0;">
-                <p style="font-size: 0.82rem;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">版权所有 Copyright© 2016
-                    株洲工会网 www.zzghw.com 办公电话：0731-28686131</p>
-                <p style="font-size: 0.82rem;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">地址：湖南省株洲市天元区天伦西路86号
-                    网站管理员邮箱：zhzhgy@sina.com</p>
-            </div>
-        </div>
-        <div class="col-2 text-center">
-            <div style="width: 116px;height: 116px;overflow: hidden; background-color: #28a745;margin: 0 auto;"><img
-                    src="{{.Code.CodeImage.Url}}" alt="二维码" style="width: 100%;height: 100%;"></div>
-            <p style="font-size: 0.88rem;">关注二维码</p>
-            <p style="font-size: 0.88rem;">查看更多信息</p>
-        </div>
-    </div>
-</footer>
+{{end}}
+{{define "footer"}}
+{{end}}
 </body>
-<script>
-    $(".subnav").on('click', function () {
-        if ($(".h-subnav").css('display') === 'block') {
-            $(".h-subnav").slideUp();
-        } else {
-            $(".h-subnav").slideDown();
-        }
 
-    })
-</script>
 </html>
