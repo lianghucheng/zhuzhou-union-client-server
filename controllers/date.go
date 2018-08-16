@@ -5,6 +5,7 @@ import (
 	"github.com/astaxie/beego"
 	"strconv"
 	"unsafe"
+	"zhuzhou-union-client-server/utils"
 )
 /*
 #include <stdio.h>
@@ -278,6 +279,12 @@ func (this *DateControllor) Date() {
 	d.Time=time
 	d.Weekday=weekday
 	this.ReturnSuccess("date",d)
+}
+
+//@router /weather [get]
+func (this *DateControllor)Weather(){
+	weather:=utils.TodayWeather()
+	this.ReturnSuccess("weather",weather)
 }
 
 func getNongLi(year, month, day C.int) (nongli string) {
