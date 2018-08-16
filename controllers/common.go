@@ -35,7 +35,9 @@ func (this *Common) Prepare() {
 			category := menu.Category
 
 			var categoryMenu models.Menu
+			categoryMenu.ID = menu.ID
 			categoryMenu.Name = menu.Name
+			categoryMenu.CategoryID = menu.CategoryID
 			categoryMenu.URL = "/category/" + fmt.Sprintf("%d", category.ID)
 			categoryMenu.Sequence = menu.Sequence
 			var subCategorys []*models.Category
@@ -49,13 +51,16 @@ func (this *Common) Prepare() {
 				var itemMenu models.Menu
 				itemMenu.Name = subCategory.Name
 				itemMenu.URL = "/category/" + fmt.Sprintf("%d", subCategory.ID)
-
+				itemMenu.ID = subCategory.ID
+				itemMenu.Category.SubCategory = append(itemMenu.Category.SubCategory, subCategory)
 				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
 			}
+			categoryMenu.Category = category
 			outputMenu = categoryMenu
 		} else {
 			var notCategoryMenu models.Menu
 
+			notCategoryMenu.ID = menu.ID
 			notCategoryMenu.Name = menu.Name
 			notCategoryMenu.URL = menu.URL
 			notCategoryMenu.Sequence = menu.Sequence
