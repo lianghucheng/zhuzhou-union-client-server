@@ -11,8 +11,18 @@ type AuthController struct {
 	Common
 }
 
-//@router /api/auth/login [*]
+//@router /user/login [*]
 func (this *AuthController) Login() {
+	this.TplName = "login.html"
+}
+
+//@router /user/register [*]
+func (this *AuthController) Register() {
+	this.TplName = "register.html"
+}
+
+//@router /api/auth/login [*]
+func (this *AuthController) LoginSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
 	if username == "" {
@@ -34,7 +44,7 @@ func (this *AuthController) Login() {
 		//this.VerityCode(username)
 		if models.DB.Where("username = ? and password = ?", username, utils.Md5(password)).Find(&u).RecordNotFound() {
 			this.ReturnJson(10005, "用户名或者密码错误")
-		}else{
+		} else {
 			this.SetSession("userinfo", &u)
 			this.ReturnSuccess()
 		}
@@ -42,7 +52,7 @@ func (this *AuthController) Login() {
 }
 
 //@router /api/auth/register [*]
-func (this *AuthController) Register() {
+func (this *AuthController) RegisterSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
 	if !MobileRegexp(username) {

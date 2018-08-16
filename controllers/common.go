@@ -7,13 +7,24 @@ import (
 
 type Common struct {
 	beego.Controller
-	UserID int64
-	Token  string
+	UserID   int64
+	Token    string
 	Userinfo *models.User
 }
 
 type CommonController struct {
 	Common
+}
+
+func (this *Common) Prepare() {
+	var user models.User
+
+	user.Name = "test"
+
+	this.Userinfo = &user
+	if this.Userinfo != nil {
+		this.Data["user"] = this.Userinfo
+	}
 }
 
 func (this *Common) UserFilter() {
@@ -25,21 +36,21 @@ func (this *Common) GetByID(obj interface{}) (int64, error) {
 	return id, models.DB.Where("id=?", id).First(obj).Error
 }
 
-func (this *Common) VerityCode(username string){
-	code:=this.GetString("code")
-	if code==""{
+func (this *Common) VerityCode(username string) {
+	code := this.GetString("code")
+	if code == "" {
 		this.DelSession(username)
 		this.ReturnJson(10003, "验证码不能为空")
 	}
 
-	if local_code,ok:=this.GetSession(username).(string);ok{
-		if local_code==code{
+	if local_code, ok := this.GetSession(username).(string); ok {
+		if local_code == code {
 			this.DelSession(username)
-		}else{
+		} else {
 			this.DelSession(username)
 			this.ReturnJson(10003, "验证码无效")
 		}
-	}else{
+	} else {
 		this.DelSession(username)
 		this.ReturnJson(10004, "验证码无效")
 	}
@@ -85,4 +96,3 @@ func (this *Common) ReturnSuccess(args ...interface{}) {
 	this.ServeJSON()
 	this.StopRun()
 }
-

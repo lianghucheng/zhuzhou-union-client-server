@@ -174,4 +174,35 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	})
 
+	qrCode := adminConfig.AddResource(&models.QrCode{}, &admin.Config{Menu: []string{"首页管理"}, Name: "首页二维码管理"})
+	qrCode.IndexAttrs("ID", "CodeImage")
+	qrCode.EditAttrs("CodeImage")
+	qrCode.NewAttrs("CodeImage")
+	qrCode.Meta(&admin.Meta{Name: "CodeImage", Label: "二维码图片"})
+
+	qrCode.AddProcessor(&resource.Processor{
+		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+			if a, ok := value.(*models.QrCode); ok {
+				fnameCover := cast.ToString(a.CodeImage.FileName)
+				//调用文件上传函数 更新url
+				if a.CodeImage.FileHeader != nil {
+					file, err := a.CodeImage.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
+
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fnameCover, f)
+
+					if err != nil {
+						return err
+					}
+					a.CodeImage.Url = url
+				}
+
+			}
+			return nil
+		},
+	})
+
 }
