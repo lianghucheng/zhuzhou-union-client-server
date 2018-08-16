@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 )
 
-type Weather struct {
+/*type Weather struct {
 	ShowapiResCode  int             `json:"showapi_res_code"`
 	ShowapiResError string          `json:"showapi_res_error"`
 	ShowapiResBody  *ShowapiResBody `json:"showapi_res_body"`
@@ -37,7 +37,7 @@ type ResultWeather struct{
 	WindPower string
 }
 
-func TodayWeather() ResultWeather {
+func GetWeather() ResultWeather {
 	var weather *Weather
 	resultWeather:=ResultWeather{}
 	req, err := http.NewRequest("GET", "http://saweather.market.alicloudapi.com/hour24?area=株洲", nil)
@@ -79,4 +79,88 @@ func substr(str string, start int, end int) string {
 	}
 
 	return string(rs[start:end])
+}*/
+
+type Weather struct {
+	Date	string	`json:"date"`
+	Message	string	`json:"message"`
+	Status	int	`json:"status"`
+	City	string	`json:"city"`
+	Count	int	`json:"count"`
+	Data	Data	`json:"data"`
+}
+
+type Data struct {
+	Ganmao	string	`json:"ganmao"`
+	Yesterday	Yesterday	`json:"yesterday"`
+	Forecast	[]Forecast	`json:"forecast"`
+	Shidu	string	`json:"shidu"`
+	Pm25	float64	`json:"pm25"`
+	Pm10	float64	`json:"pm10"`
+	Quality	string	`json:"quality"`
+	Wendu	string	`json:"wendu"`
+}
+
+type Yesterday struct {
+	Sunset	string	`json:"sunset"`
+	Fl	string	`json:"fl"`
+	Notice	string	`json:"notice"`
+	Date	string	`json:"date"`
+	High	string	`json:"high"`
+	Low	string	`json:"low"`
+	Type	string	`json:"type"`
+	Sunrise	string	`json:"sunrise"`
+	Aqi	float64	`json:"aqi"`
+	Fx	string	`json:"fx"`
+}
+
+type Forecast struct {
+	Sunrise	string	`json:"sunrise"`
+	Aqi	float64	`json:"aqi"`
+	Fl	string	`json:"fl"`
+	Type	string	`json:"type"`
+	Date	string	`json:"date"`
+	High	string	`json:"high"`
+	Low	string	`json:"low"`
+	Sunset	string	`json:"sunset"`
+	Fx	string	`json:"fx"`
+	Notice	string	`json:"notice"`
+}
+
+type ResultWeather struct{
+	High string
+	Low string
+	Weather string
+	WindDirection string
+	WindPower string
+	Notice string
+}
+
+func GetWeather()ResultWeather{
+	resultWeather:=ResultWeather{}
+	resp,err:=http.Get(`https://www.sojson.com/open/api/weather/json.shtml?city=株洲`)
+	if err!=nil{
+		beego.Error(err)
+		return resultWeather
+	}
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		beego.Debug(err)
+		return resultWeather
+
+	}
+	weather:=Weather{}
+	if err:=json.Unmarshal(body,&weather);err!=nil{
+		beego.Error(err)
+		return resultWeather
+	}
+	resultWeather.High=weather.Data.Forecast[0].High
+	resultWeather.Low=weather.Data.Forecast[0].Low
+	resultWeather.Weather=weather.Data.Forecast[0].Type
+	resultWeather.WindDirection=weather.Data.Forecast[0].Fx
+	resultWeather.WindPower=weather.Data.Forecast[0].Fl
+	resultWeather.Notice=weather.Data.Forecast[0].Notice
+	beego.Debug(resultWeather)
+	return resultWeather
 }

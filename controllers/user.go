@@ -303,3 +303,32 @@ func (this *UserController) ArticleUpdate() {
 	}
 	this.ReturnSuccess()
 }
+
+//@router /user/search [get]
+func (this *UserController)Search(){
+	userinfo := this.Userinfo
+	searcher:=this.GetString("searcher")
+	s:="%"+searcher+"%"
+
+	page, _ := this.GetInt("page")
+	if page == 0 {
+		page = 1
+	}
+	per, _ := this.GetInt("per")
+	if per == 0 {
+		per, _ = beego.AppConfig.Int("per")
+	}
+
+	qs := models.DB.Model(models.Article{})
+
+	sum := 0
+	qs.Count(&sum)
+	count := 0
+	qs.Where("user_id = ?", userinfo.ID).Count(&count)
+	articles := []models.Article{}
+	if err := qs.Where("user_id = ? and (title LIKE ? or content LIKE ?)", userinfo.ID,s,s).Limit(per).Offset((page - 1) * per).Order("id desc").Find(&articles).Error; err != nil {
+		beego.Error("查找失败",err)
+		this.ReturnJson(1,"查找失败"+err.Error())
+	}
+	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
+}
