@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Title</title>
+    <title>首页</title>
     <link rel="stylesheet" href="/static/css/bootstrap.css">
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.bundle.js"></script>
@@ -552,9 +552,17 @@
             <div><span>2018年8月4号/农历六月廿三 12:07/星期六</span><span style="margin-left: 40px">长沙<img src="" alt=""
                                                                                                style="width: 30px;height:28px;"></span><span
                     style="color:red;">36°C ~ 27°C</span></div>
-            <div><p>欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">登录|注册</a><a
-                    href="">我要反馈</a>
-            </p></div>
+            <div>
+            {{if .user}}
+                <p>欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">{{$.user.Username}}</a><a
+                        href="">我要反馈</a>
+                </p>
+            {{else}}
+                <p>欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">登录|注册</a><a
+                        href="">我要反馈</a>
+                </p>
+            {{end}}
+            </div>
         </div>
     </div>
     <div class="h-logo-box -box">
@@ -1332,7 +1340,7 @@
         </div>
         <div class="col-2 text-center">
             <div style="width: 116px;height: 116px;overflow: hidden; background-color: #28a745;margin: 0 auto;"><img
-                    src="..." alt="二维码" style="width: 100%;height: 100%;"></div>
+                    src="{{.Code.CodeImage.Url}}" alt="二维码" style="width: 100%;height: 100%;"></div>
             <p style="font-size: 0.88rem;">关注二维码</p>
             <p style="font-size: 0.88rem;">查看更多信息</p>
         </div>
