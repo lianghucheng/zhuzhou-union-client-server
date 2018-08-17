@@ -1,18 +1,19 @@
 package article
 
 import (
+	"fmt"
+	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
-	"zhuzhou-union-client-server/models"
 	"github.com/qor/media/asset_manager"
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
-	"github.com/jinzhu/gorm"
-	"zhuzhou-union-client-server/utils"
+	utils2 "github.com/qor/qor/utils"
+	"github.com/qor/validations"
 	"github.com/spf13/cast"
 	"io/ioutil"
 	"strings"
-	"github.com/qor/validations"
-	utils2 "github.com/qor/qor/utils"
+	"zhuzhou-union-client-server/models"
+	"zhuzhou-union-client-server/utils"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -59,6 +60,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			if a, ok := value.(*models.Article); ok {
 				fnameCover := cast.ToString(a.Cover.FileName)
 				//调用文件上传函数 更新url
+				fmt.Println("this is a debug ------------------------")
 				if a.Cover.FileHeader != nil {
 					file, err := a.Cover.FileHeader.Open()
 					f, err := ioutil.ReadAll(file)
@@ -202,8 +204,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 			return nil
 		},
-		Modes: []string{"show", "menu_item",},
-	}, )
+		Modes: []string{"show", "menu_item"},
+	})
 	//是否显示首页
 	article.Action(
 		&admin.Action{
