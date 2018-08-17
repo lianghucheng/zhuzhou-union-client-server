@@ -15,11 +15,11 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理",PageCount:10})
+	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理", PageCount: 10})
 
-	cate.SearchAttrs("Name", "Category", "Higher","ID")
+	cate.SearchAttrs("Name", "Category", "Higher", "ID")
 
-	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher")
+	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher", "Special")
 	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.NewAttrs("ID", "Name", "Sequence", "Category", "Higher")
 
@@ -33,6 +33,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//上级分类
 	cate.Meta(&admin.Meta{Name: "Higher",
 		Label: "上级分类"})
+
+	cate.Meta(&admin.Meta{Name: "Special",
+		Label: "是否在文章侧边栏显示"})
 	//页面分类
 	cate.Meta(&admin.Meta{Name: "Category",
 		Label: "类别",
@@ -154,4 +157,28 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Modes: []string{"batch", "show", "menu_item", "edit"},
 	}, )
 
+	//是否设置为侧边栏分类
+	cate.Action(
+		&admin.Action{
+			Name:  "isSpecialCate",
+			Label: "置为侧边栏/取消",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
+
+					if a, ok := record.(*models.Category); ok {
+						//执行a.status更新状态
+						if a.Special == 1 {
+							a.Special = 0
+						} else {
+							a.Special = 1
+						}
+						models.DB.Model(&a).Update("Special", a.Special)
+
+					}
+				}
+				return nil
+			},
+			Modes: []string{"show", "menu_item", "edit"},
+		},
+	)
 }
