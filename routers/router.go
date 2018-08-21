@@ -5,6 +5,7 @@ import (
 	"zhuzhou-union-client-server/admin"
 	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/controllers/home"
+	"zhuzhou-union-client-server/controllers/user"
 )
 
 func init() {
@@ -15,6 +16,7 @@ func init() {
 		&controllers.DateControllor{},
 		&controllers.AuthController{},
 		&home.Controller{},
+		&user.Controller{},
 		&controllers.CommonController{},
 	)
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")

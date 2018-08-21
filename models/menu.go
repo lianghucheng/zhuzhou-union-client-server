@@ -10,6 +10,6 @@ type Menu struct {
 	Category   Category
 	CategoryID uint
 	URL        string
-	Menus      []Menu
+	Menus      []Menu `gorm:"foreignkey:HigherID"`
 	Sequence   int
 }

@@ -1,9 +1,9 @@
 package controllers
 
 import (
+	"encoding/json"
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
-	"fmt"
 )
 
 type Common struct {
@@ -17,63 +17,32 @@ type CommonController struct {
 	Common
 }
 
+func (this *Common) initMenu() {
+
+	var menus []*models.Menu
+	if err := models.DB.Preload("Menus").Preload("Category").Where("higher_id = ?", 0).Find(&menus).Error; err != nil {
+		beego.Error("查询菜单错误", err)
+	}
+
+	output, _ := json.Marshal(menus)
+	beego.Error("outputMenus", string(output))
+	this.Data["outputMenus"] = menus
+}
+
 func (this *Common) Prepare() {
+
+	this.initMenu()
+
 	if this.IsLogin() {
 		this.Data["user"] = this.GetSessionUser()
 	}
 
 	var code models.QrCode
-
-	var Menus []*models.Menu
-	if err := models.DB.Preload("Category").Where("higher_id = ?", 0).Find(&Menus).Error; err != nil {
-		beego.Error("查询菜单错误", err)
-	}
-	var outputMenus []models.Menu
-	for _, menu := range Menus {
-		var outputMenu models.Menu
-		if menu.CategoryID != 0 {
-			category := menu.Category
-
-			var categoryMenu models.Menu
-			categoryMenu.ID = menu.ID
-			categoryMenu.Name = menu.Name
-			categoryMenu.CategoryID = menu.CategoryID
-			categoryMenu.URL = "/category/" + fmt.Sprintf("%d", category.ID)
-			categoryMenu.Sequence = menu.Sequence
-			var subCategorys []*models.Category
-			if err := models.DB.
-				Where("higher_id = ?", category.ID).
-				Find(&subCategorys).Error; err != nil {
-				beego.Error("查询子菜单错误")
-			}
-
-			for _, subCategory := range subCategorys {
-				var itemMenu models.Menu
-				itemMenu.Name = subCategory.Name
-				itemMenu.URL = "/category/" + fmt.Sprintf("%d", subCategory.ID)
-				itemMenu.ID = subCategory.ID
-				itemMenu.Category.SubCategory = append(itemMenu.Category.SubCategory, subCategory)
-				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
-			}
-			categoryMenu.Category = category
-			outputMenu = categoryMenu
-		} else {
-			var notCategoryMenu models.Menu
-
-			notCategoryMenu.ID = menu.ID
-			notCategoryMenu.Name = menu.Name
-			notCategoryMenu.URL = menu.URL
-			notCategoryMenu.Sequence = menu.Sequence
-			outputMenu = notCategoryMenu
-		}
-		outputMenus = append(outputMenus, outputMenu)
-	}
 	if err := models.DB.First(&code).Error; err != nil {
 		beego.Error("没有发现二维码")
 	}
 
 	this.Data["Code"] = code
-	this.Data["outputMenus"] = outputMenus
 
 }
 

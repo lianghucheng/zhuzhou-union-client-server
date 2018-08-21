@@ -6,11 +6,11 @@ import (
 	"github.com/astaxie/beego"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/jinzhu/gorm"
+	"github.com/qor/media/asset_manager"
 	"log"
 	"net/url"
 	"os"
 	"time"
-	"github.com/qor/media/asset_manager"
 )
 
 var DB *gorm.DB
@@ -21,17 +21,17 @@ func SyncDB() {
 	DB.
 		Set("gorm:table_options", "ENGINE=InnoDB").
 		AutoMigrate(
-		&User{},
-		&Article{},
-		&Category{},
-		&Menu{},
-		&Home{},
-		&BoxLinks{},
-		&ImageLinks{},
-		&Rotation{},
-		&QrCode{},
-		&asset_manager.AssetManager{},
-	)
+			&User{},
+			&Article{},
+			&Category{},
+			&Menu{},
+			&Home{},
+			&BoxLinks{},
+			&ImageLinks{},
+			&Rotation{},
+			&QrCode{},
+			&asset_manager.AssetManager{},
+		)
 }
 
 /**
@@ -65,6 +65,7 @@ func Connect() {
 	DB.DB().SetMaxOpenConns(2000)
 	DB.DB().SetMaxIdleConns(200)
 	DB.DB().SetConnMaxLifetime(1 * time.Second)
+
 	if beego.AppConfig.String("runmode") == "dev" {
 		DB = DB.Debug()
 	}
