@@ -10,4 +10,5 @@ type Rotation struct {
 	Url      oss.OSS
 	Position int
 	Sequence int
+	Link     string
 }

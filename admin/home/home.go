@@ -2,14 +2,14 @@ package home
 
 import (
 	"github.com/qor/admin"
-	"zhuzhou-union-client-server/models"
-	"github.com/qor/qor/resource"
 	"github.com/qor/qor"
+	"github.com/qor/qor/resource"
+	utils2 "github.com/qor/qor/utils"
+	"github.com/qor/validations"
 	"github.com/spf13/cast"
 	"io/ioutil"
+	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
-	"github.com/qor/validations"
-	utils2 "github.com/qor/qor/utils"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -28,13 +28,14 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理", PageCount: 10})
 
-	rotation.IndexAttrs("ID", "Url", "Position", "Sequence")
-	rotation.EditAttrs("Url", "Position", "Sequence")
-	rotation.NewAttrs("Url", "Position", "Sequence")
+	rotation.IndexAttrs("ID", "Url", "Position", "Link", "Sequence")
+	rotation.EditAttrs("Url", "Position", "Sequence", "Link")
+	rotation.NewAttrs("Url", "Position", "Sequence", "Link")
 
 	rotation.Meta(&admin.Meta{Name: "Url", Label: "轮播图"})
 	rotation.Meta(&admin.Meta{Name: "Position", Label: "位置"})
 	rotation.Meta(&admin.Meta{Name: "Sequence", Label: "顺序"})
+	rotation.Meta(&admin.Meta{Name: "Link", Label: "链接"})
 
 	rotation.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {

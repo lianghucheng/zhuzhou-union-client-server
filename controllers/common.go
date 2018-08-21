@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"encoding/json"
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
 )
@@ -18,14 +17,10 @@ type CommonController struct {
 }
 
 func (this *Common) initMenu() {
-
 	var menus []*models.Menu
 	if err := models.DB.Preload("Menus").Preload("Category").Where("higher_id = ?", 0).Find(&menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
 	}
-
-	output, _ := json.Marshal(menus)
-	beego.Error("outputMenus", string(output))
 	this.Data["outputMenus"] = menus
 }
 
