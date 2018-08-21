@@ -1,0 +1,1190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <script src="/static/js/jquery.js"></script>
+    <script src="/static/js/bootstrap.bundle.js"></script>
+    <style>
+        input {
+            outline: none;
+            border: none;
+        }
+
+        p {
+            margin: 0;
+        }
+
+        li {
+            list-style: none;
+        }
+
+        ul, ol {
+            padding: 0;
+            margin: 0;
+        }
+
+        .text-ov {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .text-ov-4 {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 4;
+            -webkit-box-orient: vertical;
+        }
+
+        .list-group-item-action:hover, .list-group-item-action:focus {
+            background-color: transparent;
+        }
+
+        .-box {
+            width: 100%;
+        }
+
+        .h-bar-box {
+            border-top: 2px solid #c73236;
+            background-color: #eae6e5;
+        }
+
+        .h-cell {
+            margin: 0 auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .h-bar {
+            height: 45px;
+            line-height: 45px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .h-logo {
+            margin: 20px auto;
+        }
+
+        .navbar-nav {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-item {
+            color: #333333;
+            font-size: 18px;
+            line-height: 28px;
+            border-bottom: 2px solid transparent;
+            position: relative;
+        }
+
+        .nav-item.active,.nav-item:hover {
+            border-bottom: 2px solid #c73236;
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+            color: #c73236;
+        }
+
+        .navbar-light .navbar-nav .active > .nav-link {
+            color: #c73236;
+        }
+
+        .border-top-red{
+            width: 1200px;
+            margin: 0 auto;
+            height: 2px;
+            background-color: #c73236;
+            position: relative;
+        }
+        .h-subnav{
+            position: absolute;
+            height: 40px;
+            width: 100%;
+            display: none;
+            background-color: #c73236;
+            z-index: 999;
+        }
+        .subnav-item{
+            padding:0 40px;
+            line-height: 40px;
+            color:#fff;
+        }
+        .subnav-item:hover{
+            color:#fff;
+        }
+        .s-carousel {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .s-cell {
+            padding: 60px 0;
+        }
+
+        .s-panel {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+        .s-box {
+            padding-bottom: 90px;
+        }
+
+        .tab-view {
+            border: 1px solid #ccc;
+            border-radius: 0.25rem;
+            margin: 0;
+        }
+
+        .tabbar-group-item {
+            position: relative;
+            display: block;
+            padding: 1.2rem 1.25rem;
+            margin-bottom: -1px;
+            border: 1px solid #ccc;
+            background: url(images/tabbar-bg.png) #f5f1f0 repeat-x;
+            background-size: 60%;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .tabbar-group-item.active {
+            background: #c73236 url(images/tabbar-active-bg.png) repeat-x;
+            background-size: 60%;
+            color: #fff;
+        }
+
+        .tabbar-group-item:hover, .tabbar-group-item:focus {
+            background: #c73236 url(images/tabbar-active-bg.png) repeat-x;
+            background-size: 60%;
+            color: #fff;
+        }
+
+        .tabbar {
+            padding: 0;
+            margin-top: -1px;
+            margin-left: -1px;
+        }
+
+        .tabcontent {
+            padding: 10px;
+        }
+
+        .news-pane {
+        }
+
+        .news-carousel {
+            float: left;
+            width: 460px;
+            height: 260px;
+        }
+
+        .news-group {
+            float: right;
+        }
+
+        .news-groupContent {
+            width: 380px;
+            border-bottom: 2px solid #ccc;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+        }
+
+        .news-group-item {
+            text-align: center;
+            position: relative;
+            display: block;
+            padding: 0.3rem 0.6rem;
+            font-size: 1rem;
+            color: #333;
+            margin-bottom: -2px;
+        }
+
+        .news-group-item.active {
+            border-bottom: 2px solid #c73236;
+        }
+
+        .news-group-item.active::after, .panel-title-span::after, .news-tab-item.active::after,.nav-item.active::after,.nav-item:hover::after {
+            width: 0;
+            height: 0;
+            content: '';
+            bottom: -14px;
+            position: absolute;
+            left: 50%;
+            margin-left: -7px;
+            border-width: 7px;
+            border-color: #c73236 transparent transparent;
+            border-style: solid;
+        }
+
+        .news-content {
+            padding: 10px 0;
+        }
+
+        .news-content-item {
+            padding: 6px 0 6px 1rem;
+            line-height: 1.4rem;
+            font-size: 1rem;
+            position: relative;
+        }
+
+        .news-content-item::before {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            content: '';
+            left: 0px;
+            top: 14px;
+            border-radius: 6px;
+            background-color: #c73236;
+        }
+
+        .news-content-item a {
+            color: #333333;
+            font-size: 1rem;
+        }
+
+        .newscontent {
+            width: 380px;
+        }
+
+        .news-more-cell {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .more-cell {
+            font-size: 0.92rem;
+            width: 100px;
+            height: 30px;
+            line-height: 30px;
+            text-align: center;
+            background-color: #c73236;
+        }
+
+        .more-cell a {
+            color: #fff;
+            margin-right: 4px;
+        }
+
+        .panel-title {
+            position: relative;
+            padding: 3px 0;
+            border-bottom: 2px solid #ccc;
+        }
+
+        .panel-box {
+            margin-left: -40px;
+        }
+
+        .panel-list {
+            padding: 0 40px;
+        }
+
+        .panel-title-span {
+            position: relative;
+            padding: 6px 0;
+            font-size: 1.2rem;
+            border-bottom: 2px solid #c73236;
+        }
+
+        .panel-title-en {
+            font-size: 0.92rem;
+            font-weight: lighter;
+        }
+
+        .title-more-cell {
+            position: absolute;
+            right: 0;
+            bottom: 0px;
+        }
+
+        .panel-topbar {
+            width: 100%;
+            padding: 16px 0;
+            height: 140px;
+        }
+
+        .ptb-left {
+            width: 160px;
+            float: left;
+        }
+
+        .ptb-image {
+            width: 160px;
+            height: 110px;
+            border: 1px solid #c73236;
+            background-color: #005cbf;
+        }
+
+        .ptb-right {
+            width: 260px;
+            float: right;
+        }
+
+        .ptb-title {
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+
+        .ptb-content {
+            font-size: 0.84rem;
+            line-height: 1.2;
+            color: #999999;
+        }
+
+        .pc-list {
+
+        }
+
+        .pc-list-item {
+            height: 30px;
+            position: relative;
+            padding: 0 8px 8px 1rem;
+            font-size: 0.92rem;
+        }
+
+        .pc-list-item > a {
+            width: 80%;
+            float: left;
+            color: #333;
+        }
+
+        .pc-list-item .item-time {
+            float: right;
+            font-size: 0.88rem;
+            color: #999999;
+        }
+
+        .pc-list-item::before {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            content: '';
+            left: 0px;
+            top: 7px;
+            border-style: solid;
+            border-width: 2px;
+            border-color: #c73236 #c73236 transparent transparent;
+            transform: rotate(45deg);
+        }
+
+        .panel-nav-item {
+            padding: 13px 10px;
+            margin-bottom: 11px;
+            background-color: #ccc;
+
+        }
+
+        .panel-nav-item a {
+            color: #333;
+
+        }
+
+        .panel-nav-item.active, .panel-nav-item:hover {
+            background-color: #c73236;
+        }
+
+        .panel-nav-item.active a, .panel-nav-item:hover a {
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .news-section {
+            position: relative;
+            border-top: 2px solid #c73236;
+            width: 100%;
+            padding: 10px 0;
+            min-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .news-tab {
+            position: absolute;
+            top: -34px;
+            width: 100%;
+            max-width: 1200px;
+            margin-left: 50%;
+            left: -600px;
+        }
+
+        .news-tab-item {
+            padding: 10px;
+            color: #999999;
+            position: relative;
+            font-size: 1.12rem;
+        }
+
+        .news-tab-item.active, .news-tab-item:hover {
+            padding: 10px;
+            color: #fff;
+            background-color: #c73236;
+            text-decoration: none;
+        }
+
+        .news-tab-more-cell {
+            position: absolute;
+            right: 0;
+            bottom: -6px;
+        }
+
+        .pic-news-carousel {
+            max-width: 1200px;
+            margin: 30px auto;
+        }
+
+        .card {
+            border: none;
+        }
+
+        .card-body {
+            transition: border 0.3s;
+            padding: 1.25rem 0;
+            border-bottom: 3px solid #ccc;
+        }
+
+        .card:hover .card-body {
+            border-color: #c73236;
+        }
+
+        .card ~ .card {
+            margin-left: 8px;
+        }
+
+        .card-image {
+            position: relative;
+            border: 2px solid transparent;
+            height: 140px;
+            width: 100%;
+            overflow: hidden;
+            transition: border 0.3s;
+        }
+
+        .card:hover .card-image {
+            border-color: #c73236;
+        }
+
+        .image-mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 0;
+            transition: height 0.3s;
+            background: rgba(0, 0, 0, .4) url(images/search-mask.png) no-repeat center;
+            background-size: 20%;
+        }
+
+        .card .card-image:hover .image-mask {
+            height: 100%;
+        }
+
+        .card-text {
+            font-size: 0.92rem;
+            line-height: 1.4;
+        }
+
+        .other-link {
+            background-color: #f5f1f0;
+            padding: 40px;
+        }
+
+        .other-link-image {
+            width: 180px;
+        }
+
+        .footer {
+            height: 200px;
+            width: 100%;
+            background-color: #c73236;
+            color: #fff;
+        }
+
+        .f-content {
+            padding: 20px 0 0;
+        }
+
+        .other-link-btn {
+            background-color: #fff;
+            color: #333;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 0.92rem;
+            text-align: left;
+            width: 220px;
+            padding: 0.4rem 1rem;
+        }
+
+        .other-link-btn::after {
+            margin-left: 4.8rem;
+        }
+
+        .other-link-btn:hover, .other-link-btn:focus {
+            color: #333;
+            outline: none;
+            box-shadow: none;
+        }
+
+    </style>
+</head>
+<body>
+<header style="width:100%;" class="header">
+    <div class="h-bar-box -box">
+        <div class="h-bar h-cell">
+            <div><span>2018年8月4号/农历六月廿三 12:07/星期六</span><span style="margin-left: 40px">长沙<img src="" alt=""
+                                                                                               style="width: 30px;height:28px;"></span><span
+                    style="color:red;">36°C ~ 27°C</span></div>
+            <div><p>欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">登录|注册</a><a
+                    href="">我要反馈</a>
+            </p></div>
+        </div>
+    </div>
+    <div class="h-logo-box -box">
+        <div class="h-logo h-cell">
+            <a href="#"><img src="images/logo.png" alt=""></a>
+            <div style="padding:4px 10px;border-radius:40px;border:1px solid #666666;height:36px;display:flex;flex-direction:row;align-items: center">
+                <label for="search">
+                    <img
+                            src="images/search.png" alt=""
+                            style="height:20px;">
+                </label>
+                <div style="width:1px;height:24px;background-color: #666666;margin: 0 3px;"></div>
+                <input
+                        id="search"
+                        type="text"
+                >
+            </div>
+        </div>
+    </div>
+    <div class="-box">
+        <nav class="navbar navbar-expand-lg navbar-light h-cell">
+            <!--<a class="navbar-brand" href="#">Navbar</a>-->
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
+                    aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">首页 <span class="sr-only">(current)</span></a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">市总概况</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">新闻中心</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link subnav" href="javascript:;">
+                            劳模风采
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">惠民服务</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">工会文件</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">政策法规</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">职工才艺</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">政务公开</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    <div class="border-top-red">
+        <div class="h-subnav">
+        <div class="d-flex justify-content-center">
+            <a class="subnav-item" href="#">Action</a>
+            <a class="subnav-item" href="#">Another action</a>
+            <a class="subnav-item" href="#">Something else here</a>
+        </div>
+        </div>
+    </div>
+
+</header>
+<section>
+    <div class="s-carousel">
+        <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <img class="d-block w-100" src="..." style="width:100%;height:400px;background-color: #005cbf"
+                         alt="First slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="..." style="width:100%;height:400px;background-color: #28a745"
+                         alt="Second slide">
+                </div>
+                <div class="carousel-item">
+                    <img class="d-block w-100" src="..." style="width:100%;height:400px;background-color: #721c24"
+                         alt="Third slide">
+                </div>
+            </div>
+            <!--<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">-->
+            <!--<span class="carousel-control-prev-icon" aria-hidden="true"></span>-->
+            <!--<span class="sr-only">Previous</span>-->
+            <!--</a>-->
+            <!--<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">-->
+            <!--<span class="carousel-control-next-icon" aria-hidden="true"></span>-->
+            <!--<span class="sr-only">Next</span>-->
+            <!--</a>-->
+        </div>
+    </div>
+    <div class="-box s-box">
+        <div class="s-panel">
+            <div class="s-cell">
+                <div class="row tab-view">
+                    <div class="col-3 tabbar">
+                        <div class="list-group" id="list-tab" role="tablist">
+                            <a class="tabbar-group-item list-group-item-action active" id="list-home-list"
+                               data-toggle="list" href="#list-home" role="tab" aria-controls="home">
+                                <img src="images/pannel_01.png"
+                                     alt="新闻标志" style="margin-right: 20px;">新闻中心</a>
+                            <a class="tabbar-group-item list-group-item-action" id="list-profile-list"
+                               data-toggle="list"
+                               href="#list-profile" role="tab" aria-controls="profile"><img src="images/pannel_02.png"
+                                                                                            alt="工会标志"
+                                                                                            style="margin-right: 20px;">工会视频</a>
+                            <a class="tabbar-group-item list-group-item-action" id="list-messages-list"
+                               data-toggle="list"
+                               href="#list-messages" role="tab" aria-controls="messages"><img src="images/pannel_03.png"
+                                                                                              alt="通告标志"
+                                                                                              style="margin-right: 20px;">通知公告</a>
+                        </div>
+                    </div>
+                    <div class="col-9 tabcontent">
+                        <div class="tab-content" id="nav-tabContent">
+                            <div class="tab-pane fade show active news-pane" id="list-home" role="tabpanel"
+                                 aria-labelledby="list-home-list">
+                                <div class="news-carousel">
+                                    <div id="newsCarouselIndicators" class="carousel slide" data-ride="carousel">
+                                        <ol class="carousel-indicators">
+                                            <li data-target="#newsCarouselIndicators" data-slide-to="0"
+                                                class="active"></li>
+                                            <li data-target="#newsCarouselIndicators" data-slide-to="1"></li>
+                                            <li data-target="#newsCarouselIndicators" data-slide-to="2"></li>
+                                        </ol>
+                                        <div class="carousel-inner">
+                                            <div class="carousel-item active">
+                                                <img class="d-block w-100" src="..."
+                                                     style="height:260px;background-color: #005cbf"
+                                                     alt="First slide">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img class="d-block w-100" src="..."
+                                                     style="height:260px;background-color: #28a745"
+                                                     alt="Second slide">
+                                            </div>
+                                            <div class="carousel-item">
+                                                <img class="d-block w-100" src="..."
+                                                     style="height:260px;background-color: #721c24"
+                                                     alt="Third slide">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="news-group">
+                                    <div class="list-group news-groupContent">
+                                        <a class="news-group-item list-group-item-action active" id="news-home-list"
+                                           data-toggle="list"
+                                           href="#news-home" role="tab" aria-controls="home">时政要闻</a>
+                                        <a class="news-group-item list-group-item-action" id="news-labor-list"
+                                           data-toggle="list"
+                                           href="#news-labor" role="tab" aria-controls="labor">工会要闻</a>
+                                        <a class="news-group-item list-group-item-action" id="news-basic-list"
+                                           data-toggle="list"
+                                           href="#news-basic" role="tab" aria-controls="basic">基层动态</a>
+                                        <a class="news-group-item list-group-item-action" id="news-wechat-list"
+                                           data-toggle="list"
+                                           href="#news-wechat" role="tab" aria-controls="wechat">微信文章</a>
+                                    </div>
+                                    <div class="newscontent">
+                                        <div class="tab-content" id="news-tabContent">
+                                            <div class="tab-pane fade show active news-pane" id="news-home"
+                                                 role="tabpanel"
+                                                 aria-labelledby="news-home-list">
+                                                <ol class="news-content">
+                                                    <li class="news-content-item text-ov"><a href="#">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a>
+                                                    </li>
+                                                    <li class="news-content-item text-ov"><a href="#">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a>
+                                                    </li>
+                                                    <li class="news-content-item text-ov"><a href="#">务虚会不虚！2018年株洲工会工作要这么干！</a>
+                                                    </li>
+                                                    <li class="news-content-item text-ov"><a href="#">2018“情系夕阳 关爱老人”
+                                                        迎元旦慰问演出..</a></li>
+                                                    <li class="news-content-item text-ov"><a
+                                                            href="#">株洲市总工会2017年“民生100”工程完成情...</a></li>
+                                                    <li class="news-content-item text-ov"><a href="#">《服饰搭配与美颜美妆》讲座</a>
+                                                    </li>
+                                                </ol>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="more-cell news-more-cell"><a href="#">查看更多 ></a></div>
+                            </div>
+                            <div class="tab-pane fade" id="list-profile" role="tabpanel"
+                                 aria-labelledby="list-profile-list">...
+                            </div>
+                            <div class="tab-pane fade" id="list-messages" role="tabpanel"
+                                 aria-labelledby="list-messages-list">...
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="s-panel">
+            <div class="row panel-box">
+                <div class="col-5 panel-list">
+                    <div class="panel-title">
+                        <span class="panel-title-span">政策法规</span>
+                        <span class="panel-title-en">Photo News</span>
+                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="panel-topbar">
+                            <div class="ptb-left ptb-image"><img src="" alt=""></div>
+                            <div class="ptb-right">
+                                <h4 class="ptb-title">中华人民共和国新工会法</h4>
+                                <p class="ptb-content">
+                                    为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
+                            </div>
+                        </div>
+                        <ul class="pc-list">
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
+                                迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a
+                                    href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
+                                    class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
+                                    class="item-time">08-24</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-5 panel-list">
+                    <div class="panel-title">
+                        <span class="panel-title-span">政策法规</span>
+                        <span class="panel-title-en">Photo News</span>
+                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="panel-topbar">
+                            <div class="ptb-left ptb-image"><img src="" alt=""></div>
+                            <div class="ptb-right">
+                                <h4 class="ptb-title">中华人民共和国新工会法</h4>
+                                <p class="ptb-content">
+                                    为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
+                            </div>
+                        </div>
+                        <ul class="pc-list">
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
+                                迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a
+                                    href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
+                                    class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
+                                    class="item-time">08-24</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <nav class="panel-nav">
+                        <li class="panel-nav-item active">
+                            <a href="#">
+                                <img src="images/pannel_04.png"
+                                     alt="工作指南" style="margin-right: 20px;">工作指南</a>
+                        </li>
+                        <li class="panel-nav-item">
+                            <a href="#">
+                                <img src="images/pannel_05.png"
+                                     alt="电子书屋" style="margin-right: 20px;">电子书屋</a>
+                        </li>
+                        <li class="panel-nav-item">
+                            <a href="#">
+                                <img src="images/pannel_06.png"
+                                     alt="在线课堂" style="margin-right: 20px;">在线课堂</a>
+                        </li>
+                        <li class="panel-nav-item">
+                            <a href="#">
+                                <img src="images/pannel_07.png"
+                                     alt="芙蓉情缘" style="margin-right: 20px;">芙蓉情缘</a>
+                        </li>
+                        <li class="panel-nav-item">
+                            <a href="#">
+                                <img src="images/pannel_08.png"
+                                     alt="主席信箱" style="margin-right: 20px;">主席信箱</a>
+                        </li>
+                    </nav>
+                </div>
+            </div>
+        </section>
+    </div>
+    <div class="news-section">
+        <div class="news-tab">
+            <a href="#" class="news-tab-item active">图片新闻</a>
+            <a href="#" class="news-tab-item">视频新闻</a>
+            <div class="more-cell news-tab-more-cell"><a href="#">查看更多 ></a></div>
+        </div>
+        <div class="pic-news-carousel">
+            <div id="picNewsCarouselIndicators" class="carousel slide" data-ride="carousel" data-interval="false">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#picNewsCarouselIndicators" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#picNewsCarouselIndicators" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+        <div class="s-panel">
+            <div class="row" style="margin-left: -40px;margin-right: 0px;">
+                <div class="col-5" style="padding: 0 40px;">
+                    <div class="panel-title">
+                        <span class="panel-title-span">政策法规</span>
+                        <span class="panel-title-en">Photo News</span>
+                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    </div>
+                    <div class="panel-content">
+                        <div class="panel-topbar">
+                            <div class="ptb-left ptb-image"><img src="" alt=""></div>
+                            <div class="ptb-right">
+                                <h4 class="ptb-title">中华人民共和国新工会法</h4>
+                                <p class="ptb-content">
+                                    为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
+                            </div>
+                        </div>
+                        <ul class="pc-list">
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
+                                迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a
+                                    href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
+                                    class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
+                                    class="item-time">08-24</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-7" style="padding:0;">
+                    <div class="panel-title">
+                        <span class="panel-title-span">政策法规</span>
+                        <span class="panel-title-en">Photo News</span>
+                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    </div>
+                    <div class="panel-content" style="padding:10px 0;">
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="panel-title" style="padding:40px 0 6px;">
+                    <span class="news-tab-item active">图片新闻</span>
+                    <!--<span class="panel-title-span">政策法规</span>-->
+                    <!--<span class="panel-title-en">Photo News</span>-->
+                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                </div>
+                <div style="margin: 20px auto;">
+                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                        <div class="card-image"><img src="..."
+                                                     style="height:140px;width:100%;background-color: #005cbf;"
+                                                     alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                            <h5 class="card-title text-center"
+                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
+                                title</h5>
+                        </div>
+                    </div>
+                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                        <div class="card-image"><img src="..."
+                                                     style="height:140px;width:100%;background-color: #005cbf;"
+                                                     alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                            <h5 class="card-title text-center"
+                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
+                                title</h5>
+                        </div>
+                    </div>
+                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                        <div class="card-image"><img src="..."
+                                                     style="height:140px;width:100%;background-color: #005cbf;"
+                                                     alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                            <h5 class="card-title text-center"
+                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
+                                title</h5>
+                        </div>
+                    </div>
+                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                        <div class="card-image"><img src="..."
+                                                     style="height:140px;width:100%;background-color: #005cbf;"
+                                                     alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                            <h5 class="card-title text-center"
+                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
+                                title</h5>
+                        </div>
+                    </div>
+                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                        <div class="card-image"><img src="..."
+                                                     style="height:140px;width:100%;background-color: #005cbf;"
+                                                     alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                            <h5 class="card-title text-center"
+                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
+                                title</h5>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="other-link">
+        <div class="d-lg-flex s-panel justify-content-around">
+            <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="..." class="other-link-image" alt="图片介绍">
+            </a>
+            <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="..." alt="图片介绍">
+            </a>
+            <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="..." alt="图片介绍">
+            </a>
+            <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="..." alt="图片介绍">
+            </a>
+            <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+                <img src="..." alt="图片介绍">
+            </a>
+        </div>
+    </div>
+</section>
+<footer class="footer">
+    <div class="f-content s-panel row">
+        <div class="col-10" style="padding:40px 0 0">
+            <div class="row" style="padding: 0 30px">
+                <div class="dropdown show col-4">
+                    <a class="btn dropdown-toggle other-link-btn" href="#" role="button" id="dropdownMenuLink1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
+                        Dropdown link
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink1">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+                <div class="dropdown show col-4">
+                    <a class="btn dropdown-toggle other-link-btn" href="#" role="button" id="dropdownMenuLink2"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
+                        Dropdown link
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink2">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+                <div class="dropdown show col-4">
+                    <a class="btn dropdown-toggle other-link-btn" href="#" role="button" id="dropdownMenuLink3"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-offset="10">
+                        Dropdown link
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink3">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright" style="padding:30px 30px 0;">
+                <p style="font-size: 0.82rem;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">版权所有 Copyright© 2016
+                    株洲工会网 www.zzghw.com 办公电话：0731-28686131</p>
+                <p style="font-size: 0.82rem;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">地址：湖南省株洲市天元区天伦西路86号
+                    网站管理员邮箱：zhzhgy@sina.com</p>
+            </div>
+        </div>
+        <div class="col-2 text-center">
+            <div style="width: 116px;height: 116px;overflow: hidden; background-color: #28a745;margin: 0 auto;"><img
+                    src="..." alt="二维码" style="width: 100%;height: 100%;"></div>
+            <p style="font-size: 0.88rem;">关注二维码</p>
+            <p style="font-size: 0.88rem;">查看更多信息</p>
+        </div>
+    </div>
+</footer>
+</body>
+<script>
+    $(".subnav").on('click',function(){
+        if($(".h-subnav").css('display')==='block'){
+            $(".h-subnav").slideUp();
+        }else{
+            $(".h-subnav").slideDown();
+        }
+
+    })
+</script>
+</html>

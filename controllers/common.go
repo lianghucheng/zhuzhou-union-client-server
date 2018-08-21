@@ -21,9 +21,6 @@ func (this *Common) Prepare() {
 
 	var code models.QrCode
 
-	user := models.User{
-		Username: "test",
-	}
 	var Menus []*models.Menu
 	if err := models.DB.Preload("Category").Where("higher_id = ?", 0).Find(&Menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
@@ -66,7 +63,7 @@ func (this *Common) Prepare() {
 	if err := models.DB.First(&code).Error; err != nil {
 		beego.Error("没有发现二维码")
 	}
-	this.SetSession("userinfo", user)
+
 	user, ok := this.GetSession("userinfo").(models.User)
 	if ok {
 		this.Data["user"] = user

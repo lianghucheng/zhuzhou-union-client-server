@@ -11,14 +11,19 @@ type AuthController struct {
 	Common
 }
 
-//@router /user/login [*]
-func (this *AuthController) Login() {
-	this.TplName = "login.html"
+//@router /user/pwd_login [*]
+func (this *AuthController) PwdLogin() {
+	this.TplName = "user/pwdLogin.html"
+}
+
+//@router /user/sms_login [*]
+func (this *AuthController) SmsLogin(){
+	this.TplName = "user/smsLogin.html"
 }
 
 //@router /user/register [*]
 func (this *AuthController) Register() {
-	this.TplName = "register.html"
+	this.TplName = "user/register.html"
 }
 
 //@router /api/auth/login [*]

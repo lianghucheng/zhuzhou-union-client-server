@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/normalize.css"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/demo.css"/>
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <!--必要样式-->
+    <link rel="stylesheet" type="text/css" href="/static/css/component.css"/>
+    <script src="/static/js/html5.js"></script>
+    <style>
+        input {
+            outline: none;
+            border: none;
+            font-size: 0.92rem;
+        }
+
+        p {
+            margin-bottom: 0;
+        }
+
+        .section {
+            /*background-image: url('');*/
+            background-size: cover;
+            background-position: center;
+            width: 100%;
+            height: 600px;
+        }
+        .s-main{
+            max-width: 1200px;
+            height:100%;
+            margin: 0 auto;
+            position: relative;
+        }
+        .login {
+            position: absolute;
+            width: 380px;
+            height: 420px;
+            background: #f2f9ff;
+            padding: 36px;
+            box-sizing: border-box;
+            border-radius: 4px;
+            top: 100px;
+            right: 100px;
+            box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .login-box-title {
+            margin-bottom: 30px;
+            font-size: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        .login-box-title span {
+            margin: 0;
+            padding: 0 10px;
+            background-color: #f2f9ff;
+            color: #c73236;
+            position: relative;
+        }
+
+        .login-box-title::before {
+            content: '';
+            width: 150px;
+            background-color: #c73236;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -75px;
+            height: 1px;
+        }
+
+        .input-box {
+            padding: 4px 10px;
+            border-radius: 8px;
+            border: 1px solid #999999;
+            height: 42px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            background-color: #fff;
+        }
+
+        .border {
+            width: 1px;
+            height: 30px;
+            background-color: #666666;
+            margin: 0 6px;
+        }
+
+        .input-box img {
+            height: 26px;
+            margin-top: 9px;
+        }
+
+        .login-button {
+            margin-top: 20px;
+        }
+
+        .login-button button {
+            background-color: #c73236;
+            width: 100%;
+            outline: none;
+            border: none;
+            color: #fff;
+            font-size: 20px;
+            border-radius: 60px;
+        }
+
+        .account-login {
+            text-align: center;
+            margin: 10px;
+
+        }
+
+        .account-login a {
+            color: #c73236;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+<section class="section">
+    <div class="s-main">
+        <div class="login">
+            <div class="login-box-title">
+                <span>账号登录</span>
+            </div>
+            <div class="input-box">
+                <label for="phone">
+                    <img src="images/iPhone.png" alt="">
+                </label>
+                <div class="border"></div>
+                <input
+                        style="font-size: 100%"
+                        id="phone"
+                        type="text"
+                        placeholder="账号/手机号"
+                >
+            </div>
+            <div style="margin: 20px 0">
+                <div class="input-box">
+                    <label for="password">
+                        <img src="images/pwd.png" alt="">
+                    </label>
+                    <div class="border"></div>
+                    <input
+                            style="width:110px;font-size: 100%"
+                            id="password"
+                            type="text"
+                            placeholder="6-12位数密码"
+                    >
+                </div>
+                <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
+                <!---->
+                <!--</div>-->
+            </div>
+            <div style="margin-bottom: 40px;">
+                <div class="input-box">
+                    <label for="code">
+                        <img src="images/safe.png" alt="">
+                    </label>
+                    <div class="border"></div>
+                    <input
+                            style="width:110px;font-size: 100%"
+                            id="code"
+                            type="text"
+                            placeholder="验证码"
+                    >
+                    <a href="#"><img src="" alt="验证码"></a>
+                </div>
+
+                <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
+                <!---->
+                <!--</div>-->
+            </div>
+            <div class="login-button">
+                <button id="clickRegister" type="button" class="btn btn-danger">注册</button>
+            </div>
+            <div class="account-login">
+                <a href="/user/pwd_login">已有账号，点击登录</a>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="/static/js/TweenLite.min.js"></script>
+<script src="/static/js/EasePack.min.js"></script>
+<script src="/static/js/rAF.js"></script>
+<script src="/static/js/demo-1.js"></script>
+<script src="/static/js/jquery-3.3.1.js"></script>
+<script src="//cdn.bootcss.com/jquery/1.11.0/jquery.min.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script>
+    $(function () {
+        $('#clickRegister').click(clickRegister);
+    })
+    function clickRegister() {
+        var phone = $('#phone').val();
+        var password = $('#password').val();
+        var code = $('#code').val();
+        console.log(phone,password,code);
+        $.ajax({
+            data:{
+                'username':phone,
+                'password':password,
+                'code':code,
+            },
+            url:'/api/auth/register',
+            type:'POST',
+            async: false,
+            success: function (r) {
+                if (r.status==10000){
+                    window.location.href='/';
+                }else{
+                    $.toast(r.message,"cancel");
+                }
+            },
+        })
+    }
+</script>
+</body>
+</html>
