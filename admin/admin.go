@@ -16,7 +16,6 @@ import (
 func GetHandler() http.Handler {
 
 	Admin := admin.New(&admin.AdminConfig{DB: models.DB, Auth: AdminAuth{}, I18n: LocalI18n.LocalI18n})
-
 	user.SetAdmin(Admin)
 	article.SetAdmin(Admin)
 	menu.SetAdmin(Admin)

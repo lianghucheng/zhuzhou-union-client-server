@@ -166,7 +166,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 						return "男"
 					}
 					if a.Sex == 0 {
-						return "未填写"
+						return ""
 					}
 				}
 				return beego.AppConfig.String("paseAdminERR")

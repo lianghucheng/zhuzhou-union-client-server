@@ -12,16 +12,18 @@ import (
 	"github.com/qor/validations"
 	"github.com/pkg/errors"
 	"fmt"
+	"reflect"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
+	adminConfig.DB=adminConfig.DB.Where("name <> 根")
 	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理", PageCount: 10})
 
 	cate.SearchAttrs("Name", "Category", "Higher", "ID")
 
 	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher", "Special")
-	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher")
-	cate.NewAttrs("ID", "Name", "Sequence", "Category", "Higher")
+	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher", "Special")
+	cate.NewAttrs("ID", "Name", "Sequence", "Category", "Higher", "Special")
 
 	//分类名
 	cate.Meta(&admin.Meta{Name: "Name",
@@ -31,11 +33,101 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Label: "顺序"})
 
 	//上级分类
-	cate.Meta(&admin.Meta{Name: "Higher",
-		Label: "上级分类"})
+	cate.Meta(
+		&admin.Meta{
+			Name:  "Higher",
+			Label: "上级栏目",
+			FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+				if a, ok := record.(*models.Category); ok {
+					if a.HigherID == 0 {
+						return "此栏目为一级分类"
+					}else{
+						cate:=models.Category{}
+						if err:=models.DB.Where("id = ?",a.HigherID).Find(&cate).Error;err!=nil{
+							beego.Error("栏目过滤异常",err)
+							return
+						}
+						return cate.Name
+					}
+				}
+				return
+			},
+		},
+	)
 
-	cate.Meta(&admin.Meta{Name: "Special",
-		Label: "是否在文章侧边栏显示"})
+	cate.Meta(
+		&admin.Meta{
+			Name:  "Special",
+			Label: "是否在文章侧边栏显示",
+			Setter: func(val interface{}, values *resource.MetaValue, context *qor.Context) {
+				if category, ok := val.(*models.Category); ok {
+					beego.Debug("--------------")
+					beego.Debug(val)
+					beego.Debug(values)
+					if values.Name == beego.AppConfig.String("userPowerField") {
+						if a, ok := values.Value.([]string); ok {
+							beego.Debug(a[0])
+							if a[0] == "是" {
+								var special []int
+								special = append(special, 1)
+								beego.Debug(special)
+								category.Special = 1
+								values.Value = special
+							}
+							if a[0] == "否" {
+								var special []int
+								special = append(special, 2)
+								beego.Debug(special)
+								category.Special = 2
+								values.Value = special
+							}
+						}
+					} else {
+						beego.Debug(reflect.TypeOf(values.Value))
+						beego.Debug("性别断言：", ok)
+						if ok {
+							a := values.Value.([]string)
+							beego.Debug(a[0])
+							if a[0] == "是" {
+								var special []int
+								special = append(special, 1)
+								beego.Debug(special)
+								category.Special = 1
+								values.Value = special
+							}
+							if a[0] == "否" {
+								var special []int
+								special = append(special, 2)
+								beego.Debug(special)
+								category.Special = 0
+								values.Value = special
+							}
+						}
+					}
+				}
+				return
+			},
+			Type: "text",
+			Config: &admin.SelectOneConfig{
+				Collection: []string{
+					"是",
+					"否",
+				},
+			},
+			FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+				if a, ok := record.(*models.Category); ok {
+					if a.Special == 0 {
+						return "否"
+					}
+					if a.Special == 1 {
+						return "是"
+					}
+				}
+				return beego.AppConfig.String("paseAdminERR")
+			},
+		},
+
+	)
 	//页面分类
 	cate.Meta(&admin.Meta{Name: "Category",
 		Label: "类别",
@@ -141,21 +233,23 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}, )
 
 	//将节点设置为根分类
-	cate.Action(&admin.Action{
-		Name:  "enable",
-		Label: "置为一级分类",
-		Handler: func(argument *admin.ActionArgument) error {
-			for _, record := range argument.FindSelectedRecords() {
+	cate.Action(
+		&admin.Action{
+			Name:  "enable",
+			Label: "置为一级分类",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
 
-				if c, ok := record.(*models.Category); ok {
+					if c, ok := record.(*models.Category); ok {
 
-					models.DB.Model(&c).Update("higher_id", 0)
+						models.DB.Model(&c).Update("higher_id", 0)
+					}
 				}
-			}
-			return nil
+				return nil
+			},
+			Modes: []string{"batch", "show", "menu_item"},
 		},
-		Modes: []string{"batch", "show", "menu_item", "edit"},
-	}, )
+	)
 
 	//是否设置为侧边栏分类
 	cate.Action(
@@ -178,7 +272,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"show", "menu_item", "edit"},
+			Modes: []string{"show", "menu_item"},
 		},
 	)
 }

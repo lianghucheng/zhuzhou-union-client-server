@@ -9,13 +9,14 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
+	adminConfig.DB=adminConfig.DB.Order("sequence asc")
 	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理",PageCount:10})
 
 	//
 
 	menu.SearchAttrs("Name", "ID", "URL", "Category", "Higher", "Sequence")
 
-	menu.IndexAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
+	menu.IndexAttrs("Name", "URL", "Category", "Higher", "Sequence")
 	menu.EditAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
 	menu.NewAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
 

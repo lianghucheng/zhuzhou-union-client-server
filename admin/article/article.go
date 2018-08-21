@@ -48,9 +48,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
 	article.Meta(&admin.Meta{Name: "Author", Label: "作者"})
-	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑人"})
+	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
 	article.Meta(&admin.Meta{Name: "Source", Label: "来源"})
-	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑人"})
+	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
 	article.Meta(&admin.Meta{Name: "ReadNum", Label: "阅读数"})
 	article.Meta(&admin.Meta{Name: "Url", Label: "转载链接(选填)"})
 	article.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在主页"})
@@ -161,7 +161,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"batch", "show", "menu_item", "edit"},
+			Modes: []string{"batch", "show", "menu_item"},
 		},
 	)
 	//添加是否置顶
@@ -186,7 +186,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"show", "menu_item", "edit"},
+			Modes: []string{"show", "menu_item"},
 		},
 	)
 	//重置删除
@@ -228,7 +228,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"show", "menu_item", "edit"},
+			Modes: []string{"show", "menu_item"},
 		},
 	)
 
@@ -260,7 +260,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 			if meta := metaValues.Get("Editor"); meta != nil {
 				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
-					return validations.NewError(record, "Editor", "编辑人不能为空")
+					return validations.NewError(record, "Editor", "编辑不能为空")
 				}
 			}
 			if meta := metaValues.Get("ResponsibleEditor"); meta != nil {
