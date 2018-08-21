@@ -1,26 +1,32 @@
 package article
 
 import (
+	"fmt"
+	"github.com/jinzhu/gorm"
 	"github.com/qor/admin"
-	"zhuzhou-union-client-server/models"
 	"github.com/qor/media/asset_manager"
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
-	"github.com/jinzhu/gorm"
-	"zhuzhou-union-client-server/utils"
+	utils2 "github.com/qor/qor/utils"
+	"github.com/qor/validations"
 	"github.com/spf13/cast"
 	"io/ioutil"
 	"strings"
-	"github.com/qor/validations"
-	utils2 "github.com/qor/qor/utils"
+	"zhuzhou-union-client-server/models"
+	"zhuzhou-union-client-server/utils"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理",PageCount:10})
+	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
 	//对增删查改的局部显示
-	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex", "Editor", "ResponsibleEditor", "Status", "IsIndexUp", "ReadNum", "Url")
-	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
-	article.NewAttrs("ID", "Title", "Author", "Summary", "Category", "VideoIndex", "Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
+		"Editor", "ResponsibleEditor", "Status", "IsIndexUp", "IsIndex", "ReadNum", "Url")
+
+	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex",
+		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+
+	article.NewAttrs("ID", "Title", "Author", "Summary", "Category", "VideoIndex",
+		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
@@ -47,12 +53,14 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑人"})
 	article.Meta(&admin.Meta{Name: "ReadNum", Label: "阅读数"})
 	article.Meta(&admin.Meta{Name: "Url", Label: "转载链接(选填)"})
+	article.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在主页"})
 	//新增的时候的回调
 	article.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
 			if a, ok := value.(*models.Article); ok {
 				fnameCover := cast.ToString(a.Cover.FileName)
 				//调用文件上传函数 更新url
+				fmt.Println("this is a debug ------------------------")
 				if a.Cover.FileHeader != nil {
 					file, err := a.Cover.FileHeader.Open()
 					f, err := ioutil.ReadAll(file)
@@ -107,7 +115,20 @@ func SetAdmin(adminConfig *admin.Admin) {
 		}
 		return txt
 	}})
+	//是否显示在首页
+	article.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在首页", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.Article); ok {
+			if v.IsIndex == 1 {
+				txt = "是"
+			} else {
+				txt = "否"
+			}
+		}
+		return txt
+	}})
 
+	//首页置顶
 	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页分类置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
@@ -146,8 +167,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//添加是否置顶
 	article.Action(
 		&admin.Action{
-			Name:  "isUp",
-			Label: "置顶/不置顶",
+			Name:  "isUpIndex",
+			Label: "首页置顶/取消置顶",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
 
@@ -168,24 +189,46 @@ func SetAdmin(adminConfig *admin.Admin) {
 			Modes: []string{"show", "menu_item", "edit"},
 		},
 	)
-
 	//重置删除
+	article.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.Article); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
+	//是否显示首页
 	article.Action(
 		&admin.Action{
-			Name:  "Delete",
-			Label: "删除",
+			Name:  "isIndex",
+			Label: "首页显示/首页隐藏",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
 
 					if a, ok := record.(*models.Article); ok {
-						if err := models.DB.Delete(&a).Error; err != nil {
-							return err
+						//执行a.status更新状态
+						if a.IsIndex == 1 {
+							a.IsIndex = 0
+						} else {
+							a.IsIndex = 1
 						}
+
+						models.DB.Model(&a).Update("IsIndex", a.IsIndex)
+
 					}
 				}
 				return nil
 			},
-			Modes: []string{"show", "menu_item",},
+			Modes: []string{"show", "menu_item", "edit"},
 		},
 	)
 

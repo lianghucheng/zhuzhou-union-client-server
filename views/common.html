@@ -589,7 +589,6 @@
     </div>
 
     <nav class="navbar navbar-expand-lg navbar-light h-cell">
-        <!--<a class="navbar-brand" href="#">Navbar</a>-->
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown"
                 aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -606,68 +605,153 @@
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 2}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 3}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 4}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 5}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 6}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 7}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 8}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
+            {{end}}
             {{end}}
             {{end}}
             {{range $index,$elem:=.outputMenus}}
             {{if eq $elem.Sequence 9}}
+            {{if  $elem.CategoryID }}
+                <li class="nav-item dropdown">
+                    <a class="nav-link subnav subnav{{$elem.ID}}" onclick="getSubCategory({{$elem.ID}})"
+                       href="javascript:;">
+                    {{$elem.Name}}
+                    </a>
+                </li>
+            {{else}}
                 <li class="nav-item ">
                     <a class="nav-link" href="{{$elem.URL}}">{{$elem.Name}} <span class="sr-only">(current)</span></a>
                 </li>
             {{end}}
             {{end}}
-
-
+            {{end}}
             </ul>
         </div>
     </nav>
 {{template "nav" .}}
-
-
+    <div class="border-top-red">
+    {{range $index,$elem:=.outputMenus}}
+        <div class="h-subnav h-subnav{{$elem.ID}}">
+            <div class="d-flex justify-content-center">
+            {{if  $elem.CategoryID }}
+            {{range $index1,$elem1:=$elem.Menus}}
+                <a class="subnav-item" href="{{$elem1.URL}}">{{$elem1.Name}}</a>
+            {{end}}
+            {{else}}
+            {{range $index2,$elem2:=$elem.Menus}}
+                <a class="subnav-item" href="{{$elem2.URL}}">{{$elem2.Name}}</a>
+            {{end}}
+            {{end}}
+            </div>
+        </div>
+    {{end}}
+    </div>
 </header>
 
 {{template "content".}}
@@ -764,13 +848,14 @@
 {{template "footer".}}
 </body>
 <script>
-    $(".subnav").on('click', function () {
-        if ($(".h-subnav").css('display') === 'block') {
-            $(".h-subnav").slideUp();
+    function getSubCategory(id) {
+        if ($(".h-subnav" + id).css('display') === 'block') {
+            $(".h-subnav" + id).slideUp();
         } else {
-            $(".h-subnav").slideDown();
+            $(".h-subnav" + id).slideDown();
         }
 
-    })
+    }
+
 </script>
 </html>

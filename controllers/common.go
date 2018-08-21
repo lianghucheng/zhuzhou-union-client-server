@@ -18,6 +18,9 @@ type CommonController struct {
 }
 
 func (this *Common) Prepare() {
+	if this.IsLogin() {
+		this.Data["user"] = this.GetSessionUser()
+	}
 
 	var code models.QrCode
 
@@ -32,7 +35,9 @@ func (this *Common) Prepare() {
 			category := menu.Category
 
 			var categoryMenu models.Menu
+			categoryMenu.ID = menu.ID
 			categoryMenu.Name = menu.Name
+			categoryMenu.CategoryID = menu.CategoryID
 			categoryMenu.URL = "/category/" + fmt.Sprintf("%d", category.ID)
 			categoryMenu.Sequence = menu.Sequence
 			var subCategorys []*models.Category
@@ -46,13 +51,16 @@ func (this *Common) Prepare() {
 				var itemMenu models.Menu
 				itemMenu.Name = subCategory.Name
 				itemMenu.URL = "/category/" + fmt.Sprintf("%d", subCategory.ID)
-
+				itemMenu.ID = subCategory.ID
+				itemMenu.Category.SubCategory = append(itemMenu.Category.SubCategory, subCategory)
 				categoryMenu.Menus = append(categoryMenu.Menus, itemMenu)
 			}
+			categoryMenu.Category = category
 			outputMenu = categoryMenu
 		} else {
 			var notCategoryMenu models.Menu
 
+			notCategoryMenu.ID = menu.ID
 			notCategoryMenu.Name = menu.Name
 			notCategoryMenu.URL = menu.URL
 			notCategoryMenu.Sequence = menu.Sequence
@@ -64,12 +72,13 @@ func (this *Common) Prepare() {
 		beego.Error("没有发现二维码")
 	}
 
-	user, ok := this.GetSession("userinfo").(models.User)
+	/*user, ok := this.GetSession("userinfo").(models.User)
 	if ok {
 		this.Data["user"] = user
-	}
+	}*/
 	this.Data["Code"] = code
 	this.Data["outputMenus"] = outputMenus
+
 }
 
 func (this *Common) UserFilter() {
@@ -139,4 +148,33 @@ func (this *Common) ReturnSuccess(args ...interface{}) {
 	this.Data["json"] = result
 	this.ServeJSON()
 	this.StopRun()
+}
+
+func (this *Common) DoLogin(user models.User) {
+	this.SetSession("userinfo", user)
+}
+
+func (this *Common) IsLogin() bool {
+	return this.GetSession("userinfo") != nil
+}
+
+func (this *Common) CheckLogin() {
+	if !this.IsLogin() {
+		this.Ctx.Redirect(302, "/user/login")
+		this.StopRun()
+		return
+	}
+}
+
+func (this *Common) CheckLoginPost() {
+	if !this.IsLogin() {
+		this.ReturnJson(10043, "请登录")
+		this.StopRun()
+		return
+	}
+}
+
+func (this *Common) GetSessionUser() (user *models.User) {
+	return this.GetSession("userinfo").(*models.User)
+
 }

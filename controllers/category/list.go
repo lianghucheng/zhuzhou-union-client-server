@@ -74,15 +74,3 @@ func (this *CategoryController) ArticleList() {
 
 }
 
-//@router /article/detail/id [*]
-func (this *CategoryController) ArticleDetail() {
-	var articleId int
-	var article models.Article
-	this.Ctx.Input.Bind(&articleId, "id")
-	if models.DB.Where("id = ?", articleId).
-		First(&article).RecordNotFound() {
-		this.ReturnJson(10001, "文章不存在或者已经删除")
-		return
-	}
-	this.ReturnSuccess("article", article)
-}
