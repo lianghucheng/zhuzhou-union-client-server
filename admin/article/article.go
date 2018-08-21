@@ -107,7 +107,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.Status == 1 {
-
 				txt = "已审核"
 			} else {
 				txt = "未审核"
@@ -244,6 +243,12 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Scope(&admin.Scope{Name: "未审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
 		return db.Where("status = ?", "0")
 	}})
+
+	article.Filter(&admin.Filter{
+		Name:   "Category",
+		Label:  "分类",
+		Config: &admin.SelectOneConfig{RemoteDataResource: adminConfig.NewResource(models.Category{})},
+	})
 
 	//添加分类选项
 	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类"})

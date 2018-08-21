@@ -18,7 +18,11 @@ type CommonController struct {
 
 func (this *Common) initMenu() {
 	var menus []*models.Menu
-	if err := models.DB.Preload("Menus").Preload("Category").Where("higher_id = ?", 0).Find(&menus).Error; err != nil {
+	if err := models.DB.
+		Preload("Menus").
+		Preload("Category").
+		Where("higher_id = ?", 0).
+		Order("sequence desc").Find(&menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
 	}
 	this.Data["outputMenus"] = menus
