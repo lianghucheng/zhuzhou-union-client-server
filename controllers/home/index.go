@@ -1,20 +1,13 @@
-package controllers
+package home
 
 import (
 	"github.com/astaxie/beego"
-	"zhuzhou-union-client-server/models"
 	"github.com/lexkong/log"
-
+	"zhuzhou-union-client-server/models"
 )
 
-type HomeController struct {
-	Common
-}
-
-
-
 //@router /	[*]
-func (this *HomeController) Index() {
+func (this *Controller) Index() {
 	var homes []*models.Home
 
 	var rotation []*models.Rotation
@@ -25,7 +18,6 @@ func (this *HomeController) Index() {
 	if indexPer == 0 {
 		indexPer = 5
 	}
-
 
 	//首页文章
 	if err := models.DB.
@@ -49,7 +41,7 @@ func (this *HomeController) Index() {
 		subCatesM := make([]map[string]interface{}, 0)
 		a := make(map[string]interface{})
 		var subCategorys []*models.Category
-		if (h.Position == 1 && h.Layout == 1) {
+		if h.Position == 1 && h.Layout == 1 {
 			if err := models.DB.
 				Where("higher_id = ?", h.CategoryID).
 				Find(&subCategorys).Error; err != nil {
@@ -119,5 +111,5 @@ func (this *HomeController) Index() {
 	this.Data["homes"] = homes
 	this.Data["output"] = outputIndex
 	this.Data["boxLinks"] = boxLinks
-	this.TplName = "index.html"
+	this.TplName = "web/index.html"
 }

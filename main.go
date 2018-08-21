@@ -2,15 +2,15 @@ package main
 
 import (
 	"github.com/astaxie/beego"
-	"os"
-	"zhuzhou-union-client-server/admin"
-	"zhuzhou-union-client-server/models"
-	_ "zhuzhou-union-client-server/routers"
 	"github.com/qor/i18n"
 	"github.com/qor/i18n/backends/yaml"
-	"path/filepath"
 	"github.com/qor/l10n"
+	"os"
+	"path/filepath"
+	"zhuzhou-union-client-server/admin"
+	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/pkg/LocalI18n"
+	_ "zhuzhou-union-client-server/routers"
 )
 
 func init() {
@@ -36,17 +36,11 @@ func initArgs() {
 
 func initI18n() {
 	i18nPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
-
 	if err != nil {
 		panic(err)
 	}
-
-	I18n := i18n.New(yaml.New(filepath.Join(i18nPath, "conf/en-US.yaml")))
-
-	I18n.SaveTranslation(&i18n.Translation{Key: "qor_i18n.form.saved", Locale: "en-US", Value: "保存"})
-
+	I18n := i18n.New(yaml.New(filepath.Join(i18nPath, "conf/zh-CN.yaml")))
+	i18n.Default = "zh-CN"
 	l10n.Global = "zh-CN"
-	I18n.T("en-US", "demo.greeting") // Not exist at first
-	I18n.T("en-US", "demo.hello")    // Exists in the yml file
 	LocalI18n.LocalI18n = I18n
 }
