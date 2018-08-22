@@ -1,22 +1,19 @@
-package category
+package article
 
 import (
 	"github.com/astaxie/beego"
-	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/controllers"
+	"zhuzhou-union-client-server/models"
 )
 
-type CategoryController struct {
-	beego.Controller
+type Controller struct {
 	controllers.Common
 }
 
 //@router /category/id [*]
-func (this *CategoryController) List() {
+func (this *Controller) List() {
 	var cateId int
-
 	this.Ctx.Input.Bind(&cateId, "id")
-
 	//获取该分类id的子分类列表
 	var subCategory []*models.Category
 
@@ -47,7 +44,7 @@ func (this *CategoryController) List() {
 }
 
 //@router /article/list/id [post]
-func (this *CategoryController) ArticleList() {
+func (this *Controller) ArticleList() {
 	var cateId int
 	var page int
 	var per int
@@ -73,4 +70,3 @@ func (this *CategoryController) ArticleList() {
 	this.ReturnSuccess("articles", articles, "per", per, "page", page, "count", count)
 
 }
-

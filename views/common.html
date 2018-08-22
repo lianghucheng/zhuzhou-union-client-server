@@ -9,6 +9,150 @@
     <link rel="stylesheet" href="/static/css/public.css">
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.bundle.js"></script>
+    <style>
+        nav {
+            list-style: none;
+        }
+
+        .s-panel {
+            margin: 0 auto;
+            max-width: 1200px;
+        }
+
+
+        .-box {
+            width: 100%;
+        }
+
+        .h-bar-box {
+            border-top: 2px solid #c73236;
+            background-color: #eae6e5;
+        }
+
+        .h-cell {
+            margin: 0 auto;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .h-bar {
+            height: 45px;
+            line-height: 45px;
+            color: #666666;
+            font-size: 14px;
+        }
+
+        .h-logo {
+            margin: 20px auto;
+        }
+
+        .navbar-nav {
+            width: 100%;
+            justify-content: space-between;
+        }
+
+        .nav-item {
+            color: #333333;
+            font-size: 18px;
+            line-height: 28px;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-item:hover .nav-link {
+            color: #c73236;
+        }
+
+        .nav-item .nav-link {
+            position: relative;
+        }
+
+        .nav-item.active, .nav-item:hover {
+            border-bottom: 2px solid #c73236;
+        }
+
+        .nav-item:hover .h-subnav {
+            height: 40px;
+            display: block;
+        }
+
+        .navbar-light .navbar-nav .nav-link:hover, .navbar-light .navbar-nav .nav-link:focus {
+            color: #c73236;
+        }
+
+        .navbar-light .navbar-nav .active > .nav-link {
+            color: #c73236;
+        }
+
+        .h-subnav {
+            transition: height 0.4s;
+            position: absolute;
+            height: 0;
+            width: 100%;
+            left: 0;
+            top: 100%;
+            display: none;
+            background-color: #c73236;
+            z-index: 999;
+        }
+
+        .subnav-item {
+            padding: 0 40px;
+            line-height: 40px;
+            color: #fff;
+        }
+
+        .subnav-item:hover {
+            color: #fff;
+        }
+
+
+
+        .other-link {
+            background-color: #f5f1f0;
+            padding: 40px;
+        }
+
+        .other-link-image {
+            width: 180px;
+        }
+
+        .footer {
+            height: 200px;
+            width: 100%;
+            background-color: #c73236;
+            color: #fff;
+        }
+
+        .f-content {
+            padding: 20px 0 0;
+        }
+
+        .other-link-btn {
+            background-color: #fff;
+            color: #333;
+            border-radius: 20px;
+            border: none;
+            outline: none;
+            font-size: 0.92rem;
+            text-align: left;
+            width: 220px;
+            padding: 0.4rem 1rem;
+        }
+
+        .other-link-btn::after {
+            margin-left: 4.8rem;
+        }
+
+        .other-link-btn:hover, .other-link-btn:focus {
+            color: #333;
+            outline: none;
+            box-shadow: none;
+        }
+
+    </style>
 {{template "css".}}
 </head>
 <body>
@@ -72,7 +216,25 @@
 
 {{template "content".}}
 
-
+<div class="other-link">
+    <div class="d-lg-flex s-panel justify-content-around">
+        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+            <img src="..." class="other-link-image" alt="图片介绍">
+        </a>
+        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+            <img src="..." alt="图片介绍">
+        </a>
+        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+            <img src="..." alt="图片介绍">
+        </a>
+        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+            <img src="..." alt="图片介绍">
+        </a>
+        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
+            <img src="..." alt="图片介绍">
+        </a>
+    </div>
+</div>
 <footer class="footer">
     <div class="f-content s-panel row">
         <div class="col-10" style="padding:40px 0 0">

@@ -1,0 +1,203 @@
+{{template "common.html".}}
+
+{{define "meta"}}
+    <title>首页</title>
+{{end}}
+{{define "css"}}
+<style>
+
+    .panel-title-span::after {
+        width: 0;
+        height: 0;
+        content: '';
+        bottom: -14px;
+        position: absolute;
+        left: 50%;
+        margin-left: -7px;
+        border-width: 7px;
+        border-color: #c73236 transparent transparent;
+        border-style: solid;
+    }
+
+
+    .tabbar-group-item {
+        position: relative;
+        display: block;
+        padding: 1rem 1rem;
+        margin-bottom: 6px;
+        border: 1px solid #ccc;
+        background: url(/static/images/tabbar-bg.png) #f5f1f0 repeat-x;
+        background-size: 60%;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .tabbar-group-item.active {
+        background: #c73236 url(/static/images/tabbar-active-bg.png) repeat-x;
+        background-size: 60%;
+        color: #fff;
+    }
+
+    .tabbar-group-item:hover, .tabbar-group-item:focus {
+        background: #c73236 url(/static/images/tabbar-active-bg.png) repeat-x;
+        background-size: 60%;
+        color: #fff;
+    }
+
+    .tabbar {
+        padding: 0;
+        margin-top: -1px;
+        margin-left: -1px;
+    }
+
+    .news-content {
+        padding: 10px 0;
+    }
+
+    .news-content-item {
+        padding: 6px 0 6px 1rem;
+        line-height: 1.4rem;
+        font-size: 1rem;
+        position: relative;
+    }
+
+    .news-content-item::before {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        content: '';
+        left: 0px;
+        top: 14px;
+        border-radius: 6px;
+        background-color: #c73236;
+    }
+
+    .news-content-item a {
+        color: #333333;
+        font-size: 1rem;
+    }
+
+    .side-list {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+
+    .details .title-box{
+        text-align: center;
+        padding:20px 0;
+        border-bottom: 1px solid #ccc;
+    }
+    .title{
+        font-size: 1.4rem;
+        line-height: 2;
+        color:#333;
+    }
+    .article-time{
+        font-size: 0.92rem;
+        color:#999;
+    }
+    .article-content{
+        text-indent: 2em;
+        padding:20px;
+        color:#666;
+    }
+    .article-content img{
+        width: 100%;
+        margin: 10px 2em;
+        background: #c73236;
+
+    }
+    .article-content img+p{
+        font-size: 0.88rem;
+        text-align: center;
+        line-height: 1;
+        color:#333;
+    }
+</style>
+{{end}}
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
+{{define "content"}}
+<div class="container">
+    <nav>
+        <ol class="m-breadcrumb">
+            <li class="m-breadcrumb-tips">当前位置：</li>
+            <li class="m-breadcrumb-item"><a href="#">首页</a></li>
+            <li class="m-breadcrumb-item active" aria-current="page">新闻中心</li>
+        </ol>
+    </nav>
+    <div class="main row">
+        <div class="tab-content col-sm-12 col-md-9" id="nav-tabContent">
+            <div class="tab-pane fade show active _list" id="list-profile" role="tabpanel"
+                 aria-labelledby="list-profile-list">
+                <!--<div class="_list col-9">-->
+                <div class="_list-panel">
+                    <article class="details">
+                        <div class="title-box">
+                            <h2 class="title">习近平谱写新时代的“长江之歌”</h2>
+                            <p class="article-time">发布日期：2018-08-10 12:16:43 　 来源：新华社 　</p>
+                        </div>
+                        <div class="article-content">
+                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
+                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
+                            <img src="" alt="">
+                            <p>2018年4月，习近平考察长江（来源：新华网）</p>
+                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
+                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
+                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
+                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
+                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
+                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+        </div>
+        <div class="extra col-sm-12 col-md-3">
+            <div class="tabbar">
+                <div class="list-group">
+                    <a class="tabbar-group-item list-group-item-action"
+                        href="">
+                        <img src="..."
+                             alt="职工文苑" style="margin-right: 10px;">时政要闻</a>
+                    <a class="tabbar-group-item list-group-item-action"
+
+                       href=""  ><img src="..."
+                                                                                    alt="工会要闻"
+                                                                                    style="margin-right: 20px;">工会要闻</a>
+                    <a class="tabbar-group-item list-group-item-action"
+
+                       href=""  ><img src="..."
+                                                                                  alt="视频新闻"
+                                                                                  style="margin-right: 20px;">视频新闻</a>
+                </div>
+            </div>
+            <div class="side-list" style="margin-top: 20px;">
+                <div class="panel-title">
+                    <span class="panel-title-span">媒体聚焦</span>
+                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                </div>
+                <ol class="news-content">
+                    <li class="news-content-item text-ov"><a href="#">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a>
+                    </li>
+                    <li class="news-content-item text-ov"><a href="#">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a>
+                    </li>
+                    <li class="news-content-item text-ov"><a href="#">务虚会不虚！2018年株洲工会工作要这么干！</a>
+                    </li>
+                    <li class="news-content-item text-ov"><a href="#">2018“情系夕阳 关爱老人”
+                        迎元旦慰问演出..</a></li>
+                    <li class="news-content-item text-ov"><a
+                            href="#">株洲市总工会2017年“民生100”工程完成情...</a></li>
+                    <li class="news-content-item text-ov"><a href="#">《服饰搭配与美颜美妆》讲座</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{define "footer"}}
+{{end}}

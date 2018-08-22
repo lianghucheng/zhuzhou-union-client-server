@@ -4,6 +4,7 @@ import (
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/admin"
 	"zhuzhou-union-client-server/controllers"
+	"zhuzhou-union-client-server/controllers/article"
 	"zhuzhou-union-client-server/controllers/home"
 	"zhuzhou-union-client-server/controllers/user"
 )
@@ -17,6 +18,7 @@ func init() {
 		&controllers.AuthController{},
 		&home.Controller{},
 		&user.Controller{},
+		&article.Controller{},
 		&controllers.CommonController{},
 	)
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")

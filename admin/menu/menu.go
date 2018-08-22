@@ -121,8 +121,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			//	}
 			//}
 			//
-			//url := metaValues.Get("Url");
-			//cate := utils.ToArray(metaValues.Get("Category").Value)
+			//url := metaValues.Get("Url");bee run
 			//if utils.ToString(url.Value) == "" && len(cate) == 0 {
 			//	return errors.New("链接和分类必须任选其一")
 			//}
