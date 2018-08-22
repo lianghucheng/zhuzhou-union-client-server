@@ -2,7 +2,6 @@ package home
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/lexkong/log"
 	"zhuzhou-union-client-server/models"
 )
 
@@ -23,7 +22,7 @@ func (this *Controller) Index() {
 	if err := models.DB.
 		Preload("Category").
 		Find(&homes).Error; err != nil {
-		log.Error("获取首页表数据错误", err)
+		beego.Error("获取首页表数据错误", err)
 		this.Abort("500")
 		return
 	}
