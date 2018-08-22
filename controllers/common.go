@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
 )
@@ -16,6 +17,12 @@ type CommonController struct {
 	Common
 }
 
+type OutputMenu struct {
+	Name  string
+	URL   string
+	Menus []OutputMenu
+}
+
 func (this *Common) initMenu() {
 	var menus []*models.Menu
 	if err := models.DB.
@@ -25,7 +32,39 @@ func (this *Common) initMenu() {
 		Order("sequence asc").Find(&menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
 	}
-	this.Data["outputMenus"] = menus
+
+	var outputs []OutputMenu
+
+	for _, menu := range menus {
+
+		var output OutputMenu
+		output.Name = menu.Name
+		output.URL = menu.URL
+
+		if menu.CategoryID != 0 {
+			output.URL = "/category/" + fmt.Sprintf("%d", menu.CategoryID)
+			var subCategories []models.Category
+			models.DB.Where("higher_id=?", menu.CategoryID).Find(&subCategories)
+			for _, childCategory := range subCategories {
+				var child OutputMenu
+				child.URL = "/category/" + fmt.Sprintf("%d", childCategory.ID)
+				child.Name = childCategory.Name
+				output.Menus = append(output.Menus, child)
+			}
+		} else {
+			for _, childMenu := range menu.Menus {
+				var child OutputMenu
+				child.URL = childMenu.URL
+				child.Name = childMenu.Name
+				output.Menus = append(output.Menus, child)
+			}
+
+		}
+
+		outputs = append(outputs, output)
+	}
+
+	this.Data["outputMenus"] = outputs
 }
 
 func (this *Common) Prepare() {
