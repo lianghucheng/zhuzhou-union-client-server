@@ -9,6 +9,6 @@ type Category struct {
 	Higher      *Category
 	HigherID    uint
 	Category    int
-	Special     int // 用于在文章列表页显示的分类模块判断
-	SubCategory []*Category
+	Special     int
+	SubCategory []*Category `gorm:"foreignkey:HigherID"`
 }
