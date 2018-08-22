@@ -9,7 +9,6 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	adminConfig.DB=adminConfig.DB.Order("sequence asc")
 	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理",PageCount:10})
 
 	//

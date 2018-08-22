@@ -20,7 +20,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
-		"Editor", "ResponsibleEditor", "Status", "IsIndexUp", "IsIndex", "ReadNum", "Url")
+		"Editor", "ResponsibleEditor", "IsIndexUp", "IsIndex", "ReadNum", "Url")
 
 	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex",
 		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
@@ -103,7 +103,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	//重置Status显示
-	article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	/*article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.Status == 1 {
@@ -114,22 +114,18 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 		}
 		return txt
-	}})
+	}})*/
 	//是否显示在首页
-	article.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在首页", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
-		txt := ""
+	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type:"number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		var r int
 		if v, ok := record.(*models.Article); ok {
-			if v.IsIndex == 1 {
-				txt = "是"
-			} else {
-				txt = "否"
-			}
+			r=v.IsIndex
 		}
-		return txt
+		return r
 	}})
 
 	//首页置顶
-	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页分类置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "置顶/不置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.IsIndexUp == 1 {
@@ -141,7 +137,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 	//添加审核模块
-	article.Action(
+	/*article.Action(
 		&admin.Action{
 			Name:  "verify",
 			Label: "审核/撤销",
@@ -163,12 +159,12 @@ func SetAdmin(adminConfig *admin.Admin) {
 			},
 			Modes: []string{"batch", "show", "menu_item"},
 		},
-	)
+	)*/
 	//添加是否置顶
 	article.Action(
 		&admin.Action{
 			Name:  "isUpIndex",
-			Label: "首页置顶/取消置顶",
+			Label: "置顶/不置顶",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
 

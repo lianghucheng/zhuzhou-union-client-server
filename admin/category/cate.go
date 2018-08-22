@@ -16,7 +16,6 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	adminConfig.DB=adminConfig.DB.Where("name <> 根")
 	cate := adminConfig.AddResource(&models.Category{}, &admin.Config{Name: "分类管理", PageCount: 10})
 
 	cate.SearchAttrs("Name", "Category", "Higher", "ID")

@@ -43,7 +43,7 @@ en-US:
     layout:
       header:
         actions: " 操作 "
-      logo: "xxxx"
+      logo: ""
       skip_to_content: " 跳至内容 "
     pagination:
       first: " 首页 "
