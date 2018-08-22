@@ -20,7 +20,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
-		"Editor", "ResponsibleEditor", "Status", "IsIndexUp", "IsIndex", "ReadNum", "Url")
+		"Editor", "ResponsibleEditor", "IsIndexUp", "IsIndex", "ReadNum", "Url")
 
 	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex",
 		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
@@ -48,9 +48,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	article.Meta(&admin.Meta{Name: "Title", Label: "标题"})
 	article.Meta(&admin.Meta{Name: "Author", Label: "作者"})
-	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑人"})
+	article.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
 	article.Meta(&admin.Meta{Name: "Source", Label: "来源"})
-	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑人"})
+	article.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
 	article.Meta(&admin.Meta{Name: "ReadNum", Label: "阅读数"})
 	article.Meta(&admin.Meta{Name: "Url", Label: "转载链接(选填)"})
 	article.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在主页"})
@@ -103,32 +103,29 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	//重置Status显示
-	article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	/*article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.Status == 1 {
+
 				txt = "已审核"
 			} else {
 				txt = "未审核"
 			}
 		}
 		return txt
-	}})
+	}})*/
 	//是否显示在首页
-	article.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在首页", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
-		txt := ""
+	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type:"number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		var r int
 		if v, ok := record.(*models.Article); ok {
-			if v.IsIndex == 1 {
-				txt = "是"
-			} else {
-				txt = "否"
-			}
+			r=v.IsIndex
 		}
-		return txt
+		return r
 	}})
 
 	//首页置顶
-	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页分类置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "置顶/不置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.IsIndexUp == 1 {
@@ -140,7 +137,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 	//添加审核模块
-	article.Action(
+	/*article.Action(
 		&admin.Action{
 			Name:  "verify",
 			Label: "审核/撤销",
@@ -160,14 +157,14 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"batch", "show", "menu_item", "edit"},
+			Modes: []string{"batch", "show", "menu_item"},
 		},
-	)
+	)*/
 	//添加是否置顶
 	article.Action(
 		&admin.Action{
 			Name:  "isUpIndex",
-			Label: "首页置顶/取消置顶",
+			Label: "置顶/不置顶",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
 
@@ -185,7 +182,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"show", "menu_item", "edit"},
+			Modes: []string{"show", "menu_item"},
 		},
 	)
 	//重置删除
@@ -227,7 +224,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 				return nil
 			},
-			Modes: []string{"show", "menu_item", "edit"},
+			Modes: []string{"show", "menu_item"},
 		},
 	)
 
@@ -244,12 +241,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return db.Where("status = ?", "0")
 	}})
 
-	article.Filter(&admin.Filter{
-		Name:   "Category",
-		Label:  "分类",
-		Config: &admin.SelectOneConfig{RemoteDataResource: adminConfig.NewResource(models.Category{})},
-	})
-
 	//添加分类选项
 	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类"})
 
@@ -265,7 +256,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 			if meta := metaValues.Get("Editor"); meta != nil {
 				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
-					return validations.NewError(record, "Editor", "编辑人不能为空")
+					return validations.NewError(record, "Editor", "编辑不能为空")
 				}
 			}
 			if meta := metaValues.Get("ResponsibleEditor"); meta != nil {

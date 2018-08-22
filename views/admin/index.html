@@ -1,0 +1,90 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>Purple_loginform Website Template | Home :: w3layouts</title>
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" media="all" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
+<!-- -->
+<script>var __links = document.querySelectorAll('a');function __linkClick(e) { parent.window.postMessage(this.href, '*');} ;for (var i = 0, l = __links.length; i < l; i++) {if ( __links[i].getAttribute('data-t') == '_blank' ) { __links[i].addEventListener('click', __linkClick, false);}}</script>
+<script src="/static/js/jquery.min.js"></script>
+<script>$(document).ready(function(c) {
+	$('.alert-close').on('click', function(c){
+		$('.message').fadeOut('slow', function(c){
+	  		$('.message').remove();
+		});
+	});	  
+});
+</script>
+</head>
+<body>
+<!-- contact-form -->	
+<div class="message warning">
+<div class="inset">
+	<div class="login-head">
+		<h1>Login Form</h1>
+		 <div class="alert-close"> </div> 			
+	</div>
+		<form>
+			<li>
+				<input type="text" class="text" id="username" value="用户名" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = '用户名';}"><a href="#" class=" icon user"></a>
+			</li>
+				<div class="clear"> </div>
+			<li>
+				<input type="password" id="password" value="Password" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Password';}"> <a href="#" class="icon lock"></a>
+			</li>
+			<div class="clear"> </div>
+			<div class="submit">
+				<input type="submit" onclick="Login()" value="登录" >
+						  <div class="clear">  </div>	
+			</div>
+				
+		</form>
+		</div>					
+	</div>
+	</div>
+	<div class="clear"> </div>
+<!--- footer --->
+<div style="position:absolute;z-index: 1;width: 100%;margin-bottom: 10px; bottom: 0;text-align:center;float: bottom ">
+    湖南株洲总工会 © 2018-2019 湖南易正网络科技有限公司
+</div>
+<script>
+    function Login() {
+        username = $("#username").val();
+        password = $("#password").val();
+
+        console.log(111);
+        $.ajax({
+                    url: '{{urlfor "LoginController.LoginSubmit"}}',
+                    type: 'POST',
+                    data: {
+                        'username': username,
+                        'password': password,
+                    },
+                    dataType: 'json',
+                    contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+                    cache: true,
+                    success: function (data) {
+                        console.log(data);
+                        if (data.status == 10000) {
+                            window.location.href = "/admin"
+
+                        } else if (data.status == 10001) {
+                            $.toast("用户名或密码错误", "cancel")
+                        }else if (data.status == 10003) {
+                            $.toast("对不起，您不是管理员", "cancel")
+                        } else {
+                            $.toast("登录失败", "cancel")
+                        }
+                    },
+                    error: function () {
+                        $.toast("服务器错误", "cancel")
+                    }
+
+                }
+        );
+    }
+</script>
+</body>
+</html>

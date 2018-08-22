@@ -2,18 +2,18 @@ package home
 
 import (
 	"github.com/qor/admin"
-	"github.com/qor/qor"
+	"zhuzhou-union-client-server/models"
 	"github.com/qor/qor/resource"
-	utils2 "github.com/qor/qor/utils"
-	"github.com/qor/validations"
+	"github.com/qor/qor"
 	"github.com/spf13/cast"
 	"io/ioutil"
-	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
+	"github.com/qor/validations"
+	utils2 "github.com/qor/qor/utils"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	home := adminConfig.AddResource(&models.Home{}, &admin.Config{Menu: []string{"首页管理"}, Name: "中间文章模块管理", PageCount: 10})
+	/*home := adminConfig.AddResource(&models.Home{}, &admin.Config{Menu: []string{"首页管理"}, Name: "中间文章模块管理", PageCount: 10})
 
 	//对增删查改的局部显示
 	home.IndexAttrs("ID", "Name", "Category", "Position", "Layout", "Url")
@@ -24,17 +24,17 @@ func SetAdmin(adminConfig *admin.Admin) {
 	home.Meta(&admin.Meta{Name: "Url", Label: "具体链接(可不填)"})
 	home.Meta(&admin.Meta{Name: "Category", Label: "首页分类"})
 	home.Meta(&admin.Meta{Name: "Position", Label: "具体位置"})
-	home.Meta(&admin.Meta{Name: "Layout", Label: "模块位置"})
+	home.Meta(&admin.Meta{Name: "Layout", Label: "模块位置"})*/
 
 	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理", PageCount: 10})
 
-	rotation.IndexAttrs("ID", "Url", "Link", "Sequence")
-	rotation.EditAttrs("Url", "Sequence", "Link")
-	rotation.NewAttrs("Url", "Sequence", "Link")
+	rotation.IndexAttrs("ID", "Url", "Position", "Sequence")
+	rotation.EditAttrs("Url", "Position", "Sequence")
+	rotation.NewAttrs("Url", "Position", "Sequence")
 
 	rotation.Meta(&admin.Meta{Name: "Url", Label: "轮播图"})
+	rotation.Meta(&admin.Meta{Name: "Position", Label: "位置"})
 	rotation.Meta(&admin.Meta{Name: "Sequence", Label: "顺序"})
-	rotation.Meta(&admin.Meta{Name: "Link", Label: "链接"})
 
 	rotation.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {

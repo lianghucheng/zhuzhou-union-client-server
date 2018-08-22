@@ -14,7 +14,7 @@ type LoginController struct {
 
 //@router /auth/login [*]
 func (this *LoginController) Index() {
-	this.TplName = "admin/login.html"
+	this.TplName = "admin/index.html"
 }
 
 //@router /auth/login/submit [*]
