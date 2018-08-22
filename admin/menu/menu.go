@@ -2,6 +2,7 @@ package menu
 
 import (
 	"errors"
+	"fmt"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
@@ -47,7 +48,18 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//上级导航
 	menu.Meta(&admin.Meta{Name: "Higher",
-		Label: "上级导航"})
+		Label: "上级分类", Config: &admin.SelectOneConfig{
+			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
+				var menus []models.Menu
+				context.GetDB().Where("higher_id=0").Find(&menus)
+				for _, n := range menus {
+					idStr := fmt.Sprintf("%d", n.ID)
+					var option = []string{idStr, n.Name}
+					options = append(options, option)
+				}
+
+				return options
+			}, AllowBlank: true}})
 
 	//栏目分类
 	menu.Meta(&admin.Meta{Name: "Category",
