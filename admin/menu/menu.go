@@ -1,17 +1,16 @@
 package menu
 
 import (
-	"github.com/qor/admin"
-	"zhuzhou-union-client-server/models"
-	"github.com/qor/qor/resource"
-	"github.com/qor/qor"
 	"errors"
-	"gopkg.in/chanxuehong/wechat.v2/mp/menu"
+	"github.com/qor/admin"
+	"github.com/qor/qor"
+	"github.com/qor/qor/resource"
+	"zhuzhou-union-client-server/models"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	adminConfig.DB=adminConfig.DB.Order("sequence asc")
-	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理",PageCount:10})
+	adminConfig.DB = adminConfig.DB.Order("sequence asc")
+	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理", PageCount: 10})
 
 	//
 
@@ -37,7 +36,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 			return nil
 		},
-		Modes: []string{"show", "menu_item",},
+		Modes: []string{"show", "menu_item"},
 	})
 
 	menu.Meta(&admin.Meta{Name: "Name",
