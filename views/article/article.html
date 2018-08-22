@@ -1,7 +1,7 @@
 {{template "common.html".}}
 
 {{define "meta"}}
-    <title>首页</title>
+<title>{{.article.Title}}</title>
 {{end}}
 {{define "css"}}
 <style>
@@ -18,7 +18,6 @@
         border-color: #c73236 transparent transparent;
         border-style: solid;
     }
-
 
     .tabbar-group-item {
         position: relative;
@@ -82,37 +81,45 @@
         padding: 10px;
     }
 
-
-    .details .title-box{
+    .details .title-box {
         text-align: center;
-        padding:20px 0;
+        padding: 20px 0;
         border-bottom: 1px solid #ccc;
     }
-    .title{
+
+    .title {
         font-size: 1.4rem;
         line-height: 2;
-        color:#333;
+        color: #333;
     }
-    .article-time{
+
+    .article-time {
         font-size: 0.92rem;
-        color:#999;
+        color: #999;
     }
-    .article-content{
+
+    .article-content {
         text-indent: 2em;
-        padding:20px;
-        color:#666;
+        padding: 20px;
+        color: #666;
     }
-    .article-content img{
+
+    .article-content img {
         width: 100%;
         margin: 10px 2em;
         background: #c73236;
 
     }
-    .article-content img+p{
+
+    .article-content img + p {
         font-size: 0.88rem;
         text-align: center;
         line-height: 1;
-        color:#333;
+        color: #333;
+    }
+
+    .main {
+        margin-bottom: 20px;
     }
 </style>
 {{end}}
@@ -137,22 +144,45 @@
                 <div class="_list-panel">
                     <article class="details">
                         <div class="title-box">
-                            <h2 class="title">习近平谱写新时代的“长江之歌”</h2>
-                            <p class="article-time">发布日期：2018-08-10 12:16:43 　 来源：新华社 　</p>
+                            <h2 class="title">{{.article.Title}}</h2>
+                            <p class="article-time">发布日期：{{date .article.CreatedAt "Y-m-d"}} 　 来源：{{.article.Source}}
+                                　</p>
                         </div>
                         <div class="article-content">
-                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
-                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
-                            <img src="" alt="">
-                            <p>2018年4月，习近平考察长江（来源：新华网）</p>
-                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
-                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
-                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
-                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
-                            <p>长江，从世界屋脊的雪山发端东流入海，也从远古的历史流淌至今。</p>
-                            <p>多少年来，习近平总书记的目光始终关注着波涛涌动的壮美长江，思考着人与自然和谐共生的辩证法则，擘画着让中华民族母亲河永葆生机活力的发展之道。</p>
+                        {{str2html .article.Content}}
                         </div>
                     </article>
+                    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#"
+                                                                                                      class="bds_qzone"
+                                                                                                      data-cmd="qzone"></a><a
+                            href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq"
+                                                                               data-cmd="tqq"></a><a href="#"
+                                                                                                     class="bds_renren"
+                                                                                                     data-cmd="renren"></a><a
+                            href="#" class="bds_weixin" data-cmd="weixin"></a></div>
+                    <script>window._bd_share_config = {
+                        "common": {
+                            "bdUrl":"http://www.zzghw.com/article/{{.article.ID}}",
+                            "bdSnsKey": {},
+                            "bdText": "{{.article.Title}}",
+                            "bdDesc": "{{.article.Summary}}",
+                            "bdMini": "2",
+                            "bdPic": "",
+                            "bdStyle": "0",
+                            "bdSize": "16"
+                        },
+                        "share": {},
+                        "image": {
+                            "viewList": ["qzone", "tsina", "tqq", "renren", "weixin"],
+                            "viewText": "分享到：",
+                            "viewSize": "16"
+                        },
+                        "selectShare": {
+                            "bdContainerClass": null,
+                            "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]
+                        }
+                    };
+                    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = '//bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
                 </div>
             </div>
         </div>
@@ -160,19 +190,9 @@
             <div class="tabbar">
                 <div class="list-group">
                     <a class="tabbar-group-item list-group-item-action"
-                        href="">
+                       href="">
                         <img src="..."
-                             alt="职工文苑" style="margin-right: 10px;">时政要闻</a>
-                    <a class="tabbar-group-item list-group-item-action"
-
-                       href=""  ><img src="..."
-                                                                                    alt="工会要闻"
-                                                                                    style="margin-right: 20px;">工会要闻</a>
-                    <a class="tabbar-group-item list-group-item-action"
-
-                       href=""  ><img src="..."
-                                                                                  alt="视频新闻"
-                                                                                  style="margin-right: 20px;">视频新闻</a>
+                             style="margin-right: 10px;">时政要闻</a>
                 </div>
             </div>
             <div class="side-list" style="margin-top: 20px;">

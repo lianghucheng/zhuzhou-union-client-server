@@ -66,9 +66,11 @@ func Connect() {
 	DB.DB().SetMaxIdleConns(200)
 	DB.DB().SetConnMaxLifetime(1 * time.Second)
 
-	if beego.AppConfig.String("runmode") == "dev" {
-		DB = DB.Debug()
-	}
+	/*
+		if beego.AppConfig.String("runmode") == "dev" {
+			DB = DB.Debug()
+		}
+	*/
 }
 
 func createDB() {

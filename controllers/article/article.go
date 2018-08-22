@@ -1,7 +1,6 @@
 package article
 
 import (
-	"github.com/astaxie/beego"
 	"strconv"
 	"zhuzhou-union-client-server/models"
 )
@@ -13,8 +12,8 @@ func (this *Controller) ArticleDetail() {
 	var article models.Article
 	if err := models.DB.Where("id = ?", id).
 		First(&article).Error; err != nil {
-		beego.Error("没有此文章")
-
+		this.Abort("404")
+		return
 	}
 
 	this.Data["article"] = article

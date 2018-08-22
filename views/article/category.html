@@ -1,20 +1,198 @@
 {{template "common.html".}}
 {{define "meta"}}
-    <title>这是一级分类的标题</title>
+<title>{{.category.Name}}</title>
 {{end}}
 {{define "css"}}
+<style>
 
+    .panel-title-span::after {
+        width: 0;
+        height: 0;
+        content: '';
+        bottom: -14px;
+        position: absolute;
+        left: 50%;
+        margin-left: -7px;
+        border-width: 7px;
+        border-color: #c73236 transparent transparent;
+        border-style: solid;
+    }
+
+    ._list-item {
+        padding: 20px 0;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .image-box {
+        width: 100%;
+        height: 226px;
+        background-color: #0b2e13;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .tabbar-group-item {
+        position: relative;
+        display: block;
+        padding: 1rem 1rem;
+        margin-bottom: 6px;
+        border: 1px solid #ccc;
+        background: url(/static/images/tabbar-bg.png) #f5f1f0 repeat-x;
+        background-size: 60%;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .tabbar-group-item.active {
+        background: #c73236 url(/static/images/tabbar-active-bg.png) repeat-x;
+        background-size: 60%;
+        color: #fff;
+    }
+
+    .tabbar-group-item:hover, .tabbar-group-item:focus {
+        background: #c73236 url(/static/images/tabbar-active-bg.png) repeat-x;
+        background-size: 60%;
+        color: #fff;
+    }
+
+    .tabbar {
+        padding: 0;
+        margin-top: -1px;
+        margin-left: -1px;
+    }
+
+    .m-pagination {
+        margin: 60px 0;
+    }
+
+    .news-content {
+        padding: 10px 0;
+    }
+
+    .news-content-item {
+        padding: 6px 0 6px 1rem;
+        line-height: 1.4rem;
+        font-size: 1rem;
+        position: relative;
+    }
+
+    .news-content-item::before {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        content: '';
+        left: 0px;
+        top: 14px;
+        border-radius: 6px;
+        background-color: #c73236;
+    }
+
+    .news-content-item a {
+        color: #333333;
+        font-size: 1rem;
+    }
+
+    .side-list {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+</style>
 {{end}}
 
 {{define "top"}}
 {{end}}
 {{define "nav"}}
 {{end}}
-</header>
 {{define "content"}}
-这是分类页面文章列表的面包屑
+<div class="container">
+    <nav>
+        <ol class="m-breadcrumb">
+            <li class="m-breadcrumb-tips">当前位置：</li>
+            <li class="m-breadcrumb-item"><a href="/">首页</a></li>
+            <li class="m-breadcrumb-item active" aria-current="page">{{.category.Name}}</li>
+        </ol>
+    </nav>
+    <div class="main row">
+        <div class="tab-content col-sm-12 col-md-9" id="nav-tabContent">
+            <div class="tab-pane fade show active _list" id="list-profile" role="tabpanel"
+                 aria-labelledby="list-profile-list">
+                <!--<div class="_list col-9">-->
+                <div class="panel-title">
+                    <span class="panel-title-span">{{.category.Name}}</span>
+                </div>
+                <div class="_list-panel">
+                    <div class="list-box">
 
-这是分类页面文章列表的主体
+                    {{range $index,$elem:=.articles}}
+                    {{if $elem.Cover}}
+                        <div class="_list-item">
+                            <div class="row">
+                                <div class="item-image-left col-md-5 col-sm-12">
+                                    <div class="image-box" style="background-image: url({{$elem.Cover}})">
+                                    </div>
+                                </div>
+                                <div class="item-article-right col-md-7 col-sm-12">
+                                    <h4 class="text-ov item-article-title">标题标题 最多一行！</h4>
+                                    <p class="item-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
+                                    <p class="item-article-content text-ov-4">
+                                        {{.Summary}}
+                                    </p>
+                                    <div class="more-cell more-cell-bg" style="margin-top: 30px;"><a href="/article/{{.ID}}">查看更多 ></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {{else}}
+                        <div class="_list-item">
+                            <h4 class="text-ov item-article-title">标题标题 最多一行！</h4>
+                            <p class="item-article-sub-extra">附加信息 时间等</p>
+                            <p class="item-article-content text-ov-2">
+                                内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！</p>
+                        </div>
+                    {{end}}
+                    {{end}}
+                    </div>
+
+                {{template "paginator.html".}}
+
+                </div>
+            </div>
+        </div>
+        <div class="extra col-sm-12 col-md-3">
+            <div class="tabbar">
+                <div class="list-group" id="list-tab" role="tablist">
+                {{range $index,$elem:=.categories}}
+                    <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.category.ID}} active {{end}}"
+                       href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
+                        <img src="..."
+                             style="margin-right: 10px;">{{$elem.Name}}</a>
+                {{end}}
+
+                </div>
+            </div>
+            <div class="side-list" style="margin-top: 20px;">
+                <div class="panel-title">
+                    <span class="panel-title-span">时政要闻</span>
+                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                </div>
+                <ol class="news-content">
+                    <li class="news-content-item text-ov"><a href="#">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a>
+                    </li>
+                    <li class="news-content-item text-ov"><a href="#">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a>
+                    </li>
+                    <li class="news-content-item text-ov"><a href="#">务虚会不虚！2018年株洲工会工作要这么干！</a>
+                    </li>
+                    <li class="news-content-item text-ov"><a href="#">2018“情系夕阳 关爱老人”
+                        迎元旦慰问演出..</a></li>
+                    <li class="news-content-item text-ov"><a
+                            href="#">株洲市总工会2017年“民生100”工程完成情...</a></li>
+                    <li class="news-content-item text-ov"><a href="#">《服饰搭配与美颜美妆》讲座</a>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
 {{end}}
 {{define "footer"}}
 {{end}}
