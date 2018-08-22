@@ -29,7 +29,7 @@ func (this *Controller) Index() {
 	}
 
 	if err := models.DB.
-		Find(&rotation).Error; err != nil {
+		Find(&rotation).Order("sequence asc").Error; err != nil {
 		beego.Error("获取首页轮播图错误", err)
 	}
 
@@ -106,7 +106,7 @@ func (this *Controller) Index() {
 		beego.Error("获取首页下拉链接错误", err)
 	}
 
-	this.Data["rotation"] = rotation
+	this.Data["rotations"] = rotation
 	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes
 	this.Data["output"] = outputIndex

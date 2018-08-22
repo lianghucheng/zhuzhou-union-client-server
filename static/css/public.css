@@ -1,0 +1,154 @@
+ul{
+    list-style: none;
+    padding: 0;
+}
+.text-ov {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.text-ov-2, .text-ov-3, .text-ov-4 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+}
+
+.text-ov-2 {
+    -webkit-line-clamp: 2;
+}
+
+.text-ov-3 {
+    -webkit-line-clamp: 3;
+}
+
+.text-ov-4 {
+    -webkit-line-clamp: 4;
+}
+.footer p{
+    margin-bottom: 0;
+}
+/*标题样式开始*/
+.panel-title {
+    position: relative;
+    padding: 0.1rem 0;
+    border-bottom: 2px solid #ccc;
+}
+
+.panel-title-span {
+    display: inline;
+    position: relative;
+    padding: 0.3rem 0;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #c73236;
+}
+.panel-title-en {
+    font-size: 0.92rem;
+    font-weight: lighter;
+}
+.panel-title-span::after {
+    width: 0;
+    height: 0;
+    content: '';
+    bottom: -14px;
+    position: absolute;
+    left: 50%;
+    margin-left: -7px;
+    border-width: 7px;
+    border-color: #c73236 transparent transparent;
+    border-style: solid;
+}
+.more-cell {
+    font-size: 0.92rem;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.more-cell-bg {
+    font-size: 0.82rem;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    width: 100px;
+    background-color: #c73236;
+}
+.more-cell a {
+    color: #999;
+    margin-right: 4px;
+}
+.more-cell-bg a{
+    color:#fff;
+}
+.title-more-cell {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+}
+/*标题样式结束 */
+
+/*文章列表中一项的样式开始*/
+.item-article-title {
+    font-size: 1.2rem;
+    color: #333;
+}
+.item-article-sub-extra {
+    color: #999;
+    font-size: 0.92rem;
+    margin: 0.6rem auto;
+}
+.item-sub-extra {
+    color: #999;
+    font-size: 14px;
+    margin: 0.5rem auto 1.2rem;
+}
+.item-article-content {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #666;
+}
+/*文章列表中一项的样式结束*/
+
+
+/*面包屑导航样式开始*/
+m-breadcrumb-tips{
+    color:#333;
+    font-size: 0.92rem;
+}
+.m-breadcrumb {
+    font-size: 0.92rem;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    padding: 0.75rem 0rem;
+    margin-bottom: 1rem;
+    list-style: none;
+    border-radius: 0.25rem;
+}
+
+.m-breadcrumb-item + .m-breadcrumb-item {
+    padding-left: 0.5rem;
+}
+.m-breadcrumb-item a{
+    color:#999;
+}
+.m-breadcrumb-item + .m-breadcrumb-item::before {
+    display: inline-block;
+    padding-right: 0.5rem;
+    color: #999;
+    content: ">";
+}
+
+.m-breadcrumb-item + .m-breadcrumb-item:hover::before {
+    text-decoration: underline;
+}
+
+.m-breadcrumb-item + .m-breadcrumb-item:hover::before {
+    text-decoration: none;
+}
+
+.m-breadcrumb-item.active {
+    color: #c73236;
+}
+/*面包屑导航样式结束*/

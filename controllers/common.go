@@ -22,7 +22,7 @@ func (this *Common) initMenu() {
 		Preload("Menus").
 		Preload("Category").
 		Where("higher_id = ?", 0).
-		Order("sequence desc").Find(&menus).Error; err != nil {
+		Order("sequence asc").Find(&menus).Error; err != nil {
 		beego.Error("查询菜单错误", err)
 	}
 	this.Data["outputMenus"] = menus

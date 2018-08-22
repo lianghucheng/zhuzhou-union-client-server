@@ -28,12 +28,11 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	rotation := adminConfig.AddResource(&models.Rotation{}, &admin.Config{Menu: []string{"首页管理"}, Name: "轮播图管理", PageCount: 10})
 
-	rotation.IndexAttrs("ID", "Url", "Position", "Link", "Sequence")
-	rotation.EditAttrs("Url", "Position", "Sequence", "Link")
-	rotation.NewAttrs("Url", "Position", "Sequence", "Link")
+	rotation.IndexAttrs("ID", "Url", "Link", "Sequence")
+	rotation.EditAttrs("Url", "Sequence", "Link")
+	rotation.NewAttrs("Url", "Sequence", "Link")
 
 	rotation.Meta(&admin.Meta{Name: "Url", Label: "轮播图"})
-	rotation.Meta(&admin.Meta{Name: "Position", Label: "位置"})
 	rotation.Meta(&admin.Meta{Name: "Sequence", Label: "顺序"})
 	rotation.Meta(&admin.Meta{Name: "Link", Label: "链接"})
 
