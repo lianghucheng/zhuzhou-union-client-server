@@ -1,17 +1,17 @@
 package category
 
 import (
-	"github.com/qor/admin"
-	"zhuzhou-union-client-server/models"
-	"github.com/qor/qor"
-	"github.com/spf13/cast"
+	"fmt"
 	"github.com/astaxie/beego"
-	"strings"
+	"github.com/pkg/errors"
+	"github.com/qor/admin"
+	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
 	"github.com/qor/qor/utils"
 	"github.com/qor/validations"
-	"github.com/pkg/errors"
-	"fmt"
+	"github.com/spf13/cast"
+	"strings"
+	"zhuzhou-union-client-server/models"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -19,7 +19,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	cate.SearchAttrs("Name", "Category", "Higher", "ID")
 
-	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher", "Special")
+	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.NewAttrs("ID", "Name", "Sequence", "Category", "Higher")
 
@@ -32,14 +32,26 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//上级分类
 	cate.Meta(&admin.Meta{Name: "Higher",
-		Label: "上级分类"})
+		Label: "上级分类", Config: &admin.SelectOneConfig{
+			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
+				var categories []models.Category
+				context.GetDB().Where("higher_id=0").Find(&categories)
+				for _, n := range categories {
+					idStr := fmt.Sprintf("%d", n.ID)
+					var option = []string{idStr, n.Name}
+					options = append(options, option)
+				}
+
+				return options
+			}, AllowBlank: true}})
 
 	cate.Meta(&admin.Meta{Name: "Special",
 		Label: "是否在文章侧边栏显示"})
+
 	//页面分类
 	cate.Meta(&admin.Meta{Name: "Category",
 		Label: "类别",
-		Type: "String",
+		Type:  "String",
 		FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 			txt := ""
 			cateNames := strings.Split(beego.AppConfig.String("catename"), ",")
@@ -137,8 +149,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 			return nil
 		},
-		Modes: []string{"show", "menu_item",},
-	}, )
+		Modes: []string{"show", "menu_item"},
+	})
 
 	//将节点设置为根分类
 	cate.Action(&admin.Action{
@@ -155,7 +167,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			return nil
 		},
 		Modes: []string{"batch", "show", "menu_item", "edit"},
-	}, )
+	})
 
 	//是否设置为侧边栏分类
 	cate.Action(
