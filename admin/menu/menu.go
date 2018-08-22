@@ -6,9 +6,11 @@ import (
 	"github.com/qor/qor/resource"
 	"github.com/qor/qor"
 	"errors"
+	"gopkg.in/chanxuehong/wechat.v2/mp/menu"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
+	adminConfig.DB=adminConfig.DB.Order("sequence asc")
 	menu := adminConfig.AddResource(&models.Menu{}, &admin.Config{Name: "导航管理",PageCount:10})
 
 	//
