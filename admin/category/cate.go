@@ -1,9 +1,9 @@
 package category
 
 import (
+	"errors"
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/pkg/errors"
 	"github.com/qor/admin"
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
