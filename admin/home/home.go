@@ -2,14 +2,14 @@ package home
 
 import (
 	"github.com/qor/admin"
-	"zhuzhou-union-client-server/models"
-	"github.com/qor/qor/resource"
 	"github.com/qor/qor"
+	"github.com/qor/qor/resource"
+	utils2 "github.com/qor/qor/utils"
+	"github.com/qor/validations"
 	"github.com/spf13/cast"
 	"io/ioutil"
+	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
-	"github.com/qor/validations"
-	utils2 "github.com/qor/qor/utils"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -33,7 +33,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 	rotation.NewAttrs("Url", "Position", "Sequence")
 
 	rotation.Meta(&admin.Meta{Name: "Url", Label: "轮播图"})
-	rotation.Meta(&admin.Meta{Name: "Position", Label: "位置"})
 	rotation.Meta(&admin.Meta{Name: "Sequence", Label: "顺序"})
 
 	rotation.AddProcessor(&resource.Processor{
