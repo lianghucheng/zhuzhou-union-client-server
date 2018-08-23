@@ -11,16 +11,24 @@ func (this *Controller) LoadNews() {
 	var unionNews []models.Article
 	var grassrootsNews []models.Article
 	var wechatNews []models.Article
+	var publicNews []models.Article
+
+	var carouselNews []models.Article
 
 	models.DB.Select("cover,id,title").Where("category_id=?", 230).Order("created_at desc").Limit(6).Find(&politicalNews)
 	models.DB.Select("cover,id,title").Where("category_id=?", 231).Order("created_at desc").Limit(6).Find(&unionNews)
 	models.DB.Select("cover,id,title").Where("category_id=?", 233).Order("created_at desc").Limit(6).Find(&grassrootsNews)
 	models.DB.Select("cover,id,title").Where("category_id=?", 232).Order("created_at desc").Limit(6).Find(&wechatNews)
+	models.DB.Select("id,title,created_at").Where("category_id=?", 234).Order("created_at desc").Limit(7).Find(&publicNews)
+
+	models.DB.Select("cover,id,title").Where("is_index=?", 1).Order("created_at desc").Find(&carouselNews)
 
 	this.Data["politicalNews"] = politicalNews
 	this.Data["unionNews"] = unionNews
 	this.Data["grassrootsNews"] = grassrootsNews
 	this.Data["wechatNews"] = wechatNews
+	this.Data["publicNews"] = publicNews
+	this.Data["carouselNews"] = carouselNews
 }
 
 func (this *Controller) LoadImageNews() {
