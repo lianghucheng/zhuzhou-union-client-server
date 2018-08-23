@@ -14,6 +14,7 @@ import (
 )
 
 var DB *gorm.DB
+var OldDB *gorm.DB
 
 func SyncDB() {
 	createDB()
@@ -65,6 +66,41 @@ func Connect() {
 	DB.DB().SetMaxOpenConns(2000)
 	DB.DB().SetMaxIdleConns(200)
 	DB.DB().SetConnMaxLifetime(1 * time.Second)
+
+	/*
+		if beego.AppConfig.String("runmode") == "dev" {
+			DB = DB.Debug()
+		}
+	*/
+}
+
+func ConnectOld() {
+
+	db_host := beego.AppConfig.String("db_host")
+	db_port := beego.AppConfig.String("db_port")
+	db_user := beego.AppConfig.String("db_user")
+	db_pass := beego.AppConfig.String("db_pass")
+
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8mb4&loc=%s&parseTime=true",
+		db_user,
+		db_pass,
+		db_host,
+		db_port,
+		"zzghw",
+		url.QueryEscape("Asia/Shanghai"))
+
+	var err error
+
+	OldDB, err = gorm.Open("mysql", dsn)
+	if err != nil {
+		log.Print("master detabase connect error:", err)
+		os.Exit(0)
+	}
+
+	OldDB.SingularTable(true)
+	OldDB.DB().SetMaxOpenConns(2000)
+	OldDB.DB().SetMaxIdleConns(200)
+	OldDB.DB().SetConnMaxLifetime(1 * time.Second)
 
 	/*
 		if beego.AppConfig.String("runmode") == "dev" {

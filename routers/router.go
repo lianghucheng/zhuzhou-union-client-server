@@ -23,4 +23,5 @@ func init() {
 	)
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")
 	beego.SetStaticPath("/image/kindeditor/upload", "/upload")
+	beego.SetStaticPath("/UploadFiles", "UploadFiles")
 }

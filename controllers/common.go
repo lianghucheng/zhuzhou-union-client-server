@@ -23,6 +23,20 @@ type OutputMenu struct {
 	Menus []OutputMenu
 }
 
+func (this *Common) initFooter() {
+
+	//首页底部图片链接
+	var imageLinks []*models.ImageLinks
+	models.DB.Find(&imageLinks)
+
+	//首页底部下拉框链接
+	var boxLinks []*models.BoxLinks
+	models.DB.Find(&boxLinks)
+
+	this.Data["boxLinks"] = boxLinks
+	this.Data["imageLinks"] = imageLinks
+}
+
 func (this *Common) initMenu() {
 	var menus []*models.Menu
 	if err := models.DB.
@@ -70,6 +84,7 @@ func (this *Common) initMenu() {
 func (this *Common) Prepare() {
 
 	this.initMenu()
+	this.initFooter()
 
 	if this.IsLogin() {
 		this.Data["user"] = this.GetSessionUser()

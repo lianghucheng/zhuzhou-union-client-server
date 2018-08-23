@@ -132,22 +132,24 @@
                                     </div>
                                 </div>
                                 <div class="item-article-right col-md-7 col-sm-12">
-                                    <h4 class="text-ov item-article-title">标题标题 最多一行！</h4>
+                                    <h4 class="text-ov item-article-title">{{.Title}}</h4>
                                     <p class="item-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
                                     <p class="item-article-content text-ov-4">
-                                        {{.Summary}}
+                                    {{str2html .Summary}}
                                     </p>
-                                    <div class="more-cell more-cell-bg" style="margin-top: 30px;"><a href="/article/{{.ID}}">查看更多 ></a>
+                                    <div class="more-cell more-cell-bg" style="margin-top: 30px;"><a
+                                            href="/article/{{.ID}}">查看更多 ></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     {{else}}
                         <div class="_list-item">
-                            <h4 class="text-ov item-article-title">标题标题 最多一行！</h4>
-                            <p class="item-article-sub-extra">附加信息 时间等</p>
+                            <h4 class="text-ov item-article-title">{{.Title}}</h4>
+                            <p class="item-article-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
                             <p class="item-article-content text-ov-2">
-                                内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！内容摘要。。。最多两行！</p>
+                            {{str2html .Summary}}
+                            </p>
                         </div>
                     {{end}}
                     {{end}}
@@ -164,7 +166,7 @@
                 {{range $index,$elem:=.categories}}
                     <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.category.ID}} active {{end}}"
                        href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
-                        <img src="..."
+                        <img src="/static/images/forward.png"
                              style="margin-right: 10px;">{{$elem.Name}}</a>
                 {{end}}
 

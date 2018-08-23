@@ -12,15 +12,21 @@ func (this *Controller) LoadNews() {
 	var grassrootsNews []models.Article
 	var wechatNews []models.Article
 
-	models.DB.Where("category_id=?", 230).Order("created_at desc").Limit(6).Find(&politicalNews)
-	models.DB.Where("category_id=?", 231).Order("created_at desc").Limit(6).Find(&unionNews)
-	models.DB.Where("category_id=?", 233).Order("created_at desc").Limit(6).Find(&grassrootsNews)
-	models.DB.Where("category_id=?", 232).Order("created_at desc").Limit(6).Find(&wechatNews)
+	models.DB.Select("cover,id,title").Where("category_id=?", 230).Order("created_at desc").Limit(6).Find(&politicalNews)
+	models.DB.Select("cover,id,title").Where("category_id=?", 231).Order("created_at desc").Limit(6).Find(&unionNews)
+	models.DB.Select("cover,id,title").Where("category_id=?", 233).Order("created_at desc").Limit(6).Find(&grassrootsNews)
+	models.DB.Select("cover,id,title").Where("category_id=?", 232).Order("created_at desc").Limit(6).Find(&wechatNews)
 
 	this.Data["politicalNews"] = politicalNews
 	this.Data["unionNews"] = unionNews
 	this.Data["grassrootsNews"] = grassrootsNews
 	this.Data["wechatNews"] = wechatNews
+}
+
+func (this *Controller) LoadImageNews() {
+	var imageNews []models.Article
+	models.DB.Select("cover,id,title").Where("category_id=?", 235).Order("created_at desc").Limit(10).Find(&imageNews)
+	this.Data["imageNews"] = imageNews
 }
 
 //@router /	[*]
@@ -35,23 +41,11 @@ func (this *Controller) Index() {
 		indexPer = 5
 	}
 
-	models.DB.Order("sequence asc").Find(&rotation)
-	//首页底部图片链接
-	var imageLinks []*models.ImageLinks
-	if err := models.DB.Limit(5).Find(&imageLinks).Error; err != nil {
-		beego.Error("获取首页图片链接错误", err)
-	}
-	//首页底部下拉框链接
-	var boxLinks []*models.BoxLinks
-	if err := models.DB.Find(&boxLinks).Error; err != nil {
-		beego.Error("获取首页下拉链接错误", err)
-	}
-
 	this.LoadNews()
-
+	this.LoadImageNews()
+	models.DB.Order("sequence asc").Find(&rotation)
 	this.Data["rotations"] = rotation
-	this.Data["imageLinks"] = imageLinks
 	this.Data["homes"] = homes
-	this.Data["boxLinks"] = boxLinks
+
 	this.TplName = "web/index.html"
 }
