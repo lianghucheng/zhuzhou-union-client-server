@@ -11,6 +11,7 @@ import (
 	"zhuzhou-union-client-server/admin/i18n"
 	"zhuzhou-union-client-server/admin/category"
 	"zhuzhou-union-client-server/admin/home"
+	"zhuzhou-union-client-server/admin/mail"
 )
 
 func GetHandler() http.Handler {
@@ -23,7 +24,7 @@ func GetHandler() http.Handler {
 	category.SetAdmin(Admin)
 	home.SetAdmin(Admin)
 	i18n.SetAdmin(Admin)
-
+	mail.SetAdmin(Admin)
 
 	return Admin.NewServeMux("/admin")
 }

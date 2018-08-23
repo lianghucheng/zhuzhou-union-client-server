@@ -20,7 +20,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
-		"Editor", "ResponsibleEditor", "IsIndexUp", "IsIndex", "ReadNum", "Url")
+		"Editor", "ResponsibleEditor", "IsIndexUp", "IsIndex", "ReadNum", "Url", "Category")
 
 	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex",
 		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
@@ -116,10 +116,10 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})*/
 	//是否显示在首页
-	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type:"number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type: "number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		var r int
 		if v, ok := record.(*models.Article); ok {
-			r=v.IsIndex
+			r = v.IsIndex
 		}
 		return r
 	}})
@@ -242,7 +242,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 
 	//添加分类选项
-	article.Meta(&admin.Meta{Name: "Category", Label: "请选择分类"})
+	article.Meta(&admin.Meta{Name: "Category", Label: "文章分类"})
 
 	//添加字段验证
 	article.AddValidator(&resource.Validator{
@@ -272,4 +272,18 @@ func SetAdmin(adminConfig *admin.Admin) {
 			return nil
 		},
 	})
+	article.Filter(&admin.Filter{Name: "Category",
+		Label: "分类筛选", Config: &admin.SelectOneConfig{
+			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
+				var categories []*models.Category
+				context.GetDB().Find(&categories)
+				for _, n := range categories {
+					idStr := fmt.Sprintf("%d", n.ID)
+					var option = []string{idStr, n.Name}
+					options = append(options, option)
+				}
+
+				return options
+			}, AllowBlank: true}})
+
 }
