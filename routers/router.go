@@ -14,7 +14,6 @@ func init() {
 	beego.Include(
 		&admin.FileUploadController{},
 		&admin.LoginController{},
-		&controllers.UserController{},
 		&controllers.DateControllor{},
 		&auth.Controller{},
 		&home.Controller{},

@@ -2,7 +2,6 @@ package auth
 
 import (
 	"github.com/astaxie/beego"
-	"regexp"
 	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
@@ -31,7 +30,7 @@ func (this *Controller) LoginSubmit() {
 		return
 	}
 
-	if !MobileRegexp(username) {
+	if !utils.MobileRegexp(username) {
 		this.ReturnJson(10002, "请输入正确的手机号码")
 	}
 	u := models.User{}
@@ -56,7 +55,7 @@ func (this *Controller) LoginSubmit() {
 func (this *Controller) RegisterSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
-	if !MobileRegexp(username) {
+	if !utils.MobileRegexp(username) {
 		this.ReturnJson(10001, "请输入正确的手机号码")
 	}
 	if password == "" {
