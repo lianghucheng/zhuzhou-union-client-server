@@ -438,6 +438,7 @@
         font-size: 0.92rem;
         line-height: 1.4;
     }
+
     .bottom-mask {
         position: absolute;
         bottom: 0;
@@ -577,26 +578,25 @@
                                                              role="tabpanel"
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
-                                                                <li class="news-content-item text-ov"><a href="#">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a>
-                                                                </li>
-                                                                <li class="news-content-item text-ov"><a href="#">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a>
-                                                                </li>
-                                                                <li class="news-content-item text-ov"><a href="#">务虚会不虚！2018年株洲工会工作要这么干！</a>
-                                                                </li>
-                                                                <li class="news-content-item text-ov"><a href="#">2018“情系夕阳
-                                                                    关爱老人”
-                                                                    迎元旦慰问演出..</a></li>
-                                                                <li class="news-content-item text-ov"><a
-                                                                        href="#">株洲市总工会2017年“民生100”工程完成情...</a></li>
-                                                                <li class="news-content-item text-ov"><a href="#">《服饰搭配与美颜美妆》讲座</a>
-                                                                </li>
+                                                            {{range .politicalNews}}
+                                                            <li class="news-content-item text-ov"><a href="/article/{{.ID}}">{{.Title}}</a>
+                                                            {{end}}
+                                                            </ol>
+                                                        </div>
+                                                        <div class="tab-pane fade news-pane"
+                                                             id="news-labor"
+                                                             role="tabpanel"
+                                                             aria-labelledby="news-home-list">
+                                                            <ol class="news-content">
+                                                            {{range .unionNews}}
+                                                            <li class="news-content-item text-ov"><a href="/article/{{.ID}}">{{.Title}}</a>
+                                                            {{end}}
                                                             </ol>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="more-cell news-more-cell"><a href="#">查看更多 ></a></div>
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="list-profile" role="tabpanel"
