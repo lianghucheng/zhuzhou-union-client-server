@@ -157,3 +157,17 @@ m-breadcrumb-tips{
     color: #c73236;
 }
 /*面包屑导航样式结束*/
+.tabbar-item-forward{
+    width:20px;
+    height:20px;
+    margin-right: 10px;
+    display: inline-block;
+    background-image: url(../images/forward.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    vertical-align: center;
+}
+.tabbar-group-item:hover .tabbar-item-forward{
+    background-image: url("../images/forward-select.png");
+}
