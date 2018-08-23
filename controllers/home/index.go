@@ -29,6 +29,12 @@ func (this *Controller) LoadImageNews() {
 	this.Data["imageNews"] = imageNews
 }
 
+func (this *Controller) LoadPhotoNews() {
+	var photoNews []models.Article
+	models.DB.Select("cover,id,title").Where("category_id=?", 245).Order("created_at desc").Limit(5).Find(&photoNews)
+	this.Data["photoNews"] = photoNews
+}
+
 //@router /	[*]
 func (this *Controller) Index() {
 
@@ -43,6 +49,8 @@ func (this *Controller) Index() {
 
 	this.LoadNews()
 	this.LoadImageNews()
+	this.LoadPhotoNews()
+
 	models.DB.Order("sequence asc").Find(&rotation)
 	this.Data["rotations"] = rotation
 	this.Data["homes"] = homes
