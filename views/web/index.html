@@ -580,7 +580,8 @@
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
                                                             {{range .politicalNews}}
-                                                            <li class="news-content-item text-ov"><a href="/article/{{.ID}}">{{.Title}}</a>
+                                                            <li class="news-content-item text-ov"><a
+                                                                    href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
                                                         </div>
@@ -590,7 +591,8 @@
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
                                                             {{range .unionNews}}
-                                                            <li class="news-content-item text-ov"><a href="/article/{{.ID}}">{{.Title}}</a>
+                                                            <li class="news-content-item text-ov"><a
+                                                                    href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
                                                         </div>
@@ -600,7 +602,8 @@
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
                                                             {{range .grassrootsNews}}
-                                                            <li class="news-content-item text-ov"><a href="/article/{{.ID}}">{{.Title}}</a>
+                                                            <li class="news-content-item text-ov"><a
+                                                                    href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
                                                         </div>
@@ -1110,62 +1113,21 @@
                 <div>
                     <div class="panel-title" style="padding:20px 0 6px;">
                         <span class="news-tab-item sharp active">职工摄影</span>
-                        <!--<span class="panel-title-span">政策法规</span>-->
-                        <!--<span class="panel-title-en">Photo News</span>-->
                         <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
                     </div>
                     <div style="margin: 20px auto;">
+                    {{range .photoNews}}
                         <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
+                            <div class="card-image">
+                                <div style="height:140px;width:100%;background-image: url({{.Cover}});background-size: cover;background-position: center"></div>
+                                <a href="/article/{{.ID}}" class="image-mask"></a>
+                            </div>
                             <div class="card-body" style="border:none;line-height: 30px;padding:0;">
                                 <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
-                                    title</h5>
+                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">{{.Title}}</h5>
                             </div>
                         </div>
-                        <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
-                            <div class="card-body" style="border:none;line-height: 30px;padding:0;">
-                                <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
-                                    title</h5>
-                            </div>
-                        </div>
-                        <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
-                            <div class="card-body" style="border:none;line-height: 30px;padding:0;">
-                                <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
-                                    title</h5>
-                            </div>
-                        </div>
-                        <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
-                            <div class="card-body" style="border:none;line-height: 30px;padding:0;">
-                                <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
-                                    title</h5>
-                            </div>
-                        </div>
-                        <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a></div>
-                            <div class="card-body" style="border:none;line-height: 30px;padding:0;">
-                                <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">Card
-                                    title</h5>
-                            </div>
-                        </div>
-
+                    {{end}}
                     </div>
                 </div>
             </div>
