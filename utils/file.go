@@ -1,21 +1,21 @@
 package utils
 
 import (
-	"path/filepath"
-	"github.com/astaxie/beego"
-	"github.com/qiniu/api.v7/storage"
-	"github.com/qiniu/api.v7/auth/qbox"
-	"fmt"
-	"github.com/google/uuid"
-	"golang.org/x/net/context"
 	"bytes"
+	"fmt"
+	"github.com/astaxie/beego"
+	"github.com/pborman/uuid"
+	"github.com/qiniu/api.v7/auth/qbox"
+	"github.com/qiniu/api.v7/storage"
+	"golang.org/x/net/context"
+	"path/filepath"
 )
 
 func UploadFile(fname string, data []byte) (url string, err error) {
 	fileName := fname
-	fileNameUuid, _ := uuid.NewUUID()
+	fileNameUuid := uuid.New()
 	fileNameExt := filepath.Ext(fileName)
-	filename := fileNameUuid.String() + fileNameExt
+	filename := fileNameUuid + fileNameExt
 
 	accessKey := beego.AppConfig.String("accessKey")
 	secretKey := beego.AppConfig.String("secretKey")
