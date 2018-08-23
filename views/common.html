@@ -19,7 +19,6 @@
             max-width: 1200px;
         }
 
-
         .-box {
             width: 100%;
         }
@@ -107,8 +106,6 @@
         .subnav-item:hover {
             color: #fff;
         }
-
-
 
         .other-link {
             background-color: #f5f1f0;
@@ -218,21 +215,11 @@
 
 <div class="other-link">
     <div class="d-lg-flex s-panel justify-content-around">
-        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
-            <img src="..." class="other-link-image" alt="图片介绍">
+    {{range .imageLinks}}
+        <a href="{{.Url}}" style="width: 180px;height:50px;overflow: hidden;">
+            <img src="{{.Image}}" class="other-link-image" >
         </a>
-        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
-            <img src="..." alt="图片介绍">
-        </a>
-        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
-            <img src="..." alt="图片介绍">
-        </a>
-        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
-            <img src="..." alt="图片介绍">
-        </a>
-        <a href="#" style="width: 180px;height:50px;overflow: hidden;background-color: #721c24">
-            <img src="..." alt="图片介绍">
-        </a>
+    {{end}}
     </div>
 </div>
 <footer class="footer">

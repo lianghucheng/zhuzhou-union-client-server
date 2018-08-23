@@ -4,6 +4,7 @@ import (
 	"encoding/csv"
 	"github.com/astaxie/beego"
 	"io/ioutil"
+	"regexp"
 	"strconv"
 	"strings"
 	"time"
@@ -75,7 +76,7 @@ func transfer() {
 	}
 
 	var cates []models.Category
-	models.DB.Where("higher_id <> ?", 0).Find(&categories)
+	models.DB.Where("higher_id <> ?", 0).Find(&cates)
 	for _, category := range cates {
 		categories[category.Name] = category.ID
 	}
@@ -90,7 +91,7 @@ func transfer() {
 				insert.CategoryID = id
 				insert.Author = article.Author
 				insert.Source = article.Origin
-				insert.Summary = article.Intro
+				insert.Summary = Overview(article.Intro)
 				insert.Content = article.ArticleContent
 				insert.CreatedAt, _ = time.ParseInLocation("2006-01-02 15:04:05", article.AddDate, time.Local)
 				if article.PhotoUrl != "" {
@@ -108,4 +109,56 @@ func transfer() {
 		}
 	}
 
+}
+
+func Overview(in string) (out string) {
+
+	src := in
+
+	re, _ := regexp.Compile("\\<[\\S\\s]+?\\>")
+	src = re.ReplaceAllStringFunc(src, strings.ToLower)
+	re, _ = regexp.Compile("\\<style[\\S\\s]+?\\</style\\>")
+	src = re.ReplaceAllString(src, "")
+	re, _ = regexp.Compile("\\<script[\\S\\s]+?\\</script\\>")
+	src = re.ReplaceAllString(src, "")
+	re, _ = regexp.Compile("\\<[\\S\\s]+?\\>")
+	src = re.ReplaceAllString(src, "\n")
+	re, _ = regexp.Compile("\\s{2,}")
+	src = re.ReplaceAllString(src, "\n")
+
+	str := strings.TrimSpace(src)
+
+	if len(str) > 120 {
+		str = Substr(str, 0, 120) + "......"
+	}
+	return str
+}
+
+func Substr(str string, start, length int) string {
+	rs := []rune(str)
+	rl := len(rs)
+	end := 0
+
+	if start < 0 {
+		start = rl - 1 + start
+	}
+	end = start + length
+
+	if start > end {
+		start, end = end, start
+	}
+
+	if start < 0 {
+		start = 0
+	}
+	if start > rl {
+		start = rl
+	}
+	if end < 0 {
+		end = 0
+	}
+	if end > rl {
+		end = rl
+	}
+	return string(rs[start:end])
 }
