@@ -1,0 +1,199 @@
+{{template "common.html".}}
+
+{{define "meta"}}
+<title>注册</title>
+{{end}}
+{{define "css"}}
+<style>
+    input {
+        outline: none;
+        border: none;
+        font-size: 0.92rem;
+    }
+
+    p {
+        margin-bottom: 0;
+    }
+
+    .section {
+        background-image: url('/static/images/auth_bg.jpg');
+        background-size: cover;
+        background-position: center;
+        width: 100%;
+        height: 700px;
+    }
+    .s-main{
+        max-width: 1200px;
+        height:100%;
+        margin: 0 auto;
+        position: relative;
+    }
+    .login {
+        position: absolute;
+        width: 380px;
+        height: 460px;
+        background: #f2f9ff;
+        padding: 36px;
+        box-sizing: border-box;
+        border-radius: 4px;
+        top: 100px;
+        right: 100px;
+        box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .login-box-title {
+        margin-bottom: 30px;
+        font-size: 20px;
+        text-align: center;
+        position: relative;
+    }
+
+    .login-box-title span {
+        margin: 0;
+        padding: 0 10px;
+        background-color: #f2f9ff;
+        color: #c73236;
+        position: relative;
+    }
+
+    .login-box-title::before {
+        content: '';
+        width: 150px;
+        background-color: #c73236;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin-left: -75px;
+        height: 1px;
+    }
+
+    .input-box {
+        padding: 4px 10px;
+        border-radius: 8px;
+        border: 1px solid #999999;
+        height: 42px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        background-color: #fff;
+    }
+
+    .border {
+        width: 1px;
+        height: 30px;
+        background-color: #666666;
+        margin: 0 6px;
+    }
+
+    .input-box img {
+        height: 26px;
+        margin-top: 9px;
+    }
+
+    .login-button {
+        margin-top: 20px;
+    }
+
+    .login-button button {
+        background-color: #c73236;
+        width: 100%;
+        outline: none;
+        border: none;
+        color: #fff;
+        font-size: 20px;
+        border-radius: 60px;
+    }
+
+    .account-login {
+        text-align: center;
+        margin: 10px;
+
+    }
+
+    .account-login a {
+        color: #c73236;
+        font-size: 16px;
+    }
+</style>
+{{end}}
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
+{{define "content"}}
+<section class="section">
+    <div class="s-main">
+        <div class="login">
+            <div class="login-box-title">
+                <span>用户注册</span>
+            </div>
+            <div class="input-box">
+                <label for="phone">
+                    <img src="/static/images/iPhone.png" alt="">
+                </label>
+                <div class="border"></div>
+                <input
+                        id="phone"
+                        type="text"
+                        placeholder="账号/手机号"
+                >
+            </div>
+            <div style="margin: 20px 0">
+                <div class="input-box">
+                    <label for="password">
+                        <img src="/static/images/pwd.png" alt="">
+                    </label>
+                    <div class="border"></div>
+                    <input
+                            style="width:110px;"
+                            id="password"
+                            type="text"
+                            placeholder="6-12位数密码"
+                    >
+                </div>
+            </div>
+            <div style="margin: 20px 0">
+                <div class="input-box">
+                    <label for="password">
+                        <img src="/static/images/pwd.png" alt="">
+                    </label>
+                    <div class="border"></div>
+                    <input
+                            style="width:110px;"
+                            id="password"
+                            type="text"
+                            placeholder="6-12位数密码"
+                    >
+                </div>
+            </div>
+            <div style="margin-bottom: 40px;">
+                <div class="input-box">
+                    <label for="code">
+                        <img src="/static/images/safe.png" alt="">
+                    </label>
+                    <div class="border"></div>
+                    <input
+                            style="width:110px;"
+                            id="code"
+                            type="text"
+                            placeholder="验证码"
+                    >
+                    <a href="#"><img src="" alt="验证码"></a>
+                </div>
+
+                <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
+                <!---->
+                <!--</div>-->
+            </div>
+            <div class="login-button">
+                <button type="button" class="btn btn-danger">注册</button>
+            </div>
+            <div class="account-login">
+                <a href="/user/login">已有账号，点击登录</a>
+            </div>
+        </div>
+    </div>
+</section>
+{{end}}
+{{define "footer"}}
+{{end}}

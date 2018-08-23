@@ -11,17 +11,17 @@ type Controller struct {
 	controllers.Common
 }
 
-//@router /auth/login [*]
+//@router /user/login [*]
 func (this *Controller) Login() {
 	this.TplName = "auth/login.html"
 }
 
-//@router /auth/register [*]
+//@router /user/register [*]
 func (this *Controller) Register() {
 	this.TplName = "auth/register.html"
 }
 
-//@router /api/auth/login [*]
+//@router /api/user/login [*]
 func (this *Controller) LoginSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
@@ -51,7 +51,7 @@ func (this *Controller) LoginSubmit() {
 	}
 }
 
-//@router /api/auth/register [*]
+//@router /api/user/register [*]
 func (this *Controller) RegisterSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
@@ -82,13 +82,13 @@ func (this *Controller) RegisterSubmit() {
 	this.ReturnSuccess()
 }
 
-//@router /api/auth/logout [*]
+//@router /api/user/logout [*]
 func (this *Controller) Logout() {
 	this.DelSession("userinfo")
 	this.ReturnSuccess()
 }
 
-//@router /api/auth/send/sms [post]
+//@router /api/user/send/sms [post]
 func (this *Controller) SendSms() {
 	username := this.GetString("username")
 	if username == "" {

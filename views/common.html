@@ -159,8 +159,11 @@
             <div><span>2018年8月4号/农历六月廿三 12:07/星期六</span><span style="margin-left: 40px">长沙<img src="" alt=""
                                                                                                style="width: 30px;height:28px;"></span><span
                     style="color:red;">36°C ~ 27°C</span></div>
-            <div><p style="margin-bottom: 0">欢迎访问株洲工会！<a href="#" style="color:#333;font-weight: bold;margin:0 10px;">登录|注册</a><a
-                    href="" style="color:#666;">我要反馈</a>
+            <div><p style="margin-bottom: 0">欢迎访问株洲工会！
+                <a href="/user/login" style="color:#333;font-weight: bold;margin-left: 10px;">登录</a>
+                <span style="color:#333;font-weight: bold;">|</span>
+                <a href="/user/register" style="color:#333;font-weight: bold;margin-right: 10px;">注册</a>
+                <a href="#" style="color:#666;">我要反馈</a>
             </p></div>
         </div>
     </div>
@@ -217,7 +220,7 @@
     <div class="d-lg-flex s-panel justify-content-around">
     {{range .imageLinks}}
         <a href="{{.Url}}" style="width: 180px;height:50px;overflow: hidden;">
-            <img src="{{.Image}}" class="other-link-image" >
+            <img src="{{.Image}}" class="other-link-image">
         </a>
     {{end}}
     </div>
