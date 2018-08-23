@@ -31,7 +31,13 @@ func initArgs() {
 			models.SyncDB()
 			os.Exit(0)
 		}
+		if v == "-transfer" {
+			models.Connect()
+			transfer()
+			os.Exit(0)
+		}
 	}
+
 }
 
 func initI18n() {
