@@ -21,7 +21,7 @@ func (this *Controller) List() {
 	this.Data["category"] = category
 	this.Data["categories"] = categories
 
-	pers := 12
+	pers := 6
 	qs := models.DB.Model(models.Article{}).Where("category_id=?", id)
 	cnt := 0
 	qs.Count(&cnt)
