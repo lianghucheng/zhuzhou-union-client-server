@@ -11,6 +11,7 @@ import (
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/pkg/LocalI18n"
 	_ "zhuzhou-union-client-server/routers"
+	"fmt"
 )
 
 func init() {
@@ -39,8 +40,12 @@ func initI18n() {
 	if err != nil {
 		panic(err)
 	}
-	I18n := i18n.New(yaml.New(filepath.Join(i18nPath, "conf/zh-CN.yaml")))
-	i18n.Default = "zh-CN"
+
+	I18n := i18n.New(yaml.New(filepath.Join(i18nPath, "conf/en-US.yaml")))
+
+	I18n.SaveTranslation(&i18n.Translation{Key: "qor_i18n.form.saved", Locale: "en-US", Value: "保存"})
+
+	fmt.Println(I18n.T("en-US", "%v.tables.no_items"))
 	l10n.Global = "zh-CN"
 	LocalI18n.LocalI18n = I18n
 }
