@@ -91,9 +91,9 @@
         margin-top: -1px;
         margin-left: -1px;
     }
-
+    /*修改*/
     .tabcontent {
-        padding: 10px;
+        padding: 20px 10px 10px ;
     }
 
     .news-pane {
@@ -576,6 +576,7 @@
                                                                     href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
+                                                            <div class="more-cell title-more-cell" style="bottom:-1.1rem;right:4px;"><a href="#">查看更多 ></a></div>
                                                         </div>
                                                         <div class="tab-pane fade news-pane"
                                                              id="news-labor"
@@ -587,6 +588,7 @@
                                                                     href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
+                                                            <div class="more-cell title-more-cell" style="bottom:-1.1rem;right:4px;"><a href="#">查看更多 ></a></div>
                                                         </div>
                                                         <div class="tab-pane fade news-pane"
                                                              id="news-basic"
@@ -598,6 +600,7 @@
                                                                     href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
+                                                            <div class="more-cell title-more-cell" style="bottom:-1.1rem;right:4px;"><a href="#">查看更多 ></a></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -733,7 +736,7 @@
     <div class="news-section">
         <div class="news-tab">
             <div class="tabbar">
-                <div class="list-group" id="list-news" role="tablist" style="display: block;">
+                <div class="list-group" id="list-news" role="tablist" style="display: block;position:relative;">
                     <a class="news-tab-item list-group-item-action active sharp" id="list-pic-news"
                        data-toggle="list" href="#list-pic" role="tab" aria-controls="home">
                         图片新闻
@@ -742,13 +745,15 @@
                        data-toggle="list" href="#list-video" role="tab" aria-controls="home">
                         视频新闻
                     </a>
-                    <div class="more-cell news-tab-more-cell"><a href="#">查看更多 ></a></div>
+                    <!--删除-->
                 </div>
             </div>
         </div>
         <div class="tab-content" id="new-tabContent">
             <div class="tab-pane fade show active _list" id="list-pic" role="tabpanel"
-                 aria-labelledby="list-pic-news">
+                 aria-labelledby="list-pic-news" style="position:relative;">
+                <!--修改-->
+                <div class="more-cell" style="position:absolute;top:-72px;right:-80px;"><a href="#">查看更多 ></a></div>
                 <div class="pic-news-carousel">
                     <div id="picNewsCarouselIndicators" class="carousel slide" data-ride="carousel"
                          data-interval="false">
@@ -809,7 +814,9 @@
                 </div>
             </div>
             <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
-                 aria-labelledby="list-video-news">
+                 aria-labelledby="list-video-news" style="position:relative">
+                <!--修改-->
+                <div class="more-cell" style="position:absolute;top:-72px;right:-80px;"><a href="#">查看更多 ></a></div>
                 <div class="pic-news-carousel">
                     <div id="videoNewsCarouselIndicators" class="carousel slide" data-ride="carousel"
                          data-interval="false">

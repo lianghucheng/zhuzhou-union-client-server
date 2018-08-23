@@ -171,3 +171,10 @@ m-breadcrumb-tips{
 .tabbar-group-item:hover .tabbar-item-forward{
     background-image: url("../images/forward-select.png");
 }
+
+.cover-image{
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: block;
+}
