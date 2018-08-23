@@ -5,6 +5,7 @@ import (
 	"zhuzhou-union-client-server/admin"
 	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/controllers/article"
+	"zhuzhou-union-client-server/controllers/auth"
 	"zhuzhou-union-client-server/controllers/home"
 	"zhuzhou-union-client-server/controllers/user"
 )
@@ -15,7 +16,7 @@ func init() {
 		&admin.LoginController{},
 		&controllers.UserController{},
 		&controllers.DateControllor{},
-		&controllers.AuthController{},
+		&auth.Controller{},
 		&home.Controller{},
 		&user.Controller{},
 		&article.Controller{},

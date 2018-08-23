@@ -1,28 +1,29 @@
-package controllers
+package auth
 
 import (
 	"github.com/astaxie/beego"
 	"regexp"
+	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
 )
 
-type AuthController struct {
-	Common
+type Controller struct {
+	controllers.Common
 }
 
-//@router /user/login [*]
-func (this *AuthController) Login() {
-	this.TplName = "login.html"
+//@router /auth/login [*]
+func (this *Controller) Login() {
+	this.TplName = "auth/login.html"
 }
 
-//@router /user/register [*]
-func (this *AuthController) Register() {
-	this.TplName = "register.html"
+//@router /auth/register [*]
+func (this *Controller) Register() {
+	this.TplName = "auth/register.html"
 }
 
 //@router /api/auth/login [*]
-func (this *AuthController) LoginSubmit() {
+func (this *Controller) LoginSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
 	if username == "" {
@@ -52,7 +53,7 @@ func (this *AuthController) LoginSubmit() {
 }
 
 //@router /api/auth/register [*]
-func (this *AuthController) RegisterSubmit() {
+func (this *Controller) RegisterSubmit() {
 	username := this.GetString("username")
 	password := this.GetString("password")
 	if !MobileRegexp(username) {
@@ -83,19 +84,19 @@ func (this *AuthController) RegisterSubmit() {
 }
 
 //@router /api/auth/logout [*]
-func (this *AuthController) Logout() {
+func (this *Controller) Logout() {
 	this.DelSession("userinfo")
 	this.ReturnSuccess()
 }
 
 //@router /api/auth/send/sms [post]
-func (this *AuthController) SendSms() {
+func (this *Controller) SendSms() {
 	username := this.GetString("username")
 	if username == "" {
 		this.ReturnJson(10001, "手机号不能为空")
 		return
 	}
-	if !MobileRegexp(username) {
+	if !utils.MobileRegexp(username) {
 		this.ReturnJson(10001, "请输入正确的手机号码")
 		return
 	}
@@ -103,22 +104,4 @@ func (this *AuthController) SendSms() {
 	this.SetSession(username, code)
 	go utils.SendMsg(username, code)
 	this.ReturnSuccess()
-}
-
-//传入手机号码，返回处理结果的字符串类型信息
-func MobileRegexp(mobile string) bool {
-	matched, err := regexp.MatchString(beego.AppConfig.String("yidong"), mobile)
-	if matched && err == nil {
-
-		return true
-	}
-	matched, err = regexp.MatchString(beego.AppConfig.String("liantong"), mobile)
-	if matched && err == nil {
-		return true
-	}
-	matched, err = regexp.MatchString(beego.AppConfig.String("dianxin"), mobile)
-	if matched && err == nil {
-		return true
-	}
-	return false
 }
