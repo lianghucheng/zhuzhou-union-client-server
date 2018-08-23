@@ -59,6 +59,23 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	})
 
+	rotation.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.Rotation); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
+
 	imageLinks := adminConfig.AddResource(&models.ImageLinks{}, &admin.Config{Menu: []string{"首页管理"}, Name: "底部图片链接管理", PageCount: 10})
 	imageLinks.IndexAttrs("ID", "Url", "Image", "Position")
 	imageLinks.EditAttrs("Url", "Image", "Position")
@@ -86,6 +103,37 @@ func SetAdmin(adminConfig *admin.Admin) {
 						return err
 					}
 					i.Image.Url = url
+				}
+
+			}
+			return nil
+		},
+	})
+
+	imageLinks.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.ImageLinks); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
+	imageLinks.AddValidator(&resource.Validator{
+		Name: "check_article_col",
+		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+
+			if meta := metaValues.Get("position"); meta != nil {
+
+				if position := utils2.ToInt(meta.Value); position < 0 {
+					return validations.NewError(record, "Position", "请输入大于0小于显示条数的数量")
 				}
 
 			}
@@ -142,19 +190,21 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	)
 
-	imageLinks.AddValidator(&resource.Validator{
-		Name: "check_article_col",
-		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+	boxLinks.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
 
-			if meta := metaValues.Get("position"); meta != nil {
-
-				if position := utils2.ToInt(meta.Value); position < 0 {
-					return validations.NewError(record, "Position", "请输入大于0小于显示条数的数量")
+				if a, ok := record.(*models.BoxLinks); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
 				}
-
 			}
 			return nil
 		},
+		Modes: []string{"show", "menu_item"},
 	})
 
 	boxLinks.AddValidator(&resource.Validator{
@@ -177,6 +227,23 @@ func SetAdmin(adminConfig *admin.Admin) {
 	qrCode.EditAttrs("CodeImage")
 	qrCode.NewAttrs("CodeImage")
 	qrCode.Meta(&admin.Meta{Name: "CodeImage", Label: "二维码图片"})
+
+	qrCode.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.QrCode); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
 
 	qrCode.AddProcessor(&resource.Processor{
 		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {

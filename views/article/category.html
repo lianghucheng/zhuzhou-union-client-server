@@ -166,8 +166,9 @@
                 {{range $index,$elem:=.categories}}
                     <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.category.ID}} active {{end}}"
                        href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
-                        <img src="/static/images/forward.png"
-                             style="margin-right: 10px;">{{$elem.Name}}</a>
+                        <span class="tabbar-item-forward"src="/static/images/forward.png"
+                              style="margin-right: 10px;">
+                        </span>{{$elem.Name}}</a>
                 {{end}}
 
                 </div>
