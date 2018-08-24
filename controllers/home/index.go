@@ -33,7 +33,7 @@ func (this *Controller) LoadNews() {
 
 func (this *Controller) LoadImageNews() {
 	var imageNews []models.Article
-	models.DB.Select("cover,id,title").Where("category_id=?", 235).Order("created_at desc").Limit(10).Find(&imageNews)
+	models.DB.Select("cover,id,title,summary").Where("category_id=?", 235).Order("created_at desc").Limit(10).Find(&imageNews)
 	this.Data["imageNews"] = imageNews
 }
 

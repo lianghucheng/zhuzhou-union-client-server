@@ -1109,20 +1109,14 @@
                             {{range $index,$elem:=.imageNews}}
                             <div class="swiper-slide">
                                 <div class="card " style="width:230px;height:300px;">
-                                    <div class="card-image"><img src="..."
+                                    <div class="card-image"><img src="{{$elem.Cover}}"
                                                                  style="height:140px;width:100%;background-color: #005cbf;"
-                                                                 alt="Card image cap"><a href="#"
+                                                                 alt="Card image cap"><a href="/article/{{$elem.ID}}"
                                                                                          class="image-mask"></a>
                                     </div>
                                     <div class="card-body">
-                                        <h5 class="card-title text-ov">Card title</h5>
-                                        <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                            quick
-                                            example text to build on the Some quick example text to build on the
-                                            Some
-                                            quick
-                                            example text to build on the Some quick example text to build on
-                                            the </p>
+                                        <h5 class="card-title text-ov">{{str2html $elem.Title}}</h5>
+                                        <p class="card-text text-ov-4">{{str2html $elem.Summary}}</p>
                                     </div>
                                 </div>
                             </div>
