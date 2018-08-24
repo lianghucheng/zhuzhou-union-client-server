@@ -35,7 +35,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Label: "上级分类", Config: &admin.SelectOneConfig{
 			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
 				var categories []models.Category
-				context.GetDB().Where("higher_id=0").Find(&categories)
+				context.GetDB().Where("higher_id=?", 0).Find(&categories)
 				for _, n := range categories {
 					idStr := fmt.Sprintf("%d", n.ID)
 					var option = []string{idStr, n.Name}
