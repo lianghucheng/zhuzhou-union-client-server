@@ -123,8 +123,8 @@
                 <div class="_list-panel">
                     <div class="list-box">
 
-                        {{range $index,$elem:=.articles}}
-                        {{if $elem.Cover.Url}}
+                    {{range $index,$elem:=.articles}}
+                    {{if $elem.Cover.Url}}
                         <div class="_list-item">
                             <div class="row">
                                 <div class="item-image-left col-md-5 col-sm-12">
@@ -135,7 +135,7 @@
                                     <h4 class="text-ov item-article-title">{{str2html .Title}}</h4>
                                     <p class="item-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
                                     <p class="item-article-content text-ov-4">
-                                        {{str2html .Summary}}
+                                    {{str2html .Summary}}
                                     </p>
                                     <div class="more-cell more-cell-bg" style="margin-top: 30px;"><a
                                             href="/article/{{.ID}}">查看更多 ></a>
@@ -143,22 +143,23 @@
                                 </div>
                             </div>
                         </div>
-                        {{else}}
+                    {{else}}
                         <div class="_list-item">
-                            <a href="/article/{{.ID}}" style="text-decoration: none;"><h4 class="text-ov item-article-title">
-                                {{.Title}}</h4></a>
+                            <a href="/article/{{.ID}}" style="text-decoration: none;"><h4
+                                    class="text-ov item-article-title">
+                            {{.Title}}</h4></a>
                             <p class="item-article-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
                             <a href="/article/{{.ID}}" style="text-decoration: none;">
                                 <p class="item-article-content text-ov-2">
-                                    {{str2html .Summary}}
+                                {{str2html .Summary}}
                                 </p>
                             </a>
                         </div>
-                        {{end}}
-                        {{end}}
+                    {{end}}
+                    {{end}}
                     </div>
 
-                    {{template "paginator.html".}}
+                {{template "paginator.html".}}
 
                 </div>
             </div>
@@ -166,34 +167,26 @@
         <div class="extra col-sm-12 col-md-3">
             <div class="tabbar">
                 <div class="list-group" id="list-tab" role="tablist">
-                    {{range $index,$elem:=.categories}}
+                {{range $index,$elem:=.categories}}
                     <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.category.ID}} active {{end}}"
                        href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
                         <span class="tabbar-item-forward" src="/static/images/forward.png"
                               style="margin-right: 10px;">
                         </span>{{$elem.Name}}</a>
-                    {{end}}
+                {{end}}
 
                 </div>
             </div>
             <div class="side-list" style="margin-top: 20px;">
                 <div class="panel-title">
-                    <span class="panel-title-span">时政要闻</span>
-                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    <span class="panel-title-span">推荐新闻</span>
                 </div>
                 <ol class="news-content">
-                    <li class="news-content-item text-ov"><a href="#">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a>
+                {{range .recommend}}
+                    <li class="news-content-item text-ov">
+                        <a href="/article/{{.ID}}">{{.Title}}</a>
                     </li>
-                    <li class="news-content-item text-ov"><a href="#">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a>
-                    </li>
-                    <li class="news-content-item text-ov"><a href="#">务虚会不虚！2018年株洲工会工作要这么干！</a>
-                    </li>
-                    <li class="news-content-item text-ov"><a href="#">2018“情系夕阳 关爱老人”
-                        迎元旦慰问演出..</a></li>
-                    <li class="news-content-item text-ov"><a
-                            href="#">株洲市总工会2017年“民生100”工程完成情...</a></li>
-                    <li class="news-content-item text-ov"><a href="#">《服饰搭配与美颜美妆》讲座</a>
-                    </li>
+                {{end}}
                 </ol>
             </div>
         </div>

@@ -22,7 +22,8 @@ func (this *Controller) List() {
 	this.Data["categories"] = categories
 
 	pers := 6
-	qs := models.DB.Model(models.Article{}).Where("category_id=?", id)
+	qs := models.DB.Select("id,cover,summary,title,author,created_at").
+		Model(models.Article{}).Where("category_id=?", id)
 	cnt := 0
 	qs.Count(&cnt)
 
@@ -33,6 +34,12 @@ func (this *Controller) List() {
 
 	this.Data["articles"] = articles
 	this.Data["paginator"] = pager
+
+	var recommend []models.Article
+	models.DB.Select("id,cover,summary,title,author,created_at").
+		Where("category_id=? or category_id=?", id, category.HigherID).Order("read_num desc").Limit(6).Find(&recommend)
+
+	this.Data["recommend"] = recommend
 
 	this.TplName = "article/category.html"
 }
