@@ -15,7 +15,8 @@ func UploadFile(fname string, data []byte) (url string, err error) {
 	fileName := fname
 	fileNameUuid := uuid.New()
 	fileNameExt := filepath.Ext(fileName)
-	filename := fileNameUuid + fileNameExt
+	filename := fileNameUuid  + fileNameExt
+	filename2 := fileNameUuid+ ".original"  + fileNameExt
 
 	accessKey := beego.AppConfig.String("accessKey")
 	secretKey := beego.AppConfig.String("secretKey")
@@ -24,6 +25,7 @@ func UploadFile(fname string, data []byte) (url string, err error) {
 	//localFile := file
 	bucket := beego.AppConfig.String("qiniuBucket")
 	key := filename
+	key2:=filename2
 	putPolicy := storage.PutPolicy{
 		Scope: bucket,
 	}
@@ -49,7 +51,9 @@ func UploadFile(fname string, data []byte) (url string, err error) {
 
 	dataLen := int64(len(data))
 
+	err = formUploader.Put(context.Background(), &ret, upToken, key2, bytes.NewReader(data), dataLen, &putExtra)
 	err = formUploader.Put(context.Background(), &ret, upToken, key, bytes.NewReader(data), dataLen, &putExtra)
+
 	if err != nil {
 		fmt.Println(err)
 		return "", err
