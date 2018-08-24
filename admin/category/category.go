@@ -43,7 +43,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				return options
-			}, AllowBlank: true}})
+			}, AllowBlank: true, Placeholder: "请选择一个选项"}})
 
 	cate.Meta(&admin.Meta{Name: "Special",
 		Label: "是否在文章侧边栏显示"})
@@ -51,7 +51,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//页面分类
 	cate.Meta(&admin.Meta{Name: "Category",
 		Label: "类别",
-		Type:  "String",
+		Type: "String",
 		FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 			txt := ""
 			cateNames := strings.Split(beego.AppConfig.String("catename"), ",")

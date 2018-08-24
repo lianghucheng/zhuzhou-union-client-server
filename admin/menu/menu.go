@@ -58,7 +58,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				return options
-			}, AllowBlank: true}})
+			}, AllowBlank: true, Placeholder: "请选择一个选项"}})
 
 	//栏目
 	menu.Meta(&admin.Meta{Name: "Category",
@@ -73,7 +73,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				return options
-			}, AllowBlank: true}})
+			}, AllowBlank: true, Placeholder: "请选择一个选项"}})
 
 	//顺序
 	menu.Meta(&admin.Meta{Name: "Sequence",
