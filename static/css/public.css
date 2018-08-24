@@ -178,3 +178,19 @@ m-breadcrumb-tips{
     background-repeat: no-repeat;
     display: block;
 }
+/*翻页样式*/
+.page-item{
+    margin: 0 4px;
+}
+.page-item .page-link{
+    color:#666;
+    border:1px solid #999;
+}
+.page-item.active .page-link,.page-item:not(.disabled):hover .page-link{
+    background: #c73236;
+    color:#fff;
+    border:1px solid #c73236;
+}
+.page-link:focus{
+    box-shadow: none;
+}

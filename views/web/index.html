@@ -406,7 +406,24 @@
     .card ~ .card {
         margin-left: 8px;
     }
-
+    .card-bgimg {
+        position: relative;
+        width: 100%;
+        overflow: hidden;
+        height: 210px;
+        background-size: cover;
+        background-position: center;
+    }
+    .card-mask{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, .4) url(/static/images/video-icon.png) no-repeat center;
+        background-size: 20%;
+    }
+    /*新增*/
     .card-image {
         position: relative;
         border: 2px solid transparent;
@@ -617,7 +634,333 @@
                                     </div>
                                 </div>
                                 <div class="tab-pane fade" id="list-profile" role="tabpanel"
-                                     aria-labelledby="list-profile-list">...
+                                     aria-labelledby="list-profile-list">
+                                    <div class="list-group"
+                                         style="border-bottom: 2px solid #ccc;width:auto;display: block;height:36px;">
+                                        <a class="news-group-item sharp list-group-item-action active text-center"
+                                           id="video-home-list"
+                                           style="float: left;display: inline-block;width: 90px;margin-right: 20px;"
+                                           data-toggle="list"
+                                           href="video-home" role="tab" aria-controls="home">新闻视频</a>
+                                        <a class="news-group-item sharp list-group-item-action"
+                                           id="video-labor-list"
+                                           style="float: left;display: inline-block;width: 90px;margin-right: 20px;"
+                                           data-toggle="list"
+                                           href="#video-labor" role="tab" aria-controls="labor">工会看点</a>
+                                        <a class="news-group-item sharp list-group-item-action"
+                                           id="video-basic-list"
+                                           style="float: left;display: inline-block;width: 90px;margin-right: 20px;"
+                                           data-toggle="list"
+                                           href="#video-basic" role="tab" aria-controls="basic">聚焦劳模</a>
+                                    </div>
+                                    <div class="tab-content" id="video-tabContent">
+                                        <div class="tab-pane fade show active"
+                                             id="video-home"
+                                             role="tabpanel"
+                                             aria-labelledby="video-home-list">
+                                            <div class="row" style="padding-top: 16px;">
+                                                <div class="col-5">
+                                                    <div class="card" style="width: 100%;height: 224px">
+                                                        <div class="card-bgimg" style="background-image:url(...) ">
+                                                            <a href="#" class="card-mask" style=""></a>
+                                                        </div>
+                                                        <div class="card-body"
+                                                             style="border:none;line-height: 30px;padding:0;">
+                                                            <h5 class="card-title text-center"
+                                                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                从机械工人到工艺专家</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-7">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px;margin-bottom: 14px;">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show "
+                                             id="video-labor"
+                                             role="tabpanel"
+                                             aria-labelledby="video-labor-list">
+                                            <div class="row" style="padding-top: 16px;">
+                                                <div class="col-5">
+                                                    <div class="card" style="width: 100%;height: 224px">
+                                                        <div class="card-bgimg" style="background-image:url(...) ">
+                                                            <a href="#" class="card-mask" style=""></a>
+                                                        </div>
+                                                        <div class="card-body"
+                                                             style="border:none;line-height: 30px;padding:0;">
+                                                            <h5 class="card-title text-center"
+                                                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                从机械工到工艺专家</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-7">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px;margin-bottom: 14px;">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="tab-pane fade show "
+                                             id="video-basic"
+                                             role="tabpanel"
+                                             aria-labelledby="video-basic-list">
+                                            <div class="row" style="padding-top: 16px;">
+                                                <div class="col-5">
+                                                    <div class="card" style="width: 100%;height: 224px">
+                                                        <div class="card-bgimg" style="background-image:url(...) ">
+                                                            <a href="#" class="card-mask" style=""></a>
+                                                        </div>
+                                                        <div class="card-body"
+                                                             style="border:none;line-height: 30px;padding:0;">
+                                                            <h5 class="card-title text-center"
+                                                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                从机械工到工艺家</h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-7">
+                                                    <div class="row">
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px;margin-bottom: 14px;">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-4">
+                                                            <div class="card" style="width:100%;height: 100px">
+                                                                <div class="card-bgimg" style="background-image:url(...) ">
+                                                                    <a href="#" class="card-mask" style=""></a>
+                                                                </div>
+                                                                <div class="card-body"
+                                                                     style="border:none;line-height: 30px;padding:0;">
+                                                                    <h5 class="card-title text-center"
+                                                                        style="font-size: 0.86rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                                                        从机械工人到工艺专家</h5>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="tab-pane fade" id="list-messages" role="tabpanel"
                                      aria-labelledby="list-messages-list">
@@ -791,150 +1134,149 @@
                     <div class="swiper-button-next pic-button-next"></div>
                 </div>
             </div>
+            <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
+                 aria-labelledby="list-video-news" style="position:relative">
+                <div class="more-cell" style="position:absolute;top:-72px;right:-80px;"><a href="#">查看更多 ></a></div>
+                <div style="width:1300px;margin: 0 auto;position: relative;">
+                    <div class="swiper-container" id="video_swiper" style="width:1200px;">
+                        <div class="swiper-wrapper">
+                            {{range $index,$elem:=.imageNews}}
+                            <div class="swiper-slide">
+                                <div class="card " style="width:230px;height:300px;">
+                                    <div class="card-image"><img src="..."
+                                                                 style="height:140px;width:100%;background-color: #005cbf;"
+                                                                 alt="Card image cap"><a href="#"
+                                                                                         class="image-mask"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title text-ov">Card title</h5>
+                                        <p class="card-text text-ov-4">Some quick example text to build on the Some
+                                            quick
+                                            example text to build on the Some quick example text to build on the
+                                            Some
+                                            quick
+                                            example text to build on the Some quick example text to build on
+                                            the </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {{end}}
+                        </div>
+                    </div>
+                    <div class="swiper-button-prev video-button-prev"></div>
+                    <div class="swiper-button-next video-button-next"></div>
+                </div>
+            </div>
         </div>
-        <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
-             aria-labelledby="list-video-news" style="position:relative">
-            <div class="more-cell" style="position:absolute;top:-72px;right:-80px;"><a href="#">查看更多 ></a></div>
-            <div style="width:1300px;margin: 0 auto;position: relative;">
-                <div class="swiper-container" id="video_swiper" style="width:1200px;">
-                    <div class="swiper-wrapper">
-                        {{range $index,$elem:=.imageNews}}
-                        <div class="swiper-slide">
-                            <div class="card " style="width:230px;height:300px;">
+        <div style="background-image: url(/static/images/bg02.png); background-repeat:no-repeat;background-size: contain;background-position-x: -500px;background-position-y: 0px;">
+            <div style="margin: 0 auto 40px;padding:20px 20px 0; background-color: #fff;width:1240px;">
+                <div class="row" style="margin-left: -40px;margin-right: 0px;">
+                    <div class="col-5" style="padding: 0 40px;">
+                        <div class="panel-title">
+                            <span class="panel-title-span sharp">职工服务</span>
+                            <span class="panel-title-en">Photo News</span>
+                            <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                        </div>
+                        <div class="panel-content">
+                            <div class="panel-topbar">
+                                <div class="ptb-left ptb-image"><img src="" alt=""></div>
+                                <div class="ptb-right">
+                                    <h4 class="ptb-title">中华人民共和国新工会法</h4>
+                                    <p class="ptb-content">
+                                        为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
+                                </div>
+                            </div>
+                            <ul class="pc-list">
+                                <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
+                                        class="item-time">08-24</span>
+                                </li>
+                                <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
+                                        class="item-time">08-24</span>
+                                </li>
+                                <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
+                                        class="item-time">08-24</span>
+                                </li>
+                                <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
+                                    迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
+                                <li class="pc-list-item"><a
+                                        href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
+                                        class="item-time">08-24</span></li>
+                                <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
+                                        class="item-time">08-24</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-7" style="padding:0;">
+                        <div class="panel-title">
+                            <span class="panel-title-span sharp">职工风采</span>
+                            <span class="panel-title-en">Photo News</span>
+                            <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                        </div>
+                        <div class="panel-content" style="padding:10px 0;">
+                            <div class="card d-inline-flex" style="width:230px;height:300px;">
                                 <div class="card-image"><img src="..."
                                                              style="height:140px;width:100%;background-color: #005cbf;"
-                                                             alt="Card image cap"><a href="#"
-                                                                                     class="image-mask"></a>
+                                                             alt="Card image cap"><a href="#" class="image-mask"></a>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-ov">Card title</h5>
-                                    <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                        quick
-                                        example text to build on the Some quick example text to build on the
-                                        Some
-                                        quick
-                                        example text to build on the Some quick example text to build on
-                                        the </p>
+                                    <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                        example text to build on the Some quick example text to build on the Some quick
+                                        example text to build on the Some quick example text to build on the </p>
                                 </div>
+                            </div>
+                            <div class="card d-inline-flex" style="width:230px;height:300px;">
+                                <div class="card-image"><img src="..."
+                                                             style="height:140px;width:100%;background-color: #005cbf;"
+                                                             alt="Card image cap"><a href="#" class="image-mask"></a>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-ov">Card title</h5>
+                                    <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                        example text to build on the Some quick example text to build on the Some quick
+                                        example text to build on the Some quick example text to build on the </p>
+                                </div>
+                            </div>
+                            <div class="card d-inline-flex" style="width:230px;height:300px;">
+                                <div class="card-image"><img src="..."
+                                                             style="height:140px;width:100%;background-color: #005cbf;"
+                                                             alt="Card image cap"><a href="#" class="image-mask"></a>
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-ov">Card title</h5>
+                                    <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                        example text to build on the Some quick example text to build on the Some quick
+                                        example text to build on the Some quick example text to build on the </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div style="margin: 0 auto;padding:20px 20px 0; background-color: #fff;width:1240px;">
+                <div>
+                    <div class="panel-title" style="padding:20px 0 6px;">
+                        <span class="news-tab-item sharp active">职工摄影</span>
+                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    </div>
+                    <div style="margin: 20px auto;">
+                        {{range .photoNews}}
+                        <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                            <div class="card-image">
+                                <div style="height:140px;width:100%;background-image: url({{.Cover}});background-size: cover;background-position: center"></div>
+                                <a href="/article/{{.ID}}" class="image-mask"></a>
+                            </div>
+                            <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                                <h5 class="card-title text-center"
+                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                    {{str2html .Title}}</h5>
                             </div>
                         </div>
                         {{end}}
                     </div>
                 </div>
-                <div class="swiper-button-prev video-button-prev"></div>
-                <div class="swiper-button-next video-button-next"></div>
             </div>
         </div>
-    </div>
-    <div style="background-image: url(/static/images/bg02.png); background-repeat:no-repeat;background-size: contain;background-position-x: -500px;background-position-y: 0px;">
-        <div style="margin: 0 auto 40px;padding:20px 20px 0; background-color: #fff;width:1240px;">
-            <div class="row" style="margin-left: -40px;margin-right: 0px;">
-                <div class="col-5" style="padding: 0 40px;">
-                    <div class="panel-title">
-                        <span class="panel-title-span sharp">职工服务</span>
-                        <span class="panel-title-en">Photo News</span>
-                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
-                    </div>
-                    <div class="panel-content">
-                        <div class="panel-topbar">
-                            <div class="ptb-left ptb-image"><img src="" alt=""></div>
-                            <div class="ptb-right">
-                                <h4 class="ptb-title">中华人民共和国新工会法</h4>
-                                <p class="ptb-content">
-                                    为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
-                            </div>
-                        </div>
-                        <ul class="pc-list">
-                            <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
-                                    class="item-time">08-24</span>
-                            </li>
-                            <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
-                                    class="item-time">08-24</span>
-                            </li>
-                            <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
-                                    class="item-time">08-24</span>
-                            </li>
-                            <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
-                                迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
-                            <li class="pc-list-item"><a
-                                    href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
-                                    class="item-time">08-24</span></li>
-                            <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
-                                    class="item-time">08-24</span></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-7" style="padding:0;">
-                    <div class="panel-title">
-                        <span class="panel-title-span sharp">职工风采</span>
-                        <span class="panel-title-en">Photo News</span>
-                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
-                    </div>
-                    <div class="panel-content" style="padding:10px 0;">
-                        <div class="card d-inline-flex" style="width:230px;height:300px;">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title text-ov">Card title</h5>
-                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
-                                    example text to build on the Some quick example text to build on the Some quick
-                                    example text to build on the Some quick example text to build on the </p>
-                            </div>
-                        </div>
-                        <div class="card d-inline-flex" style="width:230px;height:300px;">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title text-ov">Card title</h5>
-                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
-                                    example text to build on the Some quick example text to build on the Some quick
-                                    example text to build on the Some quick example text to build on the </p>
-                            </div>
-                        </div>
-                        <div class="card d-inline-flex" style="width:230px;height:300px;">
-                            <div class="card-image"><img src="..."
-                                                         style="height:140px;width:100%;background-color: #005cbf;"
-                                                         alt="Card image cap"><a href="#" class="image-mask"></a>
-                            </div>
-                            <div class="card-body">
-                                <h5 class="card-title text-ov">Card title</h5>
-                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
-                                    example text to build on the Some quick example text to build on the Some quick
-                                    example text to build on the Some quick example text to build on the </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div style="margin: 0 auto;padding:20px 20px 0; background-color: #fff;width:1240px;">
-            <div>
-                <div class="panel-title" style="padding:20px 0 6px;">
-                    <span class="news-tab-item sharp active">职工摄影</span>
-                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
-                </div>
-                <div style="margin: 20px auto;">
-                    {{range .photoNews}}
-                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                        <div class="card-image">
-                            <div style="height:140px;width:100%;background-image: url({{.Cover}});background-size: cover;background-position: center"></div>
-                            <a href="/article/{{.ID}}" class="image-mask"></a>
-                        </div>
-                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
-                            <h5 class="card-title text-center"
-                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">
-                                {{str2html .Title}}</h5>
-                        </div>
-                    </div>
-                    {{end}}
-                </div>
-            </div>
-        </div>
-    </div>
     </div>
     </div>
 </section>
