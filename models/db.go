@@ -22,18 +22,18 @@ func SyncDB() {
 	DB.
 		Set("gorm:table_options", "ENGINE=InnoDB").
 		AutoMigrate(
-		&User{},
-		&Article{},
-		&Category{},
-		&Menu{},
-		&Home{},
-		&BoxLinks{},
-		&ImageLinks{},
-		&Rotation{},
-		&QrCode{},
-		&MailBox{},
-		&asset_manager.AssetManager{},
-	)
+			&User{},
+			&Article{},
+			&Category{},
+			&Menu{},
+			&Home{},
+			&BoxLinks{},
+			&ImageLinks{},
+			&Rotation{},
+			&QrCode{},
+			&MailBox{},
+			&asset_manager.AssetManager{},
+		)
 }
 
 /**

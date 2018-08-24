@@ -132,7 +132,7 @@
                                     </div>
                                 </div>
                                 <div class="item-article-right col-md-7 col-sm-12">
-                                    <h4 class="text-ov item-article-title">{{.Title}}</h4>
+                                    <h4 class="text-ov item-article-title">{{str2html .Title}}</h4>
                                     <p class="item-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
                                     <p class="item-article-content text-ov-4">
                                     {{str2html .Summary}}

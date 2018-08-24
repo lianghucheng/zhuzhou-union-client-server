@@ -92,8 +92,9 @@
         margin-left: -1px;
     }
 
+    /*修改*/
     .tabcontent {
-        padding: 10px;
+        padding: 20px 10px 10px;
     }
 
     .news-pane {
@@ -464,13 +465,13 @@
     <div class="s-carousel">
         <div id="carouselIndicators" class="carousel slide" data-ride="carousel">
             <ol class="carousel-indicators">
-            {{range $index,$elem:=.rotations}}
+                {{range $index,$elem:=.rotations}}
                 <li data-target="#carouselIndicators" data-slide-to="{{$index}}"
                     class="{{if eq $index 0}}active{{end}}"></li>
-            {{end}}
+                {{end}}
             </ol>
             <div class="carousel-inner">
-            {{range $index,$elem:=.rotations}}
+                {{range $index,$elem:=.rotations}}
                 <div class="carousel-item {{if eq $index 0}}active{{end}}">
                     <div class="d-block w-100"
                          style="width: 100%;height: 450px;
@@ -479,7 +480,7 @@
                                  background-position: center">
                     </div>
                 </div>
-            {{end}}
+                {{end}}
             </div>
         </div>
     </div>
@@ -520,14 +521,15 @@
                                                     <ol class="carousel-indicators"
                                                         style="width: 100px;margin-left: 76%;bottom: -6px;">
 
-                                                    {{range $index,$elem:=.carouselNews}}
-                                                        <li data-target="#newsCarouselIndicators" data-slide-to="{{$index}}"
+                                                        {{range $index,$elem:=.carouselNews}}
+                                                        <li data-target="#newsCarouselIndicators"
+                                                            data-slide-to="{{$index}}"
                                                             class="{{if eq $index 0}}active{{end}}"></li>
-                                                    {{end}}
+                                                        {{end}}
 
                                                     </ol>
                                                     <div class="carousel-inner">
-                                                    {{range $index,$elem:=.carouselNews}}
+                                                        {{range $index,$elem:=.carouselNews}}
                                                         <div class="carousel-item {{if eq $index 0}}active{{end}}">
                                                             <div class="d-block w-100"
                                                                  style="width: 100%;height: 260px;
@@ -537,7 +539,7 @@
                                                             </div>
                                                             <div class="bottom-mask">{{$elem.Title}}</div>
                                                         </div>
-                                                    {{end}}
+                                                        {{end}}
                                                     </div>
                                                 </div>
                                             </div>
@@ -571,33 +573,42 @@
                                                              role="tabpanel"
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
-                                                            {{range .politicalNews}}
-                                                            <li class="news-content-item text-ov"><a
-                                                                    href="/article/{{.ID}}">{{.Title}}</a>
-                                                            {{end}}
+                                                                {{range .politicalNews}}
+                                                                <li class="news-content-item text-ov"><a
+                                                                        href="/article/{{.ID}}">{{.Title}}</a>
+                                                                    {{end}}
                                                             </ol>
+                                                            <div class="more-cell title-more-cell"
+                                                                 style="bottom:-1.1rem;right:4px;"><a href="#">查看更多
+                                                                ></a></div>
                                                         </div>
                                                         <div class="tab-pane fade news-pane"
                                                              id="news-labor"
                                                              role="tabpanel"
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
-                                                            {{range .unionNews}}
-                                                            <li class="news-content-item text-ov"><a
-                                                                    href="/article/{{.ID}}">{{.Title}}</a>
-                                                            {{end}}
+                                                                {{range .unionNews}}
+                                                                <li class="news-content-item text-ov"><a
+                                                                        href="/article/{{.ID}}">{{.Title}}</a>
+                                                                    {{end}}
                                                             </ol>
+                                                            <div class="more-cell title-more-cell"
+                                                                 style="bottom:-1.1rem;right:4px;"><a href="#">查看更多
+                                                                ></a></div>
                                                         </div>
                                                         <div class="tab-pane fade news-pane"
                                                              id="news-basic"
                                                              role="tabpanel"
                                                              aria-labelledby="news-home-list">
                                                             <ol class="news-content">
-                                                            {{range .grassrootsNews}}
-                                                            <li class="news-content-item text-ov"><a
-                                                                    href="/article/{{.ID}}">{{.Title}}</a>
-                                                            {{end}}
+                                                                {{range .grassrootsNews}}
+                                                                <li class="news-content-item text-ov"><a
+                                                                        href="/article/{{.ID}}">{{.Title}}</a>
+                                                                    {{end}}
                                                             </ol>
+                                                            <div class="more-cell title-more-cell"
+                                                                 style="bottom:-1.1rem;right:4px;"><a href="#">查看更多
+                                                                ></a></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -614,13 +625,13 @@
                                         <span class="panel-title-span sharp">通知公告</span>
                                     </div>
                                     <ul class="pc-list" style="margin-bottom: 0;">
-                                    {{range .publicNews}}
+                                        {{range .publicNews}}
                                         <li class="pc-list-item">
                                             <a href="/article/{{.ID}}"
                                                class="text-ov">{{.Title}}</a>
                                             <span class="item-time">{{date .CreatedAt "m-d"}}</span>
                                         </li>
-                                    {{end}}
+                                        {{end}}
                                     </ul>
                                 </div>
                             </div>
@@ -733,7 +744,7 @@
     <div class="news-section">
         <div class="news-tab">
             <div class="tabbar">
-                <div class="list-group" id="list-news" role="tablist" style="display: block;">
+                <div class="list-group" id="list-news" role="tablist" style="display: block;position:relative;">
                     <a class="news-tab-item list-group-item-action active sharp" id="list-pic-news"
                        data-toggle="list" href="#list-pic" role="tab" aria-controls="home">
                         图片新闻
@@ -742,375 +753,188 @@
                        data-toggle="list" href="#list-video" role="tab" aria-controls="home">
                         视频新闻
                     </a>
-                    <div class="more-cell news-tab-more-cell"><a href="#">查看更多 ></a></div>
+                    <!--删除-->
                 </div>
             </div>
         </div>
         <div class="tab-content" id="new-tabContent">
             <div class="tab-pane fade show active _list" id="list-pic" role="tabpanel"
-                 aria-labelledby="list-pic-news">
-                <div class="pic-news-carousel">
-                    <div id="picNewsCarouselIndicators" class="carousel slide" data-ride="carousel"
-                         data-interval="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="d-inline-block">
-                                    <div class="card " style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
+                 aria-labelledby="list-pic-news" style="position:relative;">
+                <div class="more-cell" style="position:absolute;top:-72px;right:-80px;"><a href="#">查看更多 ></a></div>
+                <div style="width:1300px;margin: 0 auto;position: relative;">
+                    <div class="swiper-container" id="pic_swiper" style="width:1200px;">
+                        <div class="swiper-wrapper">
+                            {{range $index,$elem:=.imageNews}}
+                            <div class="swiper-slide">
+                                <div class="card " style="width:230px;height:300px;">
+                                    <div class="card-image"><img src="..."
+                                                                 style="height:140px;width:100%;background-color: #005cbf;"
+                                                                 alt="Card image cap"><a href="#"
+                                                                                         class="image-mask"></a>
+                                    </div>
+                                    <div class="card-body">
+                                        <h5 class="card-title text-ov">Card title</h5>
+                                        <p class="card-text text-ov-4">Some quick example text to build on the Some
+                                            quick
+                                            example text to build on the Some quick example text to build on the
+                                            Some
+                                            quick
+                                            example text to build on the Some quick example text to build on
+                                            the </p>
                                     </div>
                                 </div>
                             </div>
-                            <div class="carousel-item">
-                                <div class="d-inline-block">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            {{end}}
                         </div>
-                        <a class="carousel-control-prev" href="#picNewsCarouselIndicators" role="button"
-                           data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#picNewsCarouselIndicators" role="button"
-                           data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
                     </div>
-                </div>
-            </div>
-            <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
-                 aria-labelledby="list-video-news">
-                <div class="pic-news-carousel">
-                    <div id="videoNewsCarouselIndicators" class="carousel slide" data-ride="carousel"
-                         data-interval="false">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <div class="d-inline-block">
-                                    <div class="card " style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="carousel-item">
-                                <div class="d-inline-block">
-                                    <div class="card " style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="d-inline-block" style="margin-left: 7px">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some
-                                                quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <a class="carousel-control-prev" href="#videoNewsCarouselIndicators" role="button"
-                           data-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Previous</span>
-                        </a>
-                        <a class="carousel-control-next" href="#videoNewsCarouselIndicators" role="button"
-                           data-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="sr-only">Next</span>
-                        </a>
-                    </div>
+                    <div class="swiper-button-prev pic-button-prev"></div>
+                    <div class="swiper-button-next pic-button-next"></div>
                 </div>
             </div>
         </div>
-        <div style="background-image: url(/static/images/bg02.png); background-repeat:no-repeat;background-size: contain;background-position-x: -500px;background-position-y: 0px;">
-            <div style="margin: 0 auto 40px;padding:20px 20px 0; background-color: #fff;width:1240px;">
-                <div class="row" style="margin-left: -40px;margin-right: 0px;">
-                    <div class="col-5" style="padding: 0 40px;">
-                        <div class="panel-title">
-                            <span class="panel-title-span sharp">职工服务</span>
-                            <span class="panel-title-en">Photo News</span>
-                            <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
-                        </div>
-                        <div class="panel-content">
-                            <div class="panel-topbar">
-                                <div class="ptb-left ptb-image"><img src="" alt=""></div>
-                                <div class="ptb-right">
-                                    <h4 class="ptb-title">中华人民共和国新工会法</h4>
-                                    <p class="ptb-content">
-                                        为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
-                                </div>
-                            </div>
-                            <ul class="pc-list">
-                                <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
-                                        class="item-time">08-24</span>
-                                </li>
-                                <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
-                                        class="item-time">08-24</span>
-                                </li>
-                                <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
-                                        class="item-time">08-24</span>
-                                </li>
-                                <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
-                                    迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
-                                <li class="pc-list-item"><a
-                                        href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
-                                        class="item-time">08-24</span></li>
-                                <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
-                                        class="item-time">08-24</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-7" style="padding:0;">
-                        <div class="panel-title">
-                            <span class="panel-title-span sharp">职工风采</span>
-                            <span class="panel-title-en">Photo News</span>
-                            <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
-                        </div>
-                        <div class="panel-content" style="padding:10px 0;">
-                            <div class="card d-inline-flex" style="width:230px;height:300px;">
+        <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
+             aria-labelledby="list-video-news" style="position:relative">
+            <div class="more-cell" style="position:absolute;top:-72px;right:-80px;"><a href="#">查看更多 ></a></div>
+            <div style="width:1300px;margin: 0 auto;position: relative;">
+                <div class="swiper-container" id="video_swiper" style="width:1200px;">
+                    <div class="swiper-wrapper">
+                        {{range $index,$elem:=.imageNews}}
+                        <div class="swiper-slide">
+                            <div class="card " style="width:230px;height:300px;">
                                 <div class="card-image"><img src="..."
                                                              style="height:140px;width:100%;background-color: #005cbf;"
-                                                             alt="Card image cap"><a href="#" class="image-mask"></a>
+                                                             alt="Card image cap"><a href="#"
+                                                                                     class="image-mask"></a>
                                 </div>
                                 <div class="card-body">
                                     <h5 class="card-title text-ov">Card title</h5>
-                                    <p class="card-text text-ov-4">Some quick example text to build on the Some quick
-                                        example text to build on the Some quick example text to build on the Some quick
-                                        example text to build on the Some quick example text to build on the </p>
-                                </div>
-                            </div>
-                            <div class="card d-inline-flex" style="width:230px;height:300px;">
-                                <div class="card-image"><img src="..."
-                                                             style="height:140px;width:100%;background-color: #005cbf;"
-                                                             alt="Card image cap"><a href="#" class="image-mask"></a>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title text-ov">Card title</h5>
-                                    <p class="card-text text-ov-4">Some quick example text to build on the Some quick
-                                        example text to build on the Some quick example text to build on the Some quick
-                                        example text to build on the Some quick example text to build on the </p>
-                                </div>
-                            </div>
-                            <div class="card d-inline-flex" style="width:230px;height:300px;">
-                                <div class="card-image"><img src="..."
-                                                             style="height:140px;width:100%;background-color: #005cbf;"
-                                                             alt="Card image cap"><a href="#" class="image-mask"></a>
-                                </div>
-                                <div class="card-body">
-                                    <h5 class="card-title text-ov">Card title</h5>
-                                    <p class="card-text text-ov-4">Some quick example text to build on the Some quick
-                                        example text to build on the Some quick example text to build on the Some quick
-                                        example text to build on the Some quick example text to build on the </p>
+                                    <p class="card-text text-ov-4">Some quick example text to build on the Some
+                                        quick
+                                        example text to build on the Some quick example text to build on the
+                                        Some
+                                        quick
+                                        example text to build on the Some quick example text to build on
+                                        the </p>
                                 </div>
                             </div>
                         </div>
+                        {{end}}
                     </div>
                 </div>
+                <div class="swiper-button-prev video-button-prev"></div>
+                <div class="swiper-button-next video-button-next"></div>
             </div>
-            <div style="margin: 0 auto;padding:20px 20px 0; background-color: #fff;width:1240px;">
-                <div>
-                    <div class="panel-title" style="padding:20px 0 6px;">
-                        <span class="news-tab-item sharp active">职工摄影</span>
+        </div>
+    </div>
+    <div style="background-image: url(/static/images/bg02.png); background-repeat:no-repeat;background-size: contain;background-position-x: -500px;background-position-y: 0px;">
+        <div style="margin: 0 auto 40px;padding:20px 20px 0; background-color: #fff;width:1240px;">
+            <div class="row" style="margin-left: -40px;margin-right: 0px;">
+                <div class="col-5" style="padding: 0 40px;">
+                    <div class="panel-title">
+                        <span class="panel-title-span sharp">职工服务</span>
+                        <span class="panel-title-en">Photo News</span>
                         <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
                     </div>
-                    <div style="margin: 20px auto;">
-                    {{range .photoNews}}
-                        <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
-                            <div class="card-image">
-                                <div style="height:140px;width:100%;background-image: url({{.Cover}});background-size: cover;background-position: center"></div>
-                                <a href="/article/{{.ID}}" class="image-mask"></a>
-                            </div>
-                            <div class="card-body" style="border:none;line-height: 30px;padding:0;">
-                                <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">{{.Title}}</h5>
+                    <div class="panel-content">
+                        <div class="panel-topbar">
+                            <div class="ptb-left ptb-image"><img src="" alt=""></div>
+                            <div class="ptb-right">
+                                <h4 class="ptb-title">中华人民共和国新工会法</h4>
+                                <p class="ptb-content">
+                                    为保障工会在国家政治、经济和社会生活中的地位，确定工会的权利与义务，发挥工会在社会主义现代化建设事业中的作用，根据宪法，制定本法。</p>
                             </div>
                         </div>
-                    {{end}}
+                        <ul class="pc-list">
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">务虚会不虚！2018年株洲工会工作要这么干！</a><span
+                                    class="item-time">08-24</span>
+                            </li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">2018“情系夕阳 关爱老人”
+                                迎元旦慰问演出..</a><span class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a
+                                    href="#" class="text-ov">株洲市总工会2017年“民生100”工程完成情...</a><span
+                                    class="item-time">08-24</span></li>
+                            <li class="pc-list-item"><a href="#" class="text-ov">《服饰搭配与美颜美妆》讲座</a><span
+                                    class="item-time">08-24</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-7" style="padding:0;">
+                    <div class="panel-title">
+                        <span class="panel-title-span sharp">职工风采</span>
+                        <span class="panel-title-en">Photo News</span>
+                        <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    </div>
+                    <div class="panel-content" style="padding:10px 0;">
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
+                        <div class="card d-inline-flex" style="width:230px;height:300px;">
+                            <div class="card-image"><img src="..."
+                                                         style="height:140px;width:100%;background-color: #005cbf;"
+                                                         alt="Card image cap"><a href="#" class="image-mask"></a>
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title text-ov">Card title</h5>
+                                <p class="card-text text-ov-4">Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the Some quick
+                                    example text to build on the Some quick example text to build on the </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div style="margin: 0 auto;padding:20px 20px 0; background-color: #fff;width:1240px;">
+            <div>
+                <div class="panel-title" style="padding:20px 0 6px;">
+                    <span class="news-tab-item sharp active">职工摄影</span>
+                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                </div>
+                <div style="margin: 20px auto;">
+                    {{range .photoNews}}
+                    <div class="card d-inline-flex align-items-center" style="width:230px;height: 160px">
+                        <div class="card-image">
+                            <div style="height:140px;width:100%;background-image: url({{.Cover}});background-size: cover;background-position: center"></div>
+                            <a href="/article/{{.ID}}" class="image-mask"></a>
+                        </div>
+                        <div class="card-body" style="border:none;line-height: 30px;padding:0;">
+                            <h5 class="card-title text-center"
+                                style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">
+                                {{str2html .Title}}</h5>
+                        </div>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+        </div>
+    </div>
     </div>
     </div>
 </section>

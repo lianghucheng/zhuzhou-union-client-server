@@ -102,12 +102,13 @@
         text-indent: 2em;
         padding: 20px;
         color: #666;
+        text-align: center;
     }
 
     .article-content img {
-        width: 100%;
-        margin: 10px 2em;
-        background: #c73236;
+        max-width: 100%;
+        width:auto;
+        margin: 10px 0;
 
     }
 
@@ -144,7 +145,7 @@
                 <div class="_list-panel">
                     <article class="details">
                         <div class="title-box">
-                            <h2 class="title">{{.article.Title}}</h2>
+                            <h2 class="title">{{str2html .article.Title}}</h2>
                             <p class="article-time">发布日期：{{date .article.CreatedAt "Y-m-d"}} 　 来源：{{.article.Source}}
                                 　</p>
                         </div>
