@@ -6,6 +6,7 @@
 {{template "meta" .}}
     <link rel="stylesheet" href="/static/css/normalize.css">
     <link rel="stylesheet" href="/static/css/bootstrap.css">
+    <link rel="stylesheet" href="/static/css/swiper.min.css">
     <link rel="stylesheet" href="/static/css/public.css">
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.bundle.js"></script>
@@ -317,14 +318,26 @@
 {{template "footer".}}
 </body>
 <script>
-    function getSubCategory(id) {
-        if ($(".h-subnav" + id).css('display') === 'block') {
-            $(".h-subnav" + id).slideUp();
-        } else {
-            $(".h-subnav" + id).slideDown();
-        }
-
-    }
-
+    var picSwiper = new Swiper('#pic_swiper', {
+        loop: false,
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+        // 如果需要前进后退按钮
+        navigation: {
+            nextEl: '.pic-button-next',
+            prevEl: '.pic-button-prev',
+        },
+    });
+    var vedioSwiper = new Swiper('#video_swiper', {
+        loop: false,
+        width: 1200,
+        slidesPerView: 5,
+        slidesPerGroup: 5,
+        // 如果需要前进后退按钮
+        navigation: {
+            nextEl: '.video-button-next',
+            prevEl: '.video-button-prev',
+        },
+    })
 </script>
 </html>
