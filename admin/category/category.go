@@ -35,7 +35,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Label: "上级分类", Config: &admin.SelectOneConfig{
 			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
 				var categories []models.Category
-				context.GetDB().Where("higher_id=0").Find(&categories)
+				context.GetDB().Where("higher_id=?", 0).Find(&categories)
 				for _, n := range categories {
 					idStr := fmt.Sprintf("%d", n.ID)
 					var option = []string{idStr, n.Name}
@@ -43,7 +43,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				return options
-			}, AllowBlank: true}})
+			}, AllowBlank: true, Placeholder: "请选择一个选项"}})
 
 	cate.Meta(&admin.Meta{Name: "Special",
 		Label: "是否在文章侧边栏显示"})
@@ -51,7 +51,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//页面分类
 	cate.Meta(&admin.Meta{Name: "Category",
 		Label: "类别",
-		Type:  "String",
+		Type: "String",
 		FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 			txt := ""
 			cateNames := strings.Split(beego.AppConfig.String("catename"), ",")

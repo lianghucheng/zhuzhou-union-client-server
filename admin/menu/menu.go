@@ -58,14 +58,14 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				return options
-			}, AllowBlank: true}})
+			}, AllowBlank: true, Placeholder: "请选择一个选项"}})
 
 	//栏目
 	menu.Meta(&admin.Meta{Name: "Category",
 		Label: "对应分类", Config: &admin.SelectOneConfig{
 			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
 				var categories []models.Category
-				context.GetDB().Where("higher_id=0").Find(&categories)
+				context.GetDB().Where("higher_id=?", 0).Find(&categories)
 				for _, n := range categories {
 					idStr := fmt.Sprintf("%d", n.ID)
 					var option = []string{idStr, n.Name}
@@ -73,7 +73,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				}
 
 				return options
-			}, AllowBlank: true}})
+			}, AllowBlank: true, Placeholder: "请选择一个选项"}})
 
 	//顺序
 	menu.Meta(&admin.Meta{Name: "Sequence",
