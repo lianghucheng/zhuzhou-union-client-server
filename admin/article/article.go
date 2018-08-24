@@ -26,7 +26,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
 
 	article.NewAttrs("ID", "Title", "Author", "Summary", "Category", "VideoIndex",
-		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+		"Cover", "Content", "Editor", "ResponsibleEditor", "Url", &admin.Section{Title: "添加文章"})
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
@@ -242,7 +242,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 	}})
 
 	//添加分类选项
-	article.Meta(&admin.Meta{Name: "Category", Label: "文章分类"})
+	article.Meta(&admin.Meta{Name: "Category", Label: "文章分类",
+		Config: &admin.SelectOneConfig{
+			Placeholder: "选择选项"}}, )
 
 	//添加字段验证
 	article.AddValidator(&resource.Validator{
