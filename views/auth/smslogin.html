@@ -153,7 +153,7 @@
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger">发送验证码</button>
+                <button type="button" class="btn btn-danger" onclick="getCode()">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
@@ -166,36 +166,6 @@
             </div>
         </div>
     </div>
-    <script>
-        $(function () {
-            $.ajax({
-                url:'/api/common/captcha',
-                type:"GET",
-                success:function (r) {
-                    if (r.status==10000){
-                        $("#code").data('code',r.id);
-                        $('#picture').attr('src',r.src);
-                    }else {
-                        alert("error");
-                    }
-                }
-            })
-        })
-        function update() {
-            $.ajax({
-                url:'/api/common/captcha',
-                type:"GET",
-                success:function (r) {
-                    if (r.status==10000){
-                        $("#code").data('code',r.id);
-                        $('#picture').attr('src',r.src);
-                    }else {
-                        alert("error");
-                    }
-                }
-            })
-        }
-    </script>
 </section>
 {{end}}
 {{define "footer"}}
