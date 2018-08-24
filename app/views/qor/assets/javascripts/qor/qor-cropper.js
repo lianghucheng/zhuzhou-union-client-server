@@ -664,7 +664,7 @@
         </div>`;
 
     QorCropper.ALERT = `<div class="qor-fieldset__alert">
-            <button class="mdl-button mdl-button--accent qor-fieldset__undo" type="button">Undo delete</button>
+            <button class="mdl-button mdl-button--accent qor-fieldset__undo" type="button">撤销删除</button>
         </div>`;
 
     QorCropper.CANVAS = '<div class="qor-cropper__canvas"></div>';
