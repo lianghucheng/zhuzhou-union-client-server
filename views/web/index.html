@@ -91,9 +91,10 @@
         margin-top: -1px;
         margin-left: -1px;
     }
+
     /*修改*/
     .tabcontent {
-        padding: 20px 10px 10px ;
+        padding: 20px 10px 10px;
     }
 
     .news-pane {
@@ -521,7 +522,8 @@
                                                         style="width: 100px;margin-left: 76%;bottom: -6px;">
 
                                                     {{range $index,$elem:=.carouselNews}}
-                                                        <li data-target="#newsCarouselIndicators" data-slide-to="{{$index}}"
+                                                        <li data-target="#newsCarouselIndicators"
+                                                            data-slide-to="{{$index}}"
                                                             class="{{if eq $index 0}}active{{end}}"></li>
                                                     {{end}}
 
@@ -576,7 +578,9 @@
                                                                     href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
-                                                            <div class="more-cell title-more-cell" style="bottom:-1.1rem;right:4px;"><a href="#">查看更多 ></a></div>
+                                                            <div class="more-cell title-more-cell"
+                                                                 style="bottom:-1.1rem;right:4px;"><a href="#">查看更多
+                                                                ></a></div>
                                                         </div>
                                                         <div class="tab-pane fade news-pane"
                                                              id="news-labor"
@@ -588,7 +592,9 @@
                                                                     href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
-                                                            <div class="more-cell title-more-cell" style="bottom:-1.1rem;right:4px;"><a href="#">查看更多 ></a></div>
+                                                            <div class="more-cell title-more-cell"
+                                                                 style="bottom:-1.1rem;right:4px;"><a href="#">查看更多
+                                                                ></a></div>
                                                         </div>
                                                         <div class="tab-pane fade news-pane"
                                                              id="news-basic"
@@ -600,7 +606,9 @@
                                                                     href="/article/{{.ID}}">{{.Title}}</a>
                                                             {{end}}
                                                             </ol>
-                                                            <div class="more-cell title-more-cell" style="bottom:-1.1rem;right:4px;"><a href="#">查看更多 ></a></div>
+                                                            <div class="more-cell title-more-cell"
+                                                                 style="bottom:-1.1rem;right:4px;"><a href="#">查看更多
+                                                                ></a></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -757,7 +765,8 @@
                     <div id="picNewsCarouselIndicators" class="carousel slide" data-ride="carousel"
                          data-interval="false">
                         <div class="carousel-inner">
-                            <div class="carousel-item active">
+                        {{range $index,$elem:=.imageNews}}
+                            <div class="carousel-item {{if eq $index 0}} active {{end}}">
                                 <div class="d-inline-block">
                                     <div class="card " style="width:230px;height:300px;">
                                         <div class="card-image"><img src="..."
@@ -778,26 +787,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="carousel-item">
-                                <div class="d-inline-block">
-                                    <div class="card" style="width:230px;height:300px;">
-                                        <div class="card-image"><img src="..."
-                                                                     style="height:140px;width:100%;background-color: #005cbf;"
-                                                                     alt="Card image cap"><a href="#"
-                                                                                             class="image-mask"></a>
-                                        </div>
-                                        <div class="card-body">
-                                            <h5 class="card-title text-ov">Card title</h5>
-                                            <p class="card-text text-ov-4">Some quick example text to build on the Some
-                                                quick
-                                                example text to build on the Some quick example text to build on the
-                                                Some quick
-                                                example text to build on the Some quick example text to build on
-                                                the </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                        {{end}}
                         </div>
                         <a class="carousel-control-prev" href="#picNewsCarouselIndicators" role="button"
                            data-slide="prev">
@@ -1108,7 +1098,7 @@
                             </div>
                             <div class="card-body" style="border:none;line-height: 30px;padding:0;">
                                 <h5 class="card-title text-center"
-                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">{{.Title}}</h5>
+                                    style="font-size: 1.06rem;margin-bottom: 0;height: 30px;line-height: 30px;">{{str2html .Title}}</h5>
                             </div>
                         </div>
                     {{end}}

@@ -31,6 +31,7 @@ func SyncDB() {
 			&ImageLinks{},
 			&Rotation{},
 			&QrCode{},
+			&MailBox{},
 			&asset_manager.AssetManager{},
 		)
 }
