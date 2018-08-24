@@ -12,13 +12,18 @@ type Controller struct {
 	controllers.Common
 }
 
-//@router /user/data [get]
+//@router /user/center [*]
+func (this *Controller) UserCenter(){
+	this.TplName="user/user.html"
+}
+
+//@router /api/user/data [get]
 func (this *Controller) UserData() {
 	userinfo := this.Userinfo
 	this.ReturnSuccess("userinfo", userinfo)
 }
 
-//@router /user/usrn_update [post]
+//@router /api/user/usrn_update [post]
 func (this *Controller) UsrnUpdate() {
 	userinfo := this.Userinfo
 	username := this.GetString("username")
@@ -36,7 +41,7 @@ func (this *Controller) UsrnUpdate() {
 	this.ReturnSuccess()
 }
 
-//@router /user/pwd_update [post]
+//@router /api/user/pwd_update [post]
 func (this *Controller) PwdUpdate() {
 	userinfo := this.Userinfo
 	old_password := this.GetString("old_password")
@@ -57,7 +62,7 @@ func (this *Controller) PwdUpdate() {
 	this.ReturnSuccess()
 }
 
-//@router /user/pwd_find [post]
+//@router /api/user/pwd_find [post]
 func (this *Controller) PwdFind() {
 	username := this.GetString("username")
 	//this.VerityCode(username)
@@ -84,7 +89,7 @@ func (this *Controller) PwdFind() {
 	this.ReturnSuccess()
 }
 
-//@router /user/img_update [post]
+//@router /api/user/img_update [post]
 func (this *Controller) ImgUpdate() {
 	userinfo := this.Userinfo
 	_, fileHeader, err := this.GetFile("imgFile")
@@ -115,7 +120,7 @@ func (this *Controller) ImgUpdate() {
 	return
 }
 
-//@router /user/name_update [post]
+//@router /api/user/name_update [post]
 func (this *Controller) NameUpdate() {
 	userinfo := this.Userinfo
 	name := this.GetString("name")
@@ -128,7 +133,7 @@ func (this *Controller) NameUpdate() {
 	return
 }
 
-//@router /user/sex_update [post]
+//@router /api/user/sex_update [post]
 func (this *Controller) SexUpdate() {
 	userinfo := this.Userinfo
 	sex, _ := this.GetInt("sex")
@@ -141,7 +146,7 @@ func (this *Controller) SexUpdate() {
 	return
 }
 
-//@router /user/qq_update [post]
+//@router /api/user/qq_update [post]
 func (this *Controller) QQUpdate() {
 	userinfo := this.Userinfo
 	qq := this.GetString("qq")
@@ -154,7 +159,7 @@ func (this *Controller) QQUpdate() {
 	return
 }
 
-//@router /user/email_update [post]
+//@router /api/user/email_update [post]
 func (this *Controller) EmailUpdate() {
 	userinfo := this.Userinfo
 	email := this.GetString("email")
@@ -167,7 +172,7 @@ func (this *Controller) EmailUpdate() {
 	return
 }
 
-//@router /user/sign_update [post]
+//@router /api/user/sign_update [post]
 func (this *Controller) SignUpdate() {
 	userinfo := this.Userinfo
 	sign := this.GetString("sign")
@@ -180,7 +185,7 @@ func (this *Controller) SignUpdate() {
 	return
 }
 
-//@router /user/submit_detail [post]
+//@router /api/user/submit_detail [post]
 func (this *Controller) SubmitDetail() {
 	userinfo := this.Userinfo
 	sex, _ := this.GetInt("sex")
@@ -229,7 +234,7 @@ func (this *Controller) SubmitDetail() {
 	普通管理员对资源 用户 栏目 是满权限的     对管理员是无权限的   不能修改权限
 	root管理员：杀人放火，不所不能
 */
-//@router /article/list [get]
+//@router /api/article/list [get]
 func (this *Controller) ArticleList() {
 	userinfo := this.Userinfo
 	page, _ := this.GetInt("page")
@@ -255,7 +260,7 @@ func (this *Controller) ArticleList() {
 	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
 }
 
-//@router /article [get]
+//@router /api/article [get]
 func (this *Controller) Article() {
 	article := models.Article{}
 	if id, err := this.GetByID(&article); err != nil {
@@ -268,7 +273,7 @@ func (this *Controller) Article() {
 	this.ReturnSuccess("article", article)
 }
 
-//@router /article/submit [post]
+//@router /api/article/submit [post]
 func (this *Controller) ArticleSubmit() {
 	userinfo := this.Userinfo
 	content := this.GetString("content")
@@ -282,7 +287,7 @@ func (this *Controller) ArticleSubmit() {
 	this.ReturnSuccess()
 }
 
-//@router /article/update [post]
+//@router /api/article/update [post]
 func (this *Controller) ArticleUpdate() {
 	content := this.GetString("content")
 	article := models.Article{}
@@ -305,7 +310,7 @@ func (this *Controller) ArticleUpdate() {
 	this.ReturnSuccess()
 }
 
-//@router /user/search [get]
+//@router /api/user/search [get]
 func (this *Controller) Search() {
 	userinfo := this.Userinfo
 	searcher := this.GetString("searcher")

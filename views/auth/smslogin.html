@@ -1,3 +1,5 @@
+
+
 {{template "common.html".}}
 
 {{define "meta"}}
@@ -16,11 +18,11 @@
     }
 
     .section {
-        background-image: url('/static/images/auth_bg.jpg');
+        /*background-image: url('');*/
         background-size: cover;
         background-position: center;
         width: 100%;
-        height: 700px;
+        height: 600px;
     }
     .s-main{
         max-width: 1200px;
@@ -31,7 +33,7 @@
     .login {
         position: absolute;
         width: 380px;
-        height: 460px;
+        height: 420px;
         background: #f2f9ff;
         padding: 36px;
         box-sizing: border-box;
@@ -125,46 +127,18 @@
     <div class="s-main">
         <div class="login">
             <div class="login-box-title">
-                <span>用户注册</span>
+                <span>验证码登录</span>
             </div>
             <div class="input-box">
                 <label for="phone">
-                    <img src="/static/images/iPhone.png" alt="">
+                    <img src="/static/images/iphone.png" alt="">
                 </label>
                 <div class="border"></div>
                 <input
                         id="phone"
                         type="text"
-                        placeholder="账号/手机号"
+                        placeholder="输入手机号码"
                 >
-            </div>
-            <div style="margin: 20px 0">
-                <div class="input-box">
-                    <label for="password">
-                        <img src="/static/images/pwd.png" alt="">
-                    </label>
-                    <div class="border"></div>
-                    <input
-                            style="width:110px;"
-                            id="password1"
-                            type="password"
-                            placeholder="6-12位数密码"
-                    >
-                </div>
-            </div>
-            <div style="margin: 20px 0">
-                <div class="input-box">
-                    <label for="password">
-                        <img src="/static/images/pwd.png" alt="">
-                    </label>
-                    <div class="border"></div>
-                    <input
-                            style="width:110px;"
-                            id="password2"
-                            type="password"
-                            placeholder="再次输入密码"
-                    >
-                </div>
             </div>
             <div style="overflow: hidden;justify-content:space-between;display: flex;margin: 20px 0 40px;">
                 <div class="input-box">
@@ -175,23 +149,53 @@
                     <input
                             style="width:110px;"
                             id="code"
-                            type="password"
+                            type="text"
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger" onclick="getCode()">发送验证码</button>
+                <button type="button" class="btn btn-danger">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
             </div>
             <div class="login-button">
-                <button type="button" class="btn btn-danger" onclick="clickRegister()">注册</button>
+                <button type="button" class="btn btn-danger" onclick="clickSmsLogin()">登 录</button>
             </div>
             <div class="account-login">
-                <a href="/user/login">已有账号，点击登录</a>
+                <a href="#">使用账号登录</a>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $.ajax({
+                url:'/api/common/captcha',
+                type:"GET",
+                success:function (r) {
+                    if (r.status==10000){
+                        $("#code").data('code',r.id);
+                        $('#picture').attr('src',r.src);
+                    }else {
+                        alert("error");
+                    }
+                }
+            })
+        })
+        function update() {
+            $.ajax({
+                url:'/api/common/captcha',
+                type:"GET",
+                success:function (r) {
+                    if (r.status==10000){
+                        $("#code").data('code',r.id);
+                        $('#picture').attr('src',r.src);
+                    }else {
+                        alert("error");
+                    }
+                }
+            })
+        }
+    </script>
 </section>
 {{end}}
 {{define "footer"}}
