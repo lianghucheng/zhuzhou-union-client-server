@@ -276,9 +276,10 @@
     </div>
     <script>
         $(function () {
-            init();
+            userInit();
+            articleInit();
         })
-        function init() {
+        function userInit() {
             $.ajax({
                 url:'/api/user/data',
                 type:'GET',
@@ -293,6 +294,22 @@
                 }
             })
         }
+
+        function articleInit() {
+            $.ajax({
+                url:'/api/article/list',
+                type:'GET',
+                success:function (r) {
+                    if(r.status==10000){
+                        console.log(r.articles);
+                        alert(r.articles.length);
+                    }else{
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+
         function usrnSubmit(){
             var username = $('#user-recipient-name').val();
             $.ajax({

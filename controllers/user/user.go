@@ -240,7 +240,8 @@ func (this *Controller) SubmitDetail() {
 */
 //@router /api/article/list [get]
 func (this *Controller) ArticleList() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	page, _ := this.GetInt("page")
 	if page == 0 {
 		page = 1
