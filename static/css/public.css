@@ -41,18 +41,23 @@ ul{
     border-bottom: 2px solid #ccc;
 }
 
-.panel-title-span {
+.panel-title-span-active {
     display: inline;
     position: relative;
     padding: 0.3rem 0;
     font-size: 1.2rem;
     border-bottom: 2px solid #c73236;
 }
-.panel-title-en {
-    font-size: 0.92rem;
-    font-weight: lighter;
+
+.panel-title-span {
+    display: inline;
+    position: relative;
+    padding: 0.3rem 0;
+    font-size: 1.2rem;
+    border-bottom: 2px solid #FFFFFF;
 }
-.panel-title-span::after {
+
+.panel-title-span-active::after {
     width: 0;
     height: 0;
     content: '';
@@ -64,6 +69,14 @@ ul{
     border-color: #c73236 transparent transparent;
     border-style: solid;
 }
+
+
+.panel-title-en {
+    font-size: 0.92rem;
+    font-weight: lighter;
+}
+
+
 .more-cell {
     font-size: 0.92rem;
     height: 30px;

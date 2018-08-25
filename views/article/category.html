@@ -5,7 +5,7 @@
 {{define "css"}}
 <style>
 
-    .panel-title-span::after {
+    .panel-title-span-active::after {
         width: 0;
         height: 0;
         content: '';
@@ -118,7 +118,7 @@
                  aria-labelledby="list-profile-list">
                 <!--<div class="_list col-9">-->
                 <div class="panel-title">
-                    <span class="panel-title-span">{{.category.Name}}</span>
+                    <span class="panel-title-span-active">{{.category.Name}}</span>
                 </div>
                 <div class="_list-panel">
                     <div class="list-box">
