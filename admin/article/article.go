@@ -34,13 +34,13 @@ func SetAdmin(adminConfig *admin.Admin) {
 		AssetManager: assetManager,
 		Plugins: []admin.RedactorPlugin{
 			{Name: "medialibrary", Source: "/admin/assets/javascripts/qor_redactor_medialibrary.js"},
-			{Name: "table", Source: "/admin/assets/javascripts/qor_kindeditor.js"},
+			{Name: "table", Source: "/admin/assets/javascripts/qor_ueditor.js"},
 		},
 		Settings: map[string]interface{}{
 			"medialibraryUrl": "/admin/product_images",
 		},
 	}})
-	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
+	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "ueditor"})
 	article.Meta(&admin.Meta{Name: "VideoIndex", Label: "首页封面视频"})
 	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页置顶"})
 	article.Meta(&admin.Meta{Name: "Summary", Label: "文章摘要"})

@@ -1,5 +1,4 @@
-
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as anonymous module.
         define(['jquery'], factory);
@@ -10,11 +9,11 @@
         // Browser globals.
         factory(jQuery);
     }
-})(function($) {
+})(function ($) {
     'use strict';
 
     let componentHandler = window.componentHandler,
-        NAMESPACE = 'qor.kindeditor',
+        NAMESPACE = 'qor.ueditor',
         EVENT_ENABLE = 'enable.' + NAMESPACE,
         EVENT_DISABLE = 'disable.' + NAMESPACE,
         EVENT_UPDATE = 'update.' + NAMESPACE,
@@ -23,26 +22,23 @@
     function enable(target) {
         //console.log("################### kindeditor enable ###################");
         /*jshint undef:false */
-        var editor = KindEditor.create('#kindeditor-id',{
-            uploadJson : '/image/kindeditor/upload?dir=image',
-            allowFileManager : false,
-            afterBlur: function(){this.sync();}
-        });
+        var editor = UE.getEditor('ueditor-id');
+
     }
 
     function disable(target) {
         //console.log("################### kindeditor disable ###################");
     }
 
-    $(function() {
+    $(function () {
         $(document)
-            .on(EVENT_ENABLE, function(e) {
+            .on(EVENT_ENABLE, function (e) {
                 enable(e.target);
             })
-            .on(EVENT_DISABLE, function(e) {
+            .on(EVENT_DISABLE, function (e) {
                 disable(e.target);
             })
-            .on(EVENT_UPDATE, function(e) {
+            .on(EVENT_UPDATE, function (e) {
                 disable(e.target);
                 enable(e.target);
             });

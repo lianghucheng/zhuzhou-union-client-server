@@ -218,13 +218,12 @@ func upload_time_remote(this beego.Controller, FieldName, PathFormat string) int
 		jsondata.Status = "上传失败"
 		return jsondata
 	}
-	filename := strconv.FormatInt(time.Now().UnixNano(), 10) + path.Ext(File_h.Filename)
 	fileByte, _ := ioutil.ReadAll(File_in)
-	utils.UploadFile(File_h.Filename, fileByte)
+	url,_:=utils.UploadFile(File_h.Filename, fileByte)
 	jsondata.Status = "SUCCESS"
 	jsondata.Original = File_h.Filename
 	jsondata.Title = File_h.Filename
-	jsondata.Url = filename
+	jsondata.Url = url
 	return jsondata
 }
 
@@ -269,12 +268,11 @@ func upload_name_remote(this beego.Controller, FieldName, PathFormat string) int
 		return jsondata
 	}
 	fileByte, _ := ioutil.ReadAll(File_in)
-	utils.UploadFile(File_h.Filename, fileByte)
-	this.SaveToFile(FieldName, path.Join(PathFormat, filename))
+	url,_:=utils.UploadFile(File_h.Filename, fileByte)
 	jsondata.Status = "SUCCESS"
 	jsondata.Original = File_h.Filename
 	jsondata.Title = File_h.Filename
-	jsondata.Url = filename
+	jsondata.Url = url
 	return jsondata
 }
 
