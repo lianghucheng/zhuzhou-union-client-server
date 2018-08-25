@@ -11,9 +11,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	mailBox.IndexAttrs("ID", "Title", "User")
 	mailBox.EditAttrs("Author", "Content", "Contact")
-	mailBox.OverrideEditAttrs(func() {
 
-	})
 
 	mailBox.Meta(&admin.Meta{Name: "Title", Label: "标题"})
 	mailBox.Meta(&admin.Meta{Name: "Author", Label: "作者"})
