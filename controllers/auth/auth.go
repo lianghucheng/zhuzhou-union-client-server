@@ -89,7 +89,7 @@ func (this *Controller) SmsLoginSubmit() {
 		this.ReturnJson(10003, "用户名不存在")
 	}
 
-	//this.VerityCode(username)
+	this.VerityCode(username)
 	this.SetSession("userinfo", &u)
 	this.ReturnSuccess()
 }
