@@ -189,7 +189,7 @@
                         <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                              aria-labelledby="v-pills-profile-tab">
                             <div>
-                                <ul class="article-list">
+                                <ul class="article-list" id="articleList">
                                     <li class="row">
                                         <p class="col-6 text-ov"><b
                                                 style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
@@ -268,8 +268,15 @@
 
                         </div>
                         <div class="tab-pane fade" id="v-pills-publish" role="tabpanel"
-                             aria-labelledby="v-pills-publish-tab">
-                            ...
+                             aria-labelledby="v-pills-publish-tab" >
+
+                                <script id="container" name="content" type="text/plain">
+        这里写你的初始化内容
+
+
+
+        </script>
+                                <button type="submit" onclick="tSubmit()">提交富文本编辑器</button>
                         </div>
                     </div>
                 </div>
@@ -347,7 +354,15 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    ...
+                        <form action="{{urlfor "DateControllor.Test"}}" method="post">
+                            <script id="container" name="content" type="text/plain">
+        这里写你的初始化内容
+
+
+
+        </script>
+                            <button type="submit">提交富文本编辑器</button>
+                        </form>
                 </div>
                 <div class="modal-footer">
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
@@ -356,6 +371,13 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+    <!-- 编辑器源码文件 -->
+    <script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
+    <!-- 实例化编辑器 -->
+    <script type="text/javascript">
+        var ue = UE.getEditor('container');
+    </script>
     <script>
         $(function () {
             userInit();
@@ -383,7 +405,21 @@
                 success:function (r) {
                     if(r.status==10000){
                         console.log(r.articles);
-                        alert(r.articles.length);
+                        var tmpl='';
+                        for (var i=0;i<r.articles.length;i++){
+                            tmpl+='<li class="row">\n' +
+                                    '                                        <p class="col-6 text-ov"><b\n' +
+                                    '                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>\n' +
+                                    '                                            <a href="#">\n' +
+                                                                                    r.articles[i].Content +
+                                    '                                            </a>\n' +
+                                    '                                        </p>\n' +
+                                    '                                        <span class="col-1"></span>\n' +
+                                    '                                        <span class="col-3 article-time">时间:'+r.articles[i].CreatedAt+'</span>\n' +
+                                    '                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>\n' +
+                                    '                                    </li>'
+                        }
+                        $('#articleList').html(tmpl)
                     }else{
                         alert(r.message);
                     }
@@ -424,6 +460,23 @@
                     if (r.status == 10000) {
                         alert("修改成功");
                     } else {
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+        function tSubmit(){
+            var contenta=ue.getContent();
+            $.ajax({
+                url:"/api/article/submit",
+                type:'POST',
+                data:{
+                    'content':contenta,
+                },
+                success:function (r) {
+                    if (r.status=10000){
+                        alert("您已提交成功");
+                    }else{
                         alert(r.message);
                     }
                 }
