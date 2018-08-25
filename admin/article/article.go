@@ -103,7 +103,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	//重置Status显示
-	/*article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.Status == 1 {
@@ -114,7 +114,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 		}
 		return txt
-	}})*/
+	}})
 	//是否显示在首页
 	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type: "number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		var r int
@@ -137,7 +137,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 	//添加审核模块
-	/*article.Action(
+	article.Action(
 		&admin.Action{
 			Name:  "verify",
 			Label: "审核/撤销",
@@ -159,7 +159,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			},
 			Modes: []string{"batch", "show", "menu_item"},
 		},
-	)*/
+	)
 	//添加是否置顶
 	article.Action(
 		&admin.Action{
