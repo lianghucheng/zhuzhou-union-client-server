@@ -18,8 +18,9 @@ func (this *Controller) List() {
 	models.DB.Where("id=?", id).First(&category)
 	var categories []models.Category
 	models.DB.Where("higher_id=?", category.HigherID).Find(&categories)
-	this.Data["category"] = category
 	this.Data["categories"] = categories
+
+	this.Data["category"] = category
 
 	pers := 6
 	qs := models.DB.Select("id,cover,summary,title,author,created_at").

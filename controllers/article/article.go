@@ -16,6 +16,12 @@ func (this *Controller) ArticleDetail() {
 		return
 	}
 
+	var categories []models.Category
+	if article.Category != nil {
+		models.DB.Where("higher_id=?", article.Category.HigherID).Find(&categories)
+	}
+	this.Data["categories"] = categories
+
 	var recommend []models.Article
 	models.DB.Select("id,cover,summary,title,author,created_at").
 		Where("category_id=?", article.CategoryID).Order("read_num desc").Limit(6).Find(&recommend)

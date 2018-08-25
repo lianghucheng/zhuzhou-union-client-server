@@ -190,9 +190,13 @@
         <div class="extra col-sm-12 col-md-3">
             <div class="tabbar">
                 <div class="list-group">
-                    <a class="tabbar-group-item list-group-item-action"
-                       href="">
-                        <span class="tabbar-item-forward"></span>时政要闻</a>
+                {{range $index,$elem:=.categories}}
+                    <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.article.CategoryID}} active {{end}}"
+                       href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
+                        <span class="tabbar-item-forward" src="/static/images/forward.png"
+                              style="margin-right: 10px;">
+                        </span>{{$elem.Name}}</a>
+                {{end}}
                 </div>
             </div>
             <div class="side-list" style="margin-top: 20px;">
