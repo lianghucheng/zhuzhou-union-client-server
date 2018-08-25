@@ -25,5 +25,6 @@ func init() {
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")
 	beego.Handler("/api/image/captcha/*.png", captcha.Server(90, 40))
 	beego.SetStaticPath("/image/kindeditor/upload", "/upload")
+	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")
 	beego.SetStaticPath("/UploadFiles", "UploadFiles")
 }
