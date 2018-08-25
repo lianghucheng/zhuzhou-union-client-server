@@ -401,6 +401,7 @@
                     window.location.href = '/user/center';
                 } else {
                     alert(r.message);
+                    update();
                 }
             }
         })
@@ -440,6 +441,21 @@
 
                 } else {
                     alert(r.message)
+                }
+            }
+        })
+    }
+
+    function update() {
+        $.ajax({
+            url:'/api/common/captcha',
+            type:"GET",
+            success:function (r) {
+                if (r.status==10000){
+                    $("#code").data('code',r.id);
+                    $('#picture').attr('src',r.src);
+                }else {
+                    alert("error");
                 }
             }
         })
