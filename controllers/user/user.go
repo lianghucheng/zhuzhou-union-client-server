@@ -230,14 +230,6 @@ func (this *Controller) SubmitDetail() {
 	this.ReturnSuccess()
 }
 
-/*
-权限：
-	用户不能登陆后台
-	普通管理员有部分删（删除用户，删除栏目，删除资源，不能删除管理员）权限，有部分增（增加资源，增加用户，不能增加管理员，增加栏目）
-修（修改资源，修改用户，不能修改管理员，修改栏目）权限，有全部查权限
-	普通管理员对资源 用户 栏目 是满权限的     对管理员是无权限的   不能修改权限
-	root管理员：杀人放火，不所不能
-*/
 //@router /api/article/list [get]
 func (this *Controller) ArticleList() {
 	this.CheckLogin()
@@ -280,7 +272,8 @@ func (this *Controller) Article() {
 
 //@router /api/article/submit [post]
 func (this *Controller) ArticleSubmit() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	content := this.GetString("content")
 	article := models.Article{}
 	article.UserID = userinfo.ID
