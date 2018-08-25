@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
+	"github.com/dchest/captcha"
 )
 
 type Common struct {
@@ -195,4 +196,14 @@ func (this *Common) CheckLoginPost() {
 func (this *Common) GetSessionUser() (user *models.User) {
 	return this.GetSession("userinfo").(*models.User)
 
+}
+
+func (ctr *Common)CaptchaInterceptor(){
+	code := ctr.GetString("captcha_code")
+	captchaId := ctr.GetString("captcha_id")
+	if !captcha.VerifyString(captchaId, code) {
+		ctr.ReturnJson(10401, "captcha verify error")
+		ctr.StopRun()
+		return
+	}
 }

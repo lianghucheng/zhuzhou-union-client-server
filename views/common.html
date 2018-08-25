@@ -61,9 +61,11 @@
             font-size: 18px;
             line-height: 28px;
         }
-        .nav-item{
+
+        .nav-item {
             border-bottom: 2px solid transparent;
         }
+
         .nav-item:hover .nav-link {
             color: #c73236;
         }
@@ -72,7 +74,7 @@
             position: relative;
         }
 
-        .nav-item.active .nav-link, .nav-item:hover .nav-link{
+        .nav-item.active .nav-link, .nav-item:hover .nav-link {
             border-bottom: 2px solid #c73236;
         }
 
@@ -100,6 +102,7 @@
             background-color: #c73236;
             z-index: 999;
         }
+
         .sharp.active::after, .sharp:hover::after, .active > .sharp::after, .nav-item:hover .nav-link.sharp::after {
             width: 0;
             height: 0;
@@ -112,6 +115,7 @@
             border-color: #c73236 transparent transparent;
             border-style: solid;
         }
+
         .subnav-item {
             padding: 0 40px;
             line-height: 40px;
@@ -231,7 +235,7 @@
 
 {{template "content".}}
 
-<div class="other-link">
+<div class="other-link login-hidden">
     <div class="d-lg-flex s-panel justify-content-around">
     {{range .imageLinks}}
         <a href="{{.Url}}" style="width: 180px;height:50px;overflow: hidden;">
@@ -333,7 +337,7 @@
 <script>
     var picSwiper = new Swiper('#pic_swiper', {
         loop: false,
-        width:1200,
+        width: 1200,
         slidesPerView: 5,
         slidesPerGroup: 5,
         // 如果需要前进后退按钮
@@ -353,5 +357,92 @@
             prevEl: '.video-button-prev',
         },
     })
+
+    function clickRegister() {
+        var username = $('#phone').val();
+        var password1 = $('#password1').val();
+        var password2 = $('#password2').val();
+        var code = $('#code').val();
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'password1': password1,
+                'password2': password2,
+                'code': code,
+            },
+            url: '/api/user/register',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                }
+            }
+        })
+    }
+
+    function clickLogin() {
+        var username = $('#phone').val();
+        var password = $('#password').val();
+        var code = $('#code').val();
+        var cid =$("#code").data('code');
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'password': password,
+                'captcha_code': code,
+                'captcha_id':cid,
+            },
+            url: '/api/user/login',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                }
+            }
+        })
+    }
+
+    function clickSmsLogin() {
+        var username = $('#phone').val();
+        var code = $('#code').val();
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'code': code,
+            },
+            url: '/api/user/smslogin',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                }
+            }
+        })
+    }
+
+    function getCode() {
+        var username = $('#phone').val();
+        alert(username);
+        $.ajax({
+            type: 'POST',
+            url: '/api/user/send/sms',
+            data: {
+                'username': username,
+            },
+            success: function (r) {
+                if (r.status == 10000) {
+
+                } else {
+                    alert(r.message)
+                }
+            }
+        })
+    }
 </script>
 </html>
