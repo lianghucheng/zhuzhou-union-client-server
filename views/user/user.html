@@ -1,249 +1,436 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/static/css/bootstrap.css">
-    <script src="/static/js/jquery.min.js"></script>
-    <script src="/static/js/bootstrap.bundle.js"></script>
-    <style>
-        p {
-            margin: 0;
-        }
-        li {
-            list-style: none;
-        }
+{{template "common.html".}}
 
-        ul, ol {
-            padding: 0;
-            margin: 0;
-        }
+{{define "meta"}}
+<title>个人中心</title>
+{{end}}
+{{define "css"}}
+<style>
+    p {
+        margin: 0;
+    }
 
-        .text-ov {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
-        }
+    li {
+        list-style: none;
+    }
 
-        .s-main {
-            padding: 20px 0 0px 10px;
-            border-right: 1px solid #999999;
-            border-radius: 4px;
-            overflow: hidden;
-            width: 1100px;
-            margin: 50px auto;
-        }
+    ul, ol {
+        padding: 0;
+        margin: 0;
+    }
 
-        .user-panel {
-        }
+    .text-ov {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
 
-        .user-content {
-            height: 600px;
-            border-bottom: 1px solid #999999;
-            border-left: 1px solid #999999;
-            padding: 0 36px 0 40px;
-        }
+    .user-panel {
+        background-color: #ffffff;
+    }
 
-        .pwdButton {
-            height: 30px;
-            font-size: 0.88rem;
-            width: 120px;
-            padding: 0;
-        }
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+        background-color: #c73236;
+    }
 
-        .article-list {
-            height: 411px;
-            margin: 40px 20px 50px 10px;
-        }
+    .user-content {
+        height: 600px;
+        border-bottom: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        padding: 0 36px 0 40px;
+    }
 
-        .article-list li {
-            line-height: 40px;
-            border-top: 1px solid #999;
-            border-right: 1px solid #999;
-            border-left: 1px solid #999;
-        }
+    .nav-list {
+        padding-right: 0;
+        padding-left: 15px;
 
-        .article-list li:last-of-type {
-            border-bottom: 1px solid #999;
-        }
+    }
 
-        .article-time {
-            color: #999;
-            text-align: right;
-        }
+    .nav-pills .nav-link {
+        border-radius: 0;
+        color: #333;
+        position: relative;
+    }
 
-        .article-status {
-            color: #999;
-            text-align: right;
-        }
+    .nav-pills .nav-link span {
+        width: 30px;
+        height: 30px;
+        margin-right: 14px;
+        vertical-align: middle;
+        display: inline-block;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: contain;
+    }
 
-        .article-status.status-pass b {
-            color: #329459;
-            font-weight: normal;
-        }
-    </style>
-</head>
-<body>
-<section>
-    <div class="s-main">
-        <div class="user-panel row">
-            <div class="nav flex-column nav-pills col-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-                <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
-                   aria-controls="v-pills-home" aria-selected="true">个人资料</a>
-                <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
-                   aria-controls="v-pills-profile" aria-selected="false">我的文章</a>
-                <a class="nav-link" id="v-pills-publish-tab" data-toggle="pill" href="#v-pills-publish" role="tab"
-                   aria-controls="v-pills-publish" aria-selected="false">我的投稿</a>
-            </div>
-            <div class="tab-content col-9 user-content" id="v-pills-tabContent">
-                <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
-                     aria-labelledby="v-pills-home-tab">
-                    <div class="row align-items-center" style="margin-bottom: 20px;">
-                        <span class="col-2">用户名</span>
-                        <span class="col-2">XXXXXX</span>
+    .nav-pills .nav-link + .nav-link::before {
+        content: '';
+        width: 70%;
+        height: 1px;
+        background-color: #999999;
+        display: block;
+        position: absolute;
+        top: -1px;
+        left: 20px;
+    }
+
+    .nav-pills .nav-link.active + .nav-link::before, .nav-pills .nav-link.active::before {
+        background-color: transparent;
+    }
+
+    .nav-pills .nav-link:first-of-type span {
+        background-image: url("/static/images/icon-account.png");
+    }
+
+    .nav-pills .nav-link:nth-of-type(2) span {
+        background-image: url("/static/images/icon-article.png");
+    }
+
+    .nav-pills .nav-link:last-of-type span {
+        background-image: url("/static/images/icon-publish.png");
+    }
+
+    .nav-pills .nav-link.active:first-of-type span {
+        background-image: url("/static/images/icon-account-active.png");
+    }
+
+    .nav-pills .nav-link.active:nth-of-type(2) span {
+        background-image: url("/static/images/icon-article-active.png");
+    }
+
+    .nav-pills .nav-link.active:last-of-type span {
+        background-image: url("/static/images/icon-publish-active.png");
+    }
+
+    .pwdButton {
+        height: 30px;
+        font-size: 0.88rem;
+        width: 120px;
+        padding: 0;
+    }
+
+    .article-list {
+        height: 411px;
+        margin: 40px 20px 50px 10px;
+    }
+
+    .article-list a {
+        color: #333;
+        outline: none;
+    }
+
+    .article-list li {
+        line-height: 40px;
+        border-top: 1px solid #999;
+        border-right: 1px solid #999;
+        border-left: 1px solid #999;
+    }
+
+    .article-list li:last-of-type {
+        border-bottom: 1px solid #999;
+    }
+
+    .article-time {
+        color: #999;
+        text-align: right;
+    }
+
+    .article-status {
+        color: #999;
+        text-align: right;
+    }
+
+    .article-status.status-pass b {
+        color: #329459;
+        font-weight: normal;
+    }
+</style>
+{{end}}
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
+{{define "content"}}
+<section class="section"
+         style="background-image: url('/static/images/user_bg.png');background-size: cover;padding:50px 0;background-position: center;">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-11">
+                <div class="user-panel row">
+                    <div class="nav nav-list flex-column nav-pills col-3" id="v-pills-tab" role="tablist"
+                         aria-orientation="vertical">
+                        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home"
+                           role="tab"
+                           aria-controls="v-pills-home" aria-selected="true"><span></span>个人资料</a>
+                        <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile"
+                           role="tab"
+                           aria-controls="v-pills-profile" aria-selected="false"><span></span>我的文章</a>
+                        <a class="nav-link" id="v-pills-publish-tab" data-toggle="pill" href="#v-pills-publish"
+                           role="tab"
+                           aria-controls="v-pills-publish" aria-selected="false"><span></span>我的投稿</a>
                     </div>
-                    <div class="row">
-                        <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
-                                data-target="#exampleModal">修改用户名
-                        </button>
-                        <div class="col-1"></div>
-                        <button type="button" class="btn btn-success pwdButton">修改密码</button>
-                    </div>
-                </div>
-                <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
-                    <div>
-                        <ul class="article-list">
-                            <li class="row">
-                                <p class="col-6 text-ov"><b style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                    <a href="#" data-toggle="modal" data-target="#exampleModalLong">
-                                        2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                    </a>
-                                </p>
-                                <span class="col-1"></span>
-                                <span class="col-3 article-time">时间:2018-08-17</span>
-                                <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                            </li>
-                            <li class="row">
-                                <p class="col-6 text-ov"><b style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                    <a href="#">
-                                        2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                    </a>
-                                </p>
-                                <span class="col-1"></span>
-                                <span class="col-3 article-time">时间:2018-08-17</span>
-                                <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                            </li>
-                            <li class="row">
-                                <p class="col-6 text-ov"><b style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                    <a href="#">
-                                        2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                    </a>
-                                </p>
-                                <span class="col-1"></span>
-                                <span class="col-3 article-time">时间:2018-08-17</span>
-                                <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                            </li>
-                            <li class="row">
-                                <p class="col-6 text-ov"><b style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                    <a href="#">
-                                        2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                    </a>
-                                </p>
-                                <span class="col-1"></span>
-                                <span class="col-3 article-time">时间:2018-08-17</span>
-                                <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                            </li>
-                            <li class="row">
-                                <p class="col-6 text-ov"><b style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                    <a href="#">
-                                        2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                    </a>
-                                </p>
-                                <span class="col-1"></span>
-                                <span class="col-3 article-time">时间:2018-08-17</span>
-                                <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                            </li>
-                        </ul>
-                        <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                                <li class="page-item disabled">
-                                    <span class="page-link">上一页</span>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                <li class="page-item active">
+                    <div class="tab-content col-9 user-content" id="v-pills-tabContent">
+                        <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel"
+                             aria-labelledby="v-pills-home-tab">
+                            <div class="row align-items-center" style="margin-bottom: 20px;">
+                                <span class="col-2">用户名</span>
+                                <span class="col-2" id="myname">XXXXXX</span>
+                            </div>
+                            <div class="row">
+                                <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
+                                        data-target="#userModal">修改用户名
+                                </button>
+                                <div class="col-1"></div>
+                                <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
+                                        data-target="#pwdModal">修改密码
+                                </button>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                             aria-labelledby="v-pills-profile-tab">
+                            <div>
+                                <ul class="article-list">
+                                    <li class="row">
+                                        <p class="col-6 text-ov"><b
+                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
+                                            <a href="#" data-toggle="modal" data-target="#exampleModalLong">
+                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
+                                            </a>
+                                        </p>
+                                        <span class="col-1"></span>
+                                        <span class="col-3 article-time">时间:2018-08-17</span>
+                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
+                                    </li>
+                                    <li class="row">
+                                        <p class="col-6 text-ov"><b
+                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
+                                            <a href="#">
+                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
+                                            </a>
+                                        </p>
+                                        <span class="col-1"></span>
+                                        <span class="col-3 article-time">时间:2018-08-17</span>
+                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
+                                    </li>
+                                    <li class="row">
+                                        <p class="col-6 text-ov"><b
+                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
+                                            <a href="#">
+                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
+                                            </a>
+                                        </p>
+                                        <span class="col-1"></span>
+                                        <span class="col-3 article-time">时间:2018-08-17</span>
+                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
+                                    </li>
+                                    <li class="row">
+                                        <p class="col-6 text-ov"><b
+                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
+                                            <a href="#">
+                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
+                                            </a>
+                                        </p>
+                                        <span class="col-1"></span>
+                                        <span class="col-3 article-time">时间:2018-08-17</span>
+                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
+                                    </li>
+                                    <li class="row">
+                                        <p class="col-6 text-ov"><b
+                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
+                                            <a href="#">
+                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
+                                            </a>
+                                        </p>
+                                        <span class="col-1"></span>
+                                        <span class="col-3 article-time">时间:2018-08-17</span>
+                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
+                                    </li>
+                                </ul>
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination justify-content-center">
+                                        <li class="page-item disabled">
+                                            <span class="page-link">上一页</span>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item active">
                                   <span class="page-link">
                                     2
                                     <span class="sr-only">(current)</span>
                                   </span>
-                                </li>
-                                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                <li class="page-item">
-                                    <a class="page-link" href="#">下一页</a>
-                                </li>
-                            </ul>
-                        </nav>
+                                        </li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item">
+                                            <a class="page-link" href="#">下一页</a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>
+
+                        </div>
+                        <div class="tab-pane fade" id="v-pills-publish" role="tabpanel"
+                             aria-labelledby="v-pills-publish-tab">
+                            ...
+                        </div>
                     </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- modal -->
+    <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">修改用户名</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="user-recipient-name" class="col-form-label">当前用户名:</label>
+                            <input type="text" class="form-control" id="user-recipient-name">
+                        </div>
+                    </form>
 
                 </div>
-                <div class="tab-pane fade" id="v-pills-publish" role="tabpanel" aria-labelledby="v-pills-publish-tab">
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="usrnSubmit()">下一步
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="pwdModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">修改密码</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="oldpwd-recipient-name" class="col-form-label">旧密码:</label>
+                            <input type="password" class="form-control" id="oldpwd-recipient-name">
+                            <label for="oldpwd-recipient-name" class="col-form-label">新密码:</label>
+                            <input type="password" class="form-control" id="newpwd-recipient-name">
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
+                    <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="pwdSubmit()">下一步
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal long-->
+    <div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLongTitle">我的文章---标题</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
                     ...
                 </div>
+                <div class="modal-footer">
+                    <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
+                    <button type="button" class="btn btn-primary">保存</button>
+                </div>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            userInit();
+            articleInit();
+        })
+        function userInit() {
+            $.ajax({
+                url: '/api/user/data',
+                type: 'GET',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        console.log(r);
+                        console.log(11);
+                        $('#myname').text(r.userinfo.username);
+                    } else {
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+        function articleInit() {
+            $.ajax({
+                url:'/api/article/list',
+                type:'GET',
+                success:function (r) {
+                    if(r.status==10000){
+                        console.log(r.articles);
+                        alert(r.articles.length);
+                    }else{
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+
+        function usrnSubmit(){
+            var username = $('#user-recipient-name').val();
+            $.ajax({
+                url: '/api/user/usrn_update',
+                type: 'POST',
+                data: {
+                    'username': username,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+                        $('#myname').text(r.userinfo.username);
+                        console.log($('#myname').text());
+                    } else {
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+
+        function pwdSubmit() {
+            var newpwd = $('#newpwd-recipient-name').val();
+            var oldpwd = $('#oldpwd-recipient-name').val();
+            $.ajax({
+                url: '/api/user/pwd_update',
+                type: 'POST',
+                data: {
+                    'old_password': oldpwd,
+                    'new_password': newpwd,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+                        alert("修改成功");
+                    } else {
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+    </script>
 </section>
-
-
-<!-- modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">修改用户名</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="recipient-name" class="col-form-label">当前用户名:</label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">返回</button>
-                <button type="button" class="btn btn-primary">下一步</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal long-->
-<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLongTitle">我的文章---标题</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
-                <button type="button" class="btn btn-primary">保存</button>
-            </div>
-        </div>
-    </div>
-</div>
-</body>
-<script>
-    // $('.details').on('click',function(){
-    //
-    // })
-</script>
-</html>
+{{end}}
+{{define "footer"}}
+{{end}}
