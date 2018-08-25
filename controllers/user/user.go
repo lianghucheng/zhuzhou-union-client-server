@@ -14,18 +14,21 @@ type Controller struct {
 
 //@router /user/center [*]
 func (this *Controller) UserCenter(){
+	this.CheckLogin()
 	this.TplName="user/user.html"
 }
 
 //@router /api/user/data [get]
 func (this *Controller) UserData() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	this.ReturnSuccess("userinfo", userinfo)
 }
 
 //@router /api/user/usrn_update [post]
 func (this *Controller) UsrnUpdate() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	username := this.GetString("username")
 
 	//this.VerityCode(username)
@@ -38,19 +41,20 @@ func (this *Controller) UsrnUpdate() {
 		beego.Debug("更新手机失败", err)
 		this.ReturnJson(1, "更新手机失败"+err.Error())
 	}
-	this.ReturnSuccess()
+	this.ReturnSuccess("userinfo",userinfo)
 }
 
 //@router /api/user/pwd_update [post]
 func (this *Controller) PwdUpdate() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	old_password := this.GetString("old_password")
 	new_password := this.GetString("new_password")
 	md5_old_pwd := utils.Md5(old_password)
 	old_password = ""
 	md5_new_pwd := utils.Md5(new_password)
 	new_password = ""
-	if md5_old_pwd != this.Userinfo.Password {
+	if md5_old_pwd != userinfo.Password {
 		beego.Debug("旧密码错误")
 		this.ReturnJson(1, "旧密码错误")
 	}
@@ -59,7 +63,7 @@ func (this *Controller) PwdUpdate() {
 		beego.Debug("更新密码失败", err)
 		this.ReturnJson(1, "更新密码失败"+err.Error())
 	}
-	this.ReturnSuccess()
+	this.ReturnSuccess("userinfo",userinfo)
 }
 
 //@router /api/user/pwd_find [post]
@@ -226,17 +230,10 @@ func (this *Controller) SubmitDetail() {
 	this.ReturnSuccess()
 }
 
-/*
-权限：
-	用户不能登陆后台
-	普通管理员有部分删（删除用户，删除栏目，删除资源，不能删除管理员）权限，有部分增（增加资源，增加用户，不能增加管理员，增加栏目）
-修（修改资源，修改用户，不能修改管理员，修改栏目）权限，有全部查权限
-	普通管理员对资源 用户 栏目 是满权限的     对管理员是无权限的   不能修改权限
-	root管理员：杀人放火，不所不能
-*/
 //@router /api/article/list [get]
 func (this *Controller) ArticleList() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	page, _ := this.GetInt("page")
 	if page == 0 {
 		page = 1
@@ -275,7 +272,8 @@ func (this *Controller) Article() {
 
 //@router /api/article/submit [post]
 func (this *Controller) ArticleSubmit() {
-	userinfo := this.Userinfo
+	this.CheckLogin()
+	userinfo := this.GetSession("userinfo").(*models.User)
 	content := this.GetString("content")
 	article := models.Article{}
 	article.UserID = userinfo.ID
