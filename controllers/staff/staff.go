@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"zhuzhou-union-client-server/controllers"
 	"github.com/astaxie/beego"
+	"regexp"
 )
 
 type StaffShowController struct {
@@ -18,6 +19,18 @@ func (this *StaffShowController) Submit() {
 	category, err := this.GetInt("category")
 	if err != nil || category <= 0 || category < 0 || category > 3 {
 		this.ReturnJson(10001, "该分类不存在")
+		return
+	}
+	//去除STYLE
+	re, _ := regexp.Compile("\\<style[\\S\\s]+?\\</style\\>")
+	content = re.ReplaceAllString(content, "")
+
+	//去除SCRIPT
+	re, _ = regexp.Compile("\\<script[\\S\\s]+?\\</script\\>")
+	content = re.ReplaceAllString(content, "")
+
+	if title == "" {
+		this.ReturnJson(10002, "标题不能为空")
 		return
 	}
 

@@ -11,10 +11,13 @@ import (
 	"strconv"
 	"strings"
 	"time"
+	"path/filepath"
+	"io/ioutil"
+	"zhuzhou-union-client-server/utils"
 )
 
 type Ueditor struct {
-	CommonController
+	Common
 }
 
 type config_Json struct {
@@ -89,6 +92,7 @@ type list_res struct {
 var configJson config_Json
 
 func Init_Ueditor(config_path string) {
+
 	file, err := os.Open(config_path)
 	if err != nil {
 		log.Fatal(err)
@@ -101,14 +105,24 @@ func Init_Ueditor(config_path string) {
 
 	json.Unmarshal(buf.Bytes(), &configJson)
 
-	os.MkdirAll(configJson.ImagePathFormat, 0777)
-	os.MkdirAll(configJson.FilePathFormat, 0777)
-	os.MkdirAll(configJson.VideoPathFormat, 0777)
-	os.MkdirAll(configJson.SnapscreenPathFormat, 0777)
-	os.MkdirAll(configJson.ScrawlPathFormat, 0777)
+	isRemoteUpload, _ := beego.AppConfig.Bool("isRemoteUpload")
+
+	if !isRemoteUpload {
+		os.MkdirAll(configJson.ImagePathFormat, 0777)
+		os.MkdirAll(configJson.FilePathFormat, 0777)
+		os.MkdirAll(configJson.VideoPathFormat, 0777)
+		os.MkdirAll(configJson.SnapscreenPathFormat, 0777)
+		os.MkdirAll(configJson.ScrawlPathFormat, 0777)
+	}
 }
 
 func (this *Ueditor) U_Controller() {
+	ueditorPath, err := filepath.Abs(filepath.Dir(os.Args[0]))
+	if err != nil {
+		panic(err)
+	}
+
+	Init_Ueditor(ueditorPath + "/conf/ueditor_config.json")
 	var jsondata interface{}
 	defer func() {
 		this.Data["json"] = jsondata
@@ -120,13 +134,13 @@ func (this *Ueditor) U_Controller() {
 	case "config":
 		jsondata = configJson
 	case configJson.ImageActionName:
-		jsondata = upload_uuid(this.Controller, configJson.ImageFieldName, configJson.ImagePathFormat)
+		jsondata = upload_uuid_remote(this.Controller, configJson.ImageFieldName, configJson.ImagePathFormat)
 	case configJson.ScrawlActionName:
-		jsondata = upload_uuid(this.Controller, configJson.ScrawlFieldName, configJson.ScrawlPathFormat)
+		jsondata = upload_uuid_remote(this.Controller, configJson.ScrawlFieldName, configJson.ScrawlPathFormat)
 	case configJson.VideoActionName:
-		jsondata = upload_time(this.Controller, configJson.VideoFieldName, configJson.VideoPathFormat)
+		jsondata = upload_time_remote(this.Controller, configJson.VideoFieldName, configJson.VideoPathFormat)
 	case configJson.FileActionName:
-		jsondata = upload_name(this.Controller, configJson.FileFieldName, configJson.FilePathFormat)
+		jsondata = upload_uuid_remote(this.Controller, configJson.FileFieldName, configJson.FilePathFormat)
 	case configJson.ImageManagerActionName:
 		jsondata = list_file(this.Controller, configJson.ImageManagerListPath)
 	case configJson.FileManagerActionName:
@@ -142,6 +156,7 @@ func (this *Ueditor) U_Controller() {
 func upload_uuid(this beego.Controller, FieldName, PathFormat string) interface{} {
 	var jsondata upload_res
 	File_in, File_h, err := this.GetFile(FieldName)
+
 	defer File_in.Close()
 	if err != nil {
 		beego.Error(err)
@@ -157,6 +172,25 @@ func upload_uuid(this beego.Controller, FieldName, PathFormat string) interface{
 	return jsondata
 }
 
+func upload_uuid_remote(this beego.Controller, FieldName, PathFormat string) interface{} {
+	var jsondata upload_res
+	File_in, File_h, err := this.GetFile(FieldName)
+	defer File_in.Close()
+	if err != nil {
+		beego.Error(err)
+		jsondata.Status = "上传失败"
+		return jsondata
+	}
+	fileByte, _ := ioutil.ReadAll(File_in)
+	url, _ := utils.UploadFile(File_h.Filename, fileByte)
+
+	jsondata.Status = "SUCCESS"
+	jsondata.Original = File_h.Filename
+	jsondata.Title = File_h.Filename
+	jsondata.Url = url
+	return jsondata
+}
+
 func upload_time(this beego.Controller, FieldName, PathFormat string) interface{} {
 	var jsondata upload_res
 	File_in, File_h, err := this.GetFile(FieldName)
@@ -168,6 +202,25 @@ func upload_time(this beego.Controller, FieldName, PathFormat string) interface{
 	}
 	filename := strconv.FormatInt(time.Now().UnixNano(), 10) + path.Ext(File_h.Filename)
 	this.SaveToFile(FieldName, path.Join(PathFormat, filename))
+	jsondata.Status = "SUCCESS"
+	jsondata.Original = File_h.Filename
+	jsondata.Title = File_h.Filename
+	jsondata.Url = filename
+	return jsondata
+}
+
+func upload_time_remote(this beego.Controller, FieldName, PathFormat string) interface{} {
+	var jsondata upload_res
+	File_in, File_h, err := this.GetFile(FieldName)
+	File_in.Close()
+	if err != nil {
+		beego.Error(err)
+		jsondata.Status = "上传失败"
+		return jsondata
+	}
+	filename := strconv.FormatInt(time.Now().UnixNano(), 10) + path.Ext(File_h.Filename)
+	fileByte, _ := ioutil.ReadAll(File_in)
+	utils.UploadFile(File_h.Filename, fileByte)
 	jsondata.Status = "SUCCESS"
 	jsondata.Original = File_h.Filename
 	jsondata.Title = File_h.Filename
@@ -191,6 +244,32 @@ func upload_name(this beego.Controller, FieldName, PathFormat string) interface{
 		jsondata.Status = "该文件名已存在"
 		return jsondata
 	}
+	this.SaveToFile(FieldName, path.Join(PathFormat, filename))
+	jsondata.Status = "SUCCESS"
+	jsondata.Original = File_h.Filename
+	jsondata.Title = File_h.Filename
+	jsondata.Url = filename
+	return jsondata
+}
+
+func upload_name_remote(this beego.Controller, FieldName, PathFormat string) interface{} {
+	var jsondata upload_res
+	File_in, File_h, err := this.GetFile(FieldName)
+	File_in.Close()
+	if err != nil {
+		beego.Error(err)
+		jsondata.Status = "上传失败"
+		return jsondata
+	}
+	filename := File_h.Filename
+	f, err := os.Open(path.Join(PathFormat, filename))
+	f.Close()
+	if err == nil {
+		jsondata.Status = "该文件名已存在"
+		return jsondata
+	}
+	fileByte, _ := ioutil.ReadAll(File_in)
+	utils.UploadFile(File_h.Filename, fileByte)
 	this.SaveToFile(FieldName, path.Join(PathFormat, filename))
 	jsondata.Status = "SUCCESS"
 	jsondata.Original = File_h.Filename
