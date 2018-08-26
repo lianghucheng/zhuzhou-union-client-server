@@ -31,7 +31,7 @@ func (this *Controller) UsrnUpdate() {
 	userinfo := this.GetSession("userinfo").(*models.User)
 	username := this.GetString("username")
 
-	//this.VerityCode(username)
+	this.VerityCode(username)
 
 	if !utils.MobileRegexp(username) {
 		this.ReturnJson(10002, "请输入正确的手机号码")
@@ -69,7 +69,7 @@ func (this *Controller) PwdUpdate() {
 //@router /api/user/pwd_find [post]
 func (this *Controller) PwdFind() {
 	username := this.GetString("username")
-	//this.VerityCode(username)
+	this.VerityCode(username)
 	new_pwd := this.GetString("new_pwd")
 	md5_pwd := utils.Md5(new_pwd)
 	new_pwd = ""

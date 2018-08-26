@@ -236,7 +236,7 @@
             var username = $('#phone').val();
             var code = $('#code').val();
             var cid =$("#code").data('code');
-            alert(username);
+            alert("即将发送验证码到"+username);
             $.ajax({
                 type: 'POST',
                 url: '/api/user/send/rsms',

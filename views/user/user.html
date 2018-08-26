@@ -270,14 +270,8 @@
                         <div class="tab-pane fade" id="v-pills-publish" role="tabpanel"
                              aria-labelledby="v-pills-publish-tab">
 
-                            <script id="container" name="content" type="text/plain">
-        这里写你的初始化内容
-
-
-
-
-                            </script>
-                            <button type="submit" onclick="tSubmit()">提交富文本编辑器</button>
+                            <script id="container" name="content" type="text/plain"></script>
+                            <button type="button" class="btn btn-primary" onclick="tSubmit()">保存</button>
                         </div>
                     </div>
                 </div>
@@ -300,7 +294,7 @@
                 <div class="modal-body">
                     <form>
                         <div class="form-group">
-                            <label for="user-recipient-name" class="col-form-label">当前用户名:</label>
+                            <label for="user-recipient-name" class="col-form-label">输入新用户名:</label>
                             <input type="text" class="form-control" id="user-recipient-name">
                         </div>
                     </form>
@@ -349,26 +343,17 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">我的文章---标题</h5>
+                    <h5 class="modal-title" id="exampleModalLongTitle"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{urlfor "DateControllor.Test"}}" method="post">
-                        <script id="container" name="content" type="text/plain">
-        这里写你的初始化内容
-
-
-
-
-                        </script>
-                        <button type="submit">提交富文本编辑器</button>
-                    </form>
+                    <script id="detail_container" name="content" type="text/plain">这里写你的初始化内容</script>
                 </div>
                 <div class="modal-footer">
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
-                    <button type="button" class="btn btn-primary">保存</button>
+                    <button type="button" class="btn btn-primary" onclick="tUpdate($('#detail_container').data('code'))">保存</button>
                 </div>
             </div>
         </div>
@@ -378,7 +363,8 @@
     <script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
-        var ue = UE.getEditor('container');
+        var ue = UE.getEditor('container',{initialFrameWidth:null,initialFrameHeight: 500,autoHeightEnabled:false});
+        var due = UE.getEditor('detail_container',{initialFrameWidth:null,initialFrameHeight: 300,autoHeightEnabled:false});
     </script>
     <script>
         $(function () {
@@ -393,7 +379,6 @@
                 success: function (r) {
                     if (r.status == 10000) {
                         console.log(r);
-                        console.log(11);
                         $('#myname').text(r.userinfo.username);
                     } else {
                         alert(r.message);
@@ -411,40 +396,30 @@
                         console.log(r);
                         var tmpl = '';
                         for (var i = 0; i < r.articles.length; i++) {
-                            tmpl += '<li class="row">' +
-                                    '<p class="col-6 text-ov"><b ' +
-                                    'style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>' +
-                                    '<a href="#" id="t'+(i+1)+'" data-toggle="modal" data-target="#exampleModalLong">' + r.articles[i].Content.slice(3, -4) +
-                                    '</a>' +
-                                    '</p>' +
-                                    '<span class="col-1"></span>' +
-                                    '<span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>' +
-                                    '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>' +
-                                    '</li>';
-                            console.log(r.articles[i].Content.slice(3, -3));
-                            $('#t'+(i+1)).mousedown(function () {
-                                var ID = $(this).data('code');
-                                $.ajax({
-                                    url:'/api/article',
-                                    type:'GET',
-                                    data:{
-                                        'id':ID,
-                                    },
-                                    success:function (r) {
-                                        if (r.status==10000){
-                                            console.log(r);
-                                        }else{
-                                            alert(r.message)
-                                        }
-                                    }
-                                })
+                            tmpl += '<li class="row">\n' +
+                                    '                                        <p class="col-6 text-ov"><b\n' +
+                                    '                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>\n' +
+                                    '                                            <a href="#" id="t' + (i + 1) + '" data-toggle="modal" data-target="#exampleModalLong">\n' +
+                                    r.articles[i].Content.slice(3, -4) +
+                                    '                                            </a>\n' +
+                                    '                                        </p>\n' +
+                                    '                                        <span class="col-1"></span>\n' +
+                                    '                                        <span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>\n' +
+                                    '                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>\n' +
+                                    '                                    </li>';
+                        }
+                        $('#articleList').html(tmpl);
+                        for (var i = 0; i < r.articles.length; i++) {
+                            $('#t' + (i + 1)).data('code',r.articles[i].ID);
+                            console.log($('#t' + (i + 1)).data('code'));
+                            $('#t' + (i + 1)).mousedown(function () {
+                                due.setContent($(this).text());
+                                $('#detail_container').data('code',$(this).data('code'));
                             })
                         }
-                        $('#articleList').html(tmpl)
-
                         var page_count = '<li class="page-item disabled" id="p1">\n' +
                                 '                                            <span class="page-link">上一页</span>\n' +
-                                '                                        </li>'+'<li class="page-item active" id="p2">\n' +
+                                '                                        </li>' + '<li class="page-item active" id="p2">\n' +
                                 '                                  <span class="page-link">\n' +
                                 '                                    1\n' +
                                 '                                    <span class="sr-only">(current)</span>\n' +
@@ -453,38 +428,38 @@
                         var page_all = parseInt((r.count / 10) + 1);
                         console.log(page_all);
                         for (var i = 1; i < page_all; i++) {
-                            page_count += '<li class="page-item" id="p'+(i+2)+'"><span class="page-link">'+(i+1)+'</span></li>'
+                            page_count += '<li class="page-item" id="p' + (i + 2) + '"><span class="page-link">' + (i + 1) + '</span></li>'
                         }
-                        if (page_count>1){
-                            page_count+='<li class="page-item" id="p'+(page_all+2)+'">\n' +
+                        if (page_count > 1) {
+                            page_count += '<li class="page-item" id="p' + (page_all + 2) + '">\n' +
                                     '                                            <span class="page-link">下一页</span>\n' +
                                     '                                        </li>';
-                        }else{
-                            page_count+='<li class="page-item disabled" id="p'+(page_all+2)+'">\n' +
+                        } else {
+                            page_count += '<li class="page-item disabled" id="p' + (page_all + 2) + '">\n' +
                                     '                                            <span class="page-link">下一页</span>\n' +
                                     '                                        </li>';
                         }
                         $('#page_count').html(page_count);
-                        for (var i=1;i<=page_all+2;i++){
-                            $('#p'+i).click(function () {
+                        for (var i = 1; i <= page_all + 2; i++) {
+                            $('#p' + i).click(function () {
                                 var getVal = $(this).text()
-                                if (r.page==1&&getVal.indexOf("上一页")!=-1){
+                                if (r.page == 1 && getVal.indexOf("上一页") != -1) {
                                     alert("这是第一页");
                                     return;
                                 }
-                                if (r.page==page_all&&getVal.indexOf("下一页")!=-1){
+                                if (r.page == page_all && getVal.indexOf("下一页") != -1) {
                                     alert("这是最后一页");
                                     return;
                                 }
-                                if (getVal.indexOf("下一页")!=-1){
-                                    getArticles(r.page+1);
+                                if (getVal.indexOf("下一页") != -1) {
+                                    getArticles(r.page + 1);
                                     return;
                                 }
-                                if (getVal.indexOf("上一页")!=-1){
-                                    getArticles(r.page-1);
+                                if (getVal.indexOf("上一页") != -1) {
+                                    getArticles(r.page - 1);
                                     return;
                                 }
-                                if (getVal.length==1){
+                                if (getVal.length == 1) {
                                     getArticles(getVal);
                                     return;
                                 }
@@ -548,47 +523,70 @@
                     if (r.status = 10000) {
                         alert("您已提交成功");
                         getArticles(1);
+                        window.location.href='/user/center';
                     } else {
                         alert(r.message);
                     }
                 }
             })
         }
-        function getArticles(page){
+
+        function tUpdate(tID) {
+            var contenta = due.getContent();
             $.ajax({
-                url:'/api/article/list',
-                type:'GET',
-                data:{
-                    'page':page,
+                url: "/api/article/update",
+                type: 'POST',
+                data: {
+                    'content': contenta,
+                    'id':tID,
                 },
-                success:function (r) {
-                    if (r.status==10000){
+                success: function (r) {
+                    if (r.status = 10000) {
+                        alert("您已保存成功");
+                        getArticles(1);
+                        window.location.href='/user/center';
+                    } else {
+                        alert(r.message);
+                    }
+                }
+            })
+        }
+
+        function getArticles(page) {
+            $.ajax({
+                url: '/api/article/list',
+                type: 'GET',
+                data: {
+                    'page': page,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
                         console.log(r);
                         var tmpl = '';
                         for (var i = 0; i < r.articles.length; i++) {
                             tmpl += '<li class="row">' +
                                     '<p class="col-6 text-ov"><b ' +
                                     'style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>' +
-                                    '<a href="#" id="t'+(i+1)+'" data-toggle="modal" data-target="#exampleModalLong">' + r.articles[i].Content.slice(3, -4) +
+                                    '<a href="#" id="t' + (i + 1) + '" data-toggle="modal" data-target="#exampleModalLong">' + r.articles[i].Content.slice(3, -4) +
                                     '</a>' +
                                     '</p>' +
                                     '<span class="col-1"></span>' +
                                     '<span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>' +
                                     '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>' +
                                     '</li>';
-                            $('#t'+(i+1)).data('code',r.articles[i].ID);
-                            $('#t'+(i+1)).click(function () {
+                            $('#t' + (i + 1)).data('code', r.articles[i].ID);
+                            $('#t' + (i + 1)).click(function () {
                                 var ID = $(this).data('code');
                                 $.ajax({
-                                    url:'/api/article',
-                                    type:'GET',
-                                    data:{
-                                        'id':ID,
+                                    url: '/api/article',
+                                    type: 'GET',
+                                    data: {
+                                        'id': ID,
                                     },
-                                    success:function (r) {
-                                        if (r.status==10000){
+                                    success: function (r) {
+                                        if (r.status == 10000) {
                                             console.log(r);
-                                        }else{
+                                        } else {
                                             alert(r.message)
                                         }
                                     }
@@ -600,7 +598,7 @@
                         var page_count = '<li class="page-item disabled" id="p1">\n' +
                                 '                                            <span class="page-link">上一页</span>\n' +
                                 '                                        </li>';
-                        if (r.page!=1){
+                        if (r.page != 1) {
                             page_count = '<li class="page-item" id="p1">\n' +
                                     '                                            <span class="page-link">上一页</span>\n' +
                                     '                                        </li>';
@@ -608,53 +606,53 @@
                         var page_all = parseInt((r.count / 10) + 1);
                         console.log(page_all);
                         for (var i = 0; i < page_all; i++) {
-                            if (r.page==(i+1)){
+                            if (r.page == (i + 1)) {
                                 page_count += '<li class="page-item active" id="p2">\n' +
                                         '                                  <span class="page-link">\n' +
-                                        '                                    '+r.page+'\n' +
+                                        '                                    ' + r.page + '\n' +
                                         '                                    <span class="sr-only">(current)</span>\n' +
                                         '                                  </span>\n' +
                                         '                                        </li>'
-                            }else{
-                                page_count += '<li class="page-item" id="p'+(i+2)+'"><span class="page-link">'+(i+1)+'</span></li>';
+                            } else {
+                                page_count += '<li class="page-item" id="p' + (i + 2) + '"><span class="page-link">' + (i + 1) + '</span></li>';
                             }
                         }
-                        if (page_all>r.page){
-                            page_count+='<li class="page-item" id="p'+(page_all+2)+'">\n' +
+                        if (page_all > r.page) {
+                            page_count += '<li class="page-item" id="p' + (page_all + 2) + '">\n' +
                                     '                                            <span class="page-link">下一页</span>\n' +
                                     '                                        </li>';
-                        }else{
-                            page_count+='<li class="page-item disabled" id="p'+(page_all+2)+'">\n' +
+                        } else {
+                            page_count += '<li class="page-item disabled" id="p' + (page_all + 2) + '">\n' +
                                     '                                            <span class="page-link">下一页</span>\n' +
                                     '                                        </li>';
                         }
                         $('#page_count').html(page_count)
-                        for (var i=1;i<=page_all+2;i++){
-                            $('#p'+i).click(function () {
+                        for (var i = 1; i <= page_all + 2; i++) {
+                            $('#p' + i).click(function () {
                                 var getVal = $(this).text()
-                                if (r.page==1&&getVal.indexOf("上一页")!=-1){
+                                if (r.page == 1 && getVal.indexOf("上一页") != -1) {
                                     alert("这是第一页");
                                     return;
                                 }
-                                if (r.page==page_all&&getVal.indexOf("下一页")!=-1){
+                                if (r.page == page_all && getVal.indexOf("下一页") != -1) {
                                     alert("这是最后一页");
                                     return;
                                 }
-                                if (getVal.indexOf("下一页")!=-1){
-                                    getArticles(r.page+1);
+                                if (getVal.indexOf("下一页") != -1) {
+                                    getArticles(r.page + 1);
                                     return;
                                 }
-                                if (getVal.indexOf("上一页")!=-1){
-                                    getArticles(r.page-1);
+                                if (getVal.indexOf("上一页") != -1) {
+                                    getArticles(r.page - 1);
                                     return;
                                 }
-                                if (getVal.length==1){
+                                if (getVal.length == 1) {
                                     getArticles(getVal);
                                     return;
                                 }
                             });
                         }
-                    }else{
+                    } else {
                         alert(r.message)
                     }
                 }
