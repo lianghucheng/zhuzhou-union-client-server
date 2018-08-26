@@ -24,9 +24,7 @@
     }
 
     .image-box {
-        width: 100%;
-        height: 226px;
-        background-color: #0b2e13;
+        display: block;
         background-size: cover;
         background-position: center;
     }
@@ -96,20 +94,6 @@
         border: 1px solid #ccc;
         padding: 10px;
     }
-
-    .image-box {
-        width: 100%;
-        height: 160px;
-        background-color: #0b2e13;
-    }
-
-    .card-image {
-        position: relative;
-        height: 160px;
-        width: 100%;
-        overflow: hidden;
-        text-align: center;
-    }
     .card{
         border:none;
         margin: 20px 0;
@@ -129,9 +113,12 @@
     }
 
     .card-image {
+        background-color: #c73236;
         position: relative;
         height: 140px;
         width: 100%;
+        background-position: center;
+        background-size: cover;
         overflow: hidden;
         transition: border 0.3s;
     }
@@ -188,10 +175,7 @@
                     {{if eq $.category.Category 0}}
                         <div class="col-md-4 col-sm-12">
                             <div class="card" style="width:100%;height:300px;">
-                                <div class="card-image">
-                                    <img src="{{$elem.Cover}}"
-                                                             style="height:160px;width:100%;background-color: #005cbf;"
-                                                             alt="Card image cap">
+                                <div class="card-image" style="height:160px;width: 100%;background-image: url({{$elem.Cover}})">
                                     <a href="/article/{{.ID}}" class="image-mask"></a></div>
                                 <div class="card-body">
                                     <h5 class="card-title text-ov">{{str2html $elem.Title}}</h5>
@@ -203,7 +187,7 @@
                         <div class="_list-item">
                             <div class="row">
                                 <div class="item-image-left col-md-5 col-sm-12">
-                                    <div class="image-box" style="background-image: url({{$elem.Cover}})">
+                                    <div class="image-box" style="height:160px; background-image: url({{$elem.Cover}})">
                                     </div>
                                 </div>
                                 <div class="item-article-right col-md-7 col-sm-12">
