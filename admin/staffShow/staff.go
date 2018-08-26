@@ -3,10 +3,11 @@ package staffShow
 import (
 	"github.com/qor/admin"
 	"zhuzhou-union-client-server/models"
+	"github.com/qor/roles"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	staff := adminConfig.AddResource(&models.StaffShow{}, &admin.Config{Name: "职工show管理", PageCount: 10})
+	staff := adminConfig.AddResource(&models.StaffShow{}, &admin.Config{Name: "职工show管理", PageCount: 10,Permission:roles.Allow(roles.Read,roles.Anyone).Allow(roles.Update,roles.Anyone)})
 
 	//
 
