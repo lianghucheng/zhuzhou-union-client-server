@@ -363,14 +363,15 @@
         var username = $('#phone').val();
         var password1 = $('#password1').val();
         var password2 = $('#password2').val();
-        var code = $('#code').val();
+        var smscode = $('#smscode').val();
         $.ajax({
             type: 'POST',
             data: {
                 "username": username,
                 'password1': password1,
                 'password2': password2,
-                'code': code,
+                'code': smscode,
+
             },
             url: '/api/user/register',
             success: function (r) {

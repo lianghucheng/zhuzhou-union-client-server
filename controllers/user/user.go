@@ -336,3 +336,4 @@ func (this *Controller) Search() {
 	}
 	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
 }
+

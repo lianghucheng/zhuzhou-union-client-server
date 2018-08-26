@@ -37,7 +37,7 @@
     .login {
         position: absolute;
         width: 380px;
-        height: 460px;
+        height: 550px;
         background: #f2f9ff;
         padding: 36px;
         box-sizing: border-box;
@@ -141,7 +141,7 @@
                 <input
                         id="phone"
                         type="text"
-                        placeholder="账号/手机号"
+                        placeholder="手机号"
                 >
             </div>
             <div style="margin: 20px 0">
@@ -172,7 +172,7 @@
                     >
                 </div>
             </div>
-            <div style="overflow: hidden;justify-content:space-between;display: flex;margin: 20px 0 40px;">
+            <div style="margin-bottom: 40px;">
                 <div class="input-box">
                     <label for="code">
                         <img src="/static/images/safe.png" alt="">
@@ -182,10 +182,29 @@
                             style="width:110px;"
                             id="code"
                             type="password"
+                            placeholder="验证码"
+                    >
+                    <a href="#" onclick="update()"><img src="" id="picture" style="margin-top: 0;height: 36px;"></a>
+                </div>
+
+                <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
+                <!---->
+                <!--</div>-->
+            </div>
+            <div style="overflow: hidden;justify-content:space-between;display: flex;margin: 20px 0 40px;">
+                <div class="input-box">
+                    <label for="code">
+                        <img src="/static/images/safe.png" alt="">
+                    </label>
+                    <div class="border"></div>
+                    <input
+                            style="width:110px;"
+                            id="smscode"
+                            type="password"
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger" onclick="getCode()">发送验证码</button>
+                <button type="button" class="btn btn-danger" onclick="rgetCode()">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
@@ -198,6 +217,45 @@
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $.ajax({
+                url:'/api/common/captcha',
+                type:"GET",
+                success:function (r) {
+                    if (r.status==10000){
+                        $("#code").data('code',r.id);
+                        $('#picture').attr('src',r.src);
+                    }else {
+                        alert("error");
+                    }
+                }
+            })
+        })
+        function rgetCode() {
+            var username = $('#phone').val();
+            var code = $('#code').val();
+            var cid =$("#code").data('code');
+            alert(username);
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/send/rsms',
+                data: {
+                    'username': username,
+                    'captcha_code': code,
+                    'captcha_id':cid,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+
+                    } else {
+                        alert(r.message)
+                        update();
+                    }
+                }
+            })
+        }
+    </script>
 </section>
 {{end}}
 {{define "footer"}}
