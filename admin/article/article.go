@@ -30,14 +30,11 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
-	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Config: &admin.RichEditorConfig{
+	article.Meta(&admin.Meta{Name: "Content", Type: "ueditor", Label: "内容", Config: &admin.RichEditorConfig{
 		AssetManager: assetManager,
 		Plugins: []admin.RedactorPlugin{
 			{Name: "medialibrary", Source: "/admin/assets/javascripts/qor_redactor_medialibrary.js"},
 			{Name: "table", Source: "/admin/assets/javascripts/qor_ueditor.js"},
-		},
-		Settings: map[string]interface{}{
-			"medialibraryUrl": "/admin/product_images",
 		},
 	}})
 	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "ueditor"})

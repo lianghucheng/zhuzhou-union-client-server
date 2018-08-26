@@ -469,7 +469,7 @@
     }
     $('#search').on('keyup',function(e){
         if(e.originalEvent.key==='Enter'){
-            window.open('{{urlfor "SearchController.Search" }}/search?str='+e.target.value)
+            window.open('{{urlfor "SearchController.Search" }}?str='+e.target.value)
         }
     })
 </script>
