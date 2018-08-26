@@ -181,7 +181,7 @@ m-breadcrumb-tips{
     background-position: center;
     vertical-align: center;
 }
-.tabbar-group-item:hover .tabbar-item-forward{
+.tabbar-group-item:hover .tabbar-item-forward,.tabbar-group-item.active .tabbar-item-forward{
     background-image: url("../images/forward-select.png");
 }
 

@@ -414,7 +414,7 @@
                             tmpl += '<li class="row">' +
                                     '<p class="col-6 text-ov"><b ' +
                                     'style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>' +
-                                    '<a href="#">' + r.articles[i].Content.slice(3, -4) +
+                                    '<a href="#" id="t'+(i+1)+'" data-toggle="modal" data-target="#exampleModalLong">' + r.articles[i].Content.slice(3, -4) +
                                     '</a>' +
                                     '</p>' +
                                     '<span class="col-1"></span>' +
@@ -422,6 +422,23 @@
                                     '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>' +
                                     '</li>';
                             console.log(r.articles[i].Content.slice(3, -3));
+                            $('#t'+(i+1)).mousedown(function () {
+                                var ID = $(this).data('code');
+                                $.ajax({
+                                    url:'/api/article',
+                                    type:'GET',
+                                    data:{
+                                        'id':ID,
+                                    },
+                                    success:function (r) {
+                                        if (r.status==10000){
+                                            console.log(r);
+                                        }else{
+                                            alert(r.message)
+                                        }
+                                    }
+                                })
+                            })
                         }
                         $('#articleList').html(tmpl)
 
@@ -530,6 +547,7 @@
                 success: function (r) {
                     if (r.status = 10000) {
                         alert("您已提交成功");
+                        getArticles(1);
                     } else {
                         alert(r.message);
                     }
@@ -537,7 +555,6 @@
             })
         }
         function getArticles(page){
-            alert(page);
             $.ajax({
                 url:'/api/article/list',
                 type:'GET',
@@ -552,14 +569,31 @@
                             tmpl += '<li class="row">' +
                                     '<p class="col-6 text-ov"><b ' +
                                     'style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>' +
-                                    '<a href="#">' + r.articles[i].Content.slice(3, -4) +
+                                    '<a href="#" id="t'+(i+1)+'" data-toggle="modal" data-target="#exampleModalLong">' + r.articles[i].Content.slice(3, -4) +
                                     '</a>' +
                                     '</p>' +
                                     '<span class="col-1"></span>' +
                                     '<span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>' +
                                     '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>' +
                                     '</li>';
-                            console.log(r.articles[i].Content.slice(3, -3));
+                            $('#t'+(i+1)).data('code',r.articles[i].ID);
+                            $('#t'+(i+1)).click(function () {
+                                var ID = $(this).data('code');
+                                $.ajax({
+                                    url:'/api/article',
+                                    type:'GET',
+                                    data:{
+                                        'id':ID,
+                                    },
+                                    success:function (r) {
+                                        if (r.status==10000){
+                                            console.log(r);
+                                        }else{
+                                            alert(r.message)
+                                        }
+                                    }
+                                })
+                            })
                         }
                         $('#articleList').html(tmpl);
 

@@ -52,7 +52,6 @@
 
         .navbar-nav {
             width: 100%;
-            padding-bottom: 20px;
             justify-content: space-between;
         }
 
@@ -60,6 +59,9 @@
             color: #333333;
             font-size: 18px;
             line-height: 28px;
+            float: left;
+            min-width: 120px;
+            text-align: center;
         }
 
         .nav-item {
@@ -72,6 +74,8 @@
 
         .nav-item .nav-link {
             position: relative;
+            border-bottom: 2px solid transparent;
+            padding: 20px;
         }
 
         .nav-item.active .nav-link, .nav-item:hover .nav-link {
@@ -200,7 +204,7 @@
                 <input
                         style="border:none;outline: none;"
                         id="search"
-                        type="text"
+                        type="search"
                 >
             </div>
         </div>
@@ -462,5 +466,11 @@
             }
         })
     }
+    $('#search').on('keyup',function(e){
+        if(e.originalEvent.key==='Enter'){
+            window.open('{{urlfor "SearchController.Search" }}/search?str='+e.target.value)
+        }
+    })
 </script>
+<script src="/static/js/public.js"></script>
 </html>

@@ -7,6 +7,7 @@ import (
 	"github.com/qor/qor"
 	"github.com/qor/qor/resource"
 	"zhuzhou-union-client-server/models"
+	"github.com/astaxie/beego"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -19,6 +20,21 @@ func SetAdmin(adminConfig *admin.Admin) {
 	menu.IndexAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
 	menu.EditAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
 	menu.NewAttrs("ID", "Name", "URL", "Category", "Higher", "Sequence")
+
+	menu.FindManyHandler = func(result interface{}, context *qor.Context) error {
+		// find records and decode them to results
+		db := context.GetDB()
+		if _, ok := db.Get("qor:getting_total_count"); ok {
+			return context.GetDB().Count(result).Error
+		}
+		err := context.GetDB().Set("gorm:order_by_primary_key", "DESC").Find(result).Error
+		if menus, ok := result.([]models.Menu); ok {
+			beego.Debug(menus[0].Name)
+		}
+
+		beego.Debug(result)
+		return err
+	}
 
 	//重置删除
 	menu.Action(&admin.Action{
