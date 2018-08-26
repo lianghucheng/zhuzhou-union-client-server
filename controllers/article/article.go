@@ -18,7 +18,9 @@ func (this *Controller) ArticleDetail() {
 
 	var categories []models.Category
 	if article.Category != nil {
-		models.DB.Where("higher_id=?", article.Category.HigherID).Find(&categories)
+		if article.Category.HigherID != 0 {
+			models.DB.Where("higher_id=?", article.Category.HigherID).Find(&categories)
+		}
 	}
 	this.Data["categories"] = categories
 
@@ -35,6 +37,8 @@ func (this *Controller) ArticleDetail() {
 
 	this.Data["categoryStack"] = categoryStack
 
+	article.ReadNum = article.ReadNum + 1
+	models.DB.Save(&article)
 	this.Data["recommend"] = recommend
 	this.Data["article"] = article
 	this.TplName = "article/article.html"

@@ -1,0 +1,18 @@
+<script type="text/javascript" src="jwplayer.js"></script>
+<script>jwplayer.key="4sNBpozdkb2Gv+IYeWyd+CID9tW2NXdJE5GeSg==";//修改为自己的key</script>
+<div id="player">
+Loading...
+</div>
+<script type="text/javascript">
+jwplayer("player").setup({
+	"file": "jwplayer-30s.mp4",//视频文件路径
+	"aspectratio": "16:9",//播放器自适应比例
+	"height": "360",//播放器高度
+	"type":"mp4",//播放文件类型（可选）
+	"title": "测试标题",//标题（可选）
+	"description": "测试视频描述",//描述（可选）
+	"image": "http://ww4.sinaimg.cn/large/b6839357jw1e3val80tknj20dw099jsb.jpg",//视频封面（可选）
+	"repeat":"true",//重复播放（留空则不重复播放）
+	"autostart":"true",//自动播放（留空则不启用自动播放）
+});
+</script>
