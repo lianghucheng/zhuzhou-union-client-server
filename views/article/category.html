@@ -96,6 +96,60 @@
         border: 1px solid #ccc;
         padding: 10px;
     }
+
+    .image-box {
+        width: 100%;
+        height: 160px;
+        background-color: #0b2e13;
+    }
+
+    .card-image {
+        position: relative;
+        height: 160px;
+        width: 100%;
+        overflow: hidden;
+        text-align: center;
+    }
+    .card{
+        border:none;
+        margin: 20px 0;
+    }
+    .card-body {
+        transition: border 0.3s;
+        padding: 1.25rem 0;
+        border-bottom: 3px solid #ccc;
+    }
+
+    .card:hover .card-body {
+        border-color: #c73236;
+    }
+
+    .card ~ .card {
+        margin-left: 8px;
+    }
+
+    .card-image {
+        position: relative;
+        height: 140px;
+        width: 100%;
+        overflow: hidden;
+        transition: border 0.3s;
+    }
+
+    .image-mask {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        transition: height 0.3s;
+        background: rgba(0, 0, 0, .4) url(/static/images/search-mask.png) no-repeat center;/*TODO 图片要换*/
+        background-size: 20%;
+    }
+    .card-text {
+        font-size: 0.92rem;
+        line-height: 1.4;
+    }
 </style>
 {{end}}
 
@@ -108,8 +162,14 @@
     <nav>
         <ol class="m-breadcrumb">
             <li class="m-breadcrumb-tips">当前位置：</li>
-            <li class="m-breadcrumb-item"><a href="/">首页</a></li>
-            <li class="m-breadcrumb-item active" aria-current="page">{{.category.Name}}</li>
+            <li class="m-breadcrumb-item"><a href="#">首页</a></li>
+        {{range $index,$elem:=.categoryStack}}
+            <li class="m-breadcrumb-item {{if eq $.category.ID $elem.ID}} active {{end}}" aria-current="page">
+                <a href="/category/{{$elem.ID}}">
+                {{$elem.Name}}
+                </a>
+            </li>
+        {{end}}
         </ol>
     </nav>
     <div class="main row">
@@ -123,8 +183,23 @@
                 <div class="_list-panel">
                     <div class="list-box">
 
+                    <div class="{{if eq .category.Category 0}}row{{end}}" >
                     {{range $index,$elem:=.articles}}
-                    {{if $elem.Cover.Url}}
+                    {{if eq $.category.Category 0}}
+                        <div class="col-md-4 col-sm-12">
+                            <div class="card" style="width:100%;height:300px;">
+                                <div class="card-image">
+                                    <img src="{{$elem.Cover}}"
+                                                             style="height:160px;width:100%;background-color: #005cbf;"
+                                                             alt="Card image cap">
+                                    <a href="/article/{{.ID}}" class="image-mask"></a></div>
+                                <div class="card-body">
+                                    <h5 class="card-title text-ov">{{str2html $elem.Title}}</h5>
+                                    <p class="card-text text-ov-3"> {{str2html .Summary}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    {{else if $elem.Cover.Url}}
                         <div class="_list-item">
                             <div class="row">
                                 <div class="item-image-left col-md-5 col-sm-12">
@@ -157,6 +232,8 @@
                         </div>
                     {{end}}
                     {{end}}
+                    </div>
+
                     </div>
 
                 {{template "paginator.html".}}

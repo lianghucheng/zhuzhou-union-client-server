@@ -1,12 +1,11 @@
 {{template "common.html".}}
-
 {{define "meta"}}
-<title>{{.article.Title}}</title>
+<title>{{.category.Name}}</title>
 {{end}}
 {{define "css"}}
 <style>
 
-    .panel-title-span::after {
+    .panel-title-span-active::after {
         width: 0;
         height: 0;
         content: '';
@@ -17,6 +16,19 @@
         border-width: 7px;
         border-color: #c73236 transparent transparent;
         border-style: solid;
+    }
+
+    ._list-item {
+        padding: 20px 0;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .image-box {
+        width: 100%;
+        height: 226px;
+        background-color: #0b2e13;
+        background-size: cover;
+        background-position: center;
     }
 
     .tabbar-group-item {
@@ -47,6 +59,10 @@
         padding: 0;
         margin-top: -1px;
         margin-left: -1px;
+    }
+
+    .m-pagination {
+        margin: 60px 0;
     }
 
     .news-content {
@@ -81,49 +97,19 @@
         padding: 10px;
     }
 
-    .details .title-box {
-        text-align: center;
-        padding: 20px 0;
-        border-bottom: 1px solid #ccc;
-    }
-
-    .title {
-        font-size: 1.4rem;
-        line-height: 2;
-        color: #333;
-    }
-
-    .article-time {
+    .more-cell {
+        margin: 20px 0;
+        display: inline-block;
         font-size: 0.92rem;
-        color: #999;
-    }
-
-    .article-content {
-        text-indent: 2em;
-        padding: 20px;
-        color: #666;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
         text-align: center;
-    }
-
-    .article-content img {
-        max-width: 100%;
-        width: auto;
-        margin: 10px 0;
-
-    }
-
-    .article-content img + p {
-        font-size: 0.88rem;
-        text-align: center;
-        line-height: 1;
-        color: #333;
-    }
-
-    .main {
-        margin-bottom: 20px;
+        background-color: #c73236;
     }
 </style>
 {{end}}
+
 {{define "top"}}
 {{end}}
 {{define "nav"}}
@@ -135,7 +121,7 @@
             <li class="m-breadcrumb-tips">当前位置：</li>
             <li class="m-breadcrumb-item"><a href="#">首页</a></li>
         {{range $index,$elem:=.categoryStack}}
-            <li class="m-breadcrumb-item {{if eq $.article.CategoryID $elem.ID}} active {{end}}" aria-current="page">
+            <li class="m-breadcrumb-item {{if eq $.category.ID $elem.ID}} active {{end}}" aria-current="page">
                 <a href="/category/{{$elem.ID}}">
                 {{$elem.Name}}
                 </a>
@@ -148,61 +134,49 @@
             <div class="tab-pane fade show active _list" id="list-profile" role="tabpanel"
                  aria-labelledby="list-profile-list">
                 <!--<div class="_list col-9">-->
+                <div class="panel-title">
+                {{range $index,$elem:=.categories}}
+                    <a  href="/category/spacial/{{$.category.ID}}?selected={{$elem.ID}}"
+                            style="margin-right: 10px;color: #000" class="
+{{if eq $elem.ID $.subCategory.ID}} panel-title-span-active
+{{else}}panel-title-span
+{{end}}">{{$elem.Name}}</a>
+                {{end}}
+                </div>
                 <div class="_list-panel">
-                    <article class="details">
-                        <div class="title-box">
-                            <h2 class="title">{{str2html .article.Title}}</h2>
-                            <p class="article-time">发布日期：{{date .article.CreatedAt "Y-m-d"}} 　 来源：{{.article.Source}}
-                                　</p>
+                    <div class="list-box">
+
+                    {{range $index,$elem:=.articles}}
+                        <div class="_list-item">
+                            <a href="/article/{{.ID}}" style="text-decoration: none;"><h4
+                                    class="text-ov item-article-title">
+                            {{.Title}}</h4></a>
+                            <p class="item-article-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
+                            <a href="/article/{{.ID}}" style="text-decoration: none;">
+                                <p class="item-article-content text-ov-2">
+                                {{str2html .Summary}}
+                                </p>
+                            </a>
                         </div>
-                        <div class="article-content">
-                        {{str2html .article.Content}}
-                        </div>
-                    </article>
-                    <div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#"
-                                                                                                      class="bds_qzone"
-                                                                                                      data-cmd="qzone"></a><a
-                            href="#" class="bds_tsina" data-cmd="tsina"></a><a href="#" class="bds_tqq"
-                                                                               data-cmd="tqq"></a><a href="#"
-                                                                                                     class="bds_renren"
-                                                                                                     data-cmd="renren"></a><a
-                            href="#" class="bds_weixin" data-cmd="weixin"></a></div>
-                    <script>window._bd_share_config = {
-                        "common": {
-                            "bdUrl": "http://www.zzghw.com/article/{{.article.ID}}",
-                            "bdSnsKey": {},
-                            "bdText": "{{.article.Title}}",
-                            "bdDesc": "{{.article.Summary}}",
-                            "bdMini": "2",
-                            "bdPic": "",
-                            "bdStyle": "0",
-                            "bdSize": "16"
-                        },
-                        "share": {},
-                        "image": {
-                            "viewList": ["qzone", "tsina", "tqq", "renren", "weixin"],
-                            "viewText": "分享到：",
-                            "viewSize": "16"
-                        },
-                        "selectShare": {
-                            "bdContainerClass": null,
-                            "bdSelectMiniList": ["qzone", "tsina", "tqq", "renren", "weixin"]
-                        }
-                    };
-                    with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = '//bdimg.share.baidu.com/static/api/js/share.js?v=89860593.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+                    {{end}}
+                    </div>
+                    <div style="text-align: center">
+                        <div class="more-cell" style=""><a href="/category/{{.subCategory.ID}}" style="color: #fff">查看更多 ></a></div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="extra col-sm-12 col-md-3">
             <div class="tabbar">
-                <div class="list-group">
+                <div class="list-group" id="list-tab" role="tablist">
                 {{range $index,$elem:=.categories}}
-                    <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.article.CategoryID}} active {{end}}"
+                    <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.category.ID}} active {{end}}"
                        href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
                         <span class="tabbar-item-forward" src="/static/images/forward.png"
                               style="margin-right: 10px;">
                         </span>{{$elem.Name}}</a>
                 {{end}}
+
                 </div>
             </div>
             <div class="side-list" style="margin-top: 20px;">
