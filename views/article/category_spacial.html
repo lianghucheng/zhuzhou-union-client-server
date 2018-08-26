@@ -1,0 +1,199 @@
+{{template "common.html".}}
+{{define "meta"}}
+<title>{{.category.Name}}</title>
+{{end}}
+{{define "css"}}
+<style>
+
+    .panel-title-span-active::after {
+        width: 0;
+        height: 0;
+        content: '';
+        bottom: -14px;
+        position: absolute;
+        left: 50%;
+        margin-left: -7px;
+        border-width: 7px;
+        border-color: #c73236 transparent transparent;
+        border-style: solid;
+    }
+
+    ._list-item {
+        padding: 20px 0;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .image-box {
+        width: 100%;
+        height: 226px;
+        background-color: #0b2e13;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .tabbar-group-item {
+        position: relative;
+        display: block;
+        padding: 1rem 1rem;
+        margin-bottom: 6px;
+        border: 1px solid #ccc;
+        background: url(/static/images/tabbar-bg.png) #f5f1f0 repeat-x;
+        background-size: 60%;
+        font-size: 1.2rem;
+        color: #333;
+    }
+
+    .tabbar-group-item.active {
+        background: #c73236 url(/static/images/tabbar-active-bg.png) repeat-x;
+        background-size: 60%;
+        color: #fff;
+    }
+
+    .tabbar-group-item:hover, .tabbar-group-item:focus {
+        background: #c73236 url(/static/images/tabbar-active-bg.png) repeat-x;
+        background-size: 60%;
+        color: #fff;
+    }
+
+    .tabbar {
+        padding: 0;
+        margin-top: -1px;
+        margin-left: -1px;
+    }
+
+    .m-pagination {
+        margin: 60px 0;
+    }
+
+    .news-content {
+        padding: 10px 0;
+    }
+
+    .news-content-item {
+        padding: 6px 0 6px 1rem;
+        line-height: 1.4rem;
+        font-size: 1rem;
+        position: relative;
+    }
+
+    .news-content-item::before {
+        position: absolute;
+        width: 6px;
+        height: 6px;
+        content: '';
+        left: 0px;
+        top: 14px;
+        border-radius: 6px;
+        background-color: #c73236;
+    }
+
+    .news-content-item a {
+        color: #333333;
+        font-size: 1rem;
+    }
+
+    .side-list {
+        border: 1px solid #ccc;
+        padding: 10px;
+    }
+
+    .more-cell {
+        margin: 20px 0;
+        display: inline-block;
+        font-size: 0.92rem;
+        width: 100px;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        background-color: #c73236;
+    }
+</style>
+{{end}}
+
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
+{{define "content"}}
+<div class="container">
+    <nav>
+        <ol class="m-breadcrumb">
+            <li class="m-breadcrumb-tips">当前位置：</li>
+            <li class="m-breadcrumb-item"><a href="#">首页</a></li>
+        {{range $index,$elem:=.categoryStack}}
+            <li class="m-breadcrumb-item {{if eq $.category.ID $elem.ID}} active {{end}}" aria-current="page">
+                <a href="/category/{{$elem.ID}}">
+                {{$elem.Name}}
+                </a>
+            </li>
+        {{end}}
+        </ol>
+    </nav>
+    <div class="main row">
+        <div class="tab-content col-sm-12 col-md-9" id="nav-tabContent">
+            <div class="tab-pane fade show active _list" id="list-profile" role="tabpanel"
+                 aria-labelledby="list-profile-list">
+                <!--<div class="_list col-9">-->
+                <div class="panel-title">
+                {{range $index,$elem:=.categories}}
+                    <a  href="/category/spacial/{{$.category.ID}}?selected={{$elem.ID}}"
+                            style="margin-right: 10px;color: #000" class="
+{{if eq $elem.ID $.subCategory.ID}} panel-title-span-active
+{{else}}panel-title-span
+{{end}}">{{$elem.Name}}</a>
+                {{end}}
+                </div>
+                <div class="_list-panel">
+                    <div class="list-box">
+
+                    {{range $index,$elem:=.articles}}
+                        <div class="_list-item">
+                            <a href="/article/{{.ID}}" style="text-decoration: none;"><h4
+                                    class="text-ov item-article-title">
+                            {{.Title}}</h4></a>
+                            <p class="item-article-sub-extra">{{.Author}} {{date .CreatedAt "Y-m-d"}}</p>
+                            <a href="/article/{{.ID}}" style="text-decoration: none;">
+                                <p class="item-article-content text-ov-2">
+                                {{str2html .Summary}}
+                                </p>
+                            </a>
+                        </div>
+                    {{end}}
+                    </div>
+                    <div style="text-align: center">
+                        <div class="more-cell" style=""><a href="/category/{{.subCategory.ID}}" style="color: #fff">查看更多 ></a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="extra col-sm-12 col-md-3">
+            <div class="tabbar">
+                <div class="list-group" id="list-tab" role="tablist">
+                {{range $index,$elem:=.categories}}
+                    <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.category.ID}} active {{end}}"
+                       href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
+                        <span class="tabbar-item-forward" src="/static/images/forward.png"
+                              style="margin-right: 10px;">
+                        </span>{{$elem.Name}}</a>
+                {{end}}
+
+                </div>
+            </div>
+            <div class="side-list" style="margin-top: 20px;">
+                <div class="panel-title">
+                    <span class="panel-title-span">推荐新闻</span>
+                </div>
+                <ol class="news-content">
+                {{range .recommend}}
+                    <li class="news-content-item text-ov">
+                        <a href="/article/{{.ID}}">{{.Title}}</a>
+                    </li>
+                {{end}}
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+{{end}}
+{{define "footer"}}
+{{end}}
