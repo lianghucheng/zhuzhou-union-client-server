@@ -222,4 +222,15 @@
 </div>
 {{end}}
 {{define "footer"}}
+<script type="text/javascript" src="/static/jwplayer/jwplayer.js"></script>
+<script type='text/javascript'>
+    //非视频，不加载播放器
+    if(document.getElementById('player')!=null)
+    {
+        console.log(1111111111111111);
+        jwplayer('player').onReady(function() {});
+        jwplayer('player').onPlay(function() {});
+        jwplayer('player').play(); //自动播放？
+    }
+</script>
 {{end}}

@@ -12,22 +12,40 @@
 })(function ($) {
     'use strict';
 
-    let componentHandler = window.componentHandler,
+    var componentHandler = window.componentHandler,
         NAMESPACE = 'qor.ueditor',
         EVENT_ENABLE = 'enable.' + NAMESPACE,
         EVENT_DISABLE = 'disable.' + NAMESPACE,
         EVENT_UPDATE = 'update.' + NAMESPACE,
         SELECTOR_COMPONENT = '[class*="mdl-js"],[class*="mdl-tooltip"]';
 
+
     function enable(target) {
-        //console.log("################### kindeditor enable ###################");
+        console.log("################### ueditor enable ###################");
         /*jshint undef:false */
+        console.log(componentHandler);
         var editor = UE.getEditor('ueditor-id');
 
+        if (componentHandler) {
+            // Enable all MDL (Material Design Lite) components within the target element
+            if ($(target).is(SELECTOR_COMPONENT)) {
+                componentHandler.upgradeElements(target);
+            } else {
+                componentHandler.upgradeElements($(SELECTOR_COMPONENT, target).toArray());
+            }
+        }
     }
 
     function disable(target) {
-        //console.log("################### kindeditor disable ###################");
+        /*jshint undef:false */
+        if (componentHandler) {
+            // Destroy all MDL (Material Design Lite) components within the target element
+            if ($(target).is(SELECTOR_COMPONENT)) {
+                componentHandler.downgradeElements(target);
+            } else {
+                componentHandler.downgradeElements($(SELECTOR_COMPONENT, target).toArray());
+            }
+        }
     }
 
     $(function () {
@@ -43,6 +61,6 @@
                 enable(e.target);
             });
     });
+
 });
 
-//console.log("################### kindeditor load finish ###################");
