@@ -92,6 +92,9 @@ func (this *Controller) List() {
 	this.Data["categories"] = categories
 
 	pers := 6
+	if category.Category == 0 {
+		pers = 9
+	}
 	qs := models.DB.Select("id,cover,summary,title,author,created_at").
 		Model(models.Article{}).Where("category_id=?", id)
 	cnt := 0
