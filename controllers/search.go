@@ -1,26 +1,39 @@
 package controllers
 
 import (
-	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/models"
 	"github.com/astaxie/beego/utils/pagination"
+	"time"
 )
 
 type SearchController struct {
-	beego.Controller
+	Common
 }
-
 
 //@router /search [*]
 func (this *SearchController) Search() {
 
-	str:=this.GetString("str")
+	str := this.GetString("str")
+
+	startTime := this.GetString("startTime")
+	endTime := this.GetString("endTime")
 
 	pers := 6
+
 	qs := models.DB.Select("id,cover,summary,title,author,created_at").
-		Model(models.Article{}).
-		Where("title like ? or content like ? or author like ? or editor like ?",
-			str,str,str,str)
+		Model(models.Article{})
+	if str != "" {
+		qs = qs.Where("title like ? or content like ? or author like ? or editor like ?",
+			"%"+str+"%", "%"+str+"%", "%"+str+"%", "%"+str+"%")
+	}
+	if startTime != "" && endTime != "" {
+		sT, err := time.Parse("2006-01-02 15:04:05", startTime)
+		eT, err := time.Parse("2006-01-02 15:04:05", endTime)
+		if err == nil {
+			qs.Where("created_at between ? and ?", sT, eT)
+		}
+	}
+
 	cnt := 0
 	qs.Count(&cnt)
 
@@ -32,7 +45,5 @@ func (this *SearchController) Search() {
 	this.Data["articles"] = articles
 	this.Data["paginator"] = pager
 
-
-
-	this.TplName="search.html"
+	this.TplName = "search.html"
 }

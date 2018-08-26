@@ -21,6 +21,7 @@ func init() {
 		&user.Controller{},
 		&article.Controller{},
 		&controllers.CommonController{},
+		&controllers.SearchController{},
 	)
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")
 	beego.Handler("/api/image/captcha/*.png", captcha.Server(90, 40))
