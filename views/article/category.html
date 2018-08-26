@@ -108,8 +108,14 @@
     <nav>
         <ol class="m-breadcrumb">
             <li class="m-breadcrumb-tips">当前位置：</li>
-            <li class="m-breadcrumb-item"><a href="/">首页</a></li>
-            <li class="m-breadcrumb-item active" aria-current="page">{{.category.Name}}</li>
+            <li class="m-breadcrumb-item"><a href="#">首页</a></li>
+        {{range $index,$elem:=.categoryStack}}
+            <li class="m-breadcrumb-item {{if eq $.category.ID $elem.ID}} active {{end}}" aria-current="page">
+                <a href="/category/{{$elem.ID}}">
+                {{$elem.Name}}
+                </a>
+            </li>
+        {{end}}
         </ol>
     </nav>
     <div class="main row">

@@ -107,7 +107,7 @@
 
     .article-content img {
         max-width: 100%;
-        width:auto;
+        width: auto;
         margin: 10px 0;
 
     }
@@ -134,7 +134,13 @@
         <ol class="m-breadcrumb">
             <li class="m-breadcrumb-tips">当前位置：</li>
             <li class="m-breadcrumb-item"><a href="#">首页</a></li>
-            <li class="m-breadcrumb-item active" aria-current="page">新闻中心</li>
+        {{range $index,$elem:=.categoryStack}}
+            <li class="m-breadcrumb-item {{if eq $.article.CategoryID $elem.ID}} active {{end}}" aria-current="page">
+                <a href="/category/{{$elem.ID}}">
+                {{$elem.Name}}
+                </a>
+            </li>
+        {{end}}
         </ol>
     </nav>
     <div class="main row">
@@ -163,7 +169,7 @@
                             href="#" class="bds_weixin" data-cmd="weixin"></a></div>
                     <script>window._bd_share_config = {
                         "common": {
-                            "bdUrl":"http://www.zzghw.com/article/{{.article.ID}}",
+                            "bdUrl": "http://www.zzghw.com/article/{{.article.ID}}",
                             "bdSnsKey": {},
                             "bdText": "{{.article.Title}}",
                             "bdDesc": "{{.article.Summary}}",

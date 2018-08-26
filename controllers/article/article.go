@@ -26,8 +26,16 @@ func (this *Controller) ArticleDetail() {
 	models.DB.Select("id,cover,summary,title,author,created_at").
 		Where("category_id=?", article.CategoryID).Order("read_num desc").Limit(6).Find(&recommend)
 
-	this.Data["recommend"] = recommend
+	categoryStack := make([]models.Category, 0)
+	categoryStack = append(categoryStack, *article.Category)
+	categoryStack = getCategoryStack(categoryStack)
+	for i, j := 0, len(categoryStack)-1; i < j; i, j = i+1, j-1 {
+		categoryStack[i], categoryStack[j] = categoryStack[j], categoryStack[i]
+	}
 
+	this.Data["categoryStack"] = categoryStack
+
+	this.Data["recommend"] = recommend
 	this.Data["article"] = article
 	this.TplName = "article/article.html"
 }
