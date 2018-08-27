@@ -9,7 +9,6 @@ import (
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/utils"
 	"github.com/qor/roles"
-	"reflect"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -93,86 +92,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return
 			},
 		})
-	user.Meta(&admin.Meta{Name: "Name", Label: "姓名"})
-	user.Meta(
-		&admin.Meta{
-			Type:  "text",
-			Config: &admin.SelectOneConfig{
-				Collection: []string{
-					"男",
-					"女",
-				},
-			},
-			Name:  "Sex",
-			Label: "性别",
-			Setter: func(val interface{}, values *resource.MetaValue, context *qor.Context) {
-				if user, ok := val.(*models.User); ok {
-					beego.Debug("--------------")
-					beego.Debug(val)
-					beego.Debug(values)
-					if values.Name == beego.AppConfig.String("userPowerField") {
-						if a, ok := values.Value.([]string); ok {
-							beego.Debug(a[0])
-							if a[0] == "男" {
-								var sex []int
-								sex = append(sex, 1)
-								beego.Debug(sex)
-								user.Sex = 1
-								values.Value = sex
-							}
-							if a[0] == "女" {
-								var sex []int
-								sex = append(sex, 2)
-								beego.Debug(sex)
-								user.Sex = 2
-								values.Value = sex
-							}
-						}
-					}else{
-						beego.Debug(reflect.TypeOf(values.Value))
-						beego.Debug("性别断言：",ok)
-						if ok {
-							a:=values.Value.([]string)
-							beego.Debug(a[0])
-							if a[0] == "男" {
-								var sex []int
-								sex = append(sex, 1)
-								beego.Debug(sex)
-								user.Sex = 1
-								values.Value = sex
-							}
-							if a[0] == "女" {
-								var sex []int
-								sex = append(sex, 2)
-								beego.Debug(sex)
-								user.Sex = 2
-								values.Value = sex
-							}
-						}
-					}
-				}
-				return
-			},
-			FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
-				if a, ok := record.(*models.User); ok {
-					if a.Sex == 2 {
-						return "女"
-					}
-					if a.Sex == 1 {
-						return "男"
-					}
-					if a.Sex == 0 {
-						return "未填写"
-					}
-				}
-				return beego.AppConfig.String("paseAdminERR")
-			},
-		},
-	)
-	user.Meta(&admin.Meta{Name: "Icon", Label: "头像"})
-	user.Meta(&admin.Meta{Name: "QQ", Label: "QQ"})
-	user.Meta(&admin.Meta{Name: "Email", Label: "邮箱"})
-	user.Meta(&admin.Meta{Name: "Sign", Label: "个性签名"})
 	user.AddProcessor(&resource.Processor{
 		Name: "process_user_data",
 		Handler: func(val interface{}, values *resource.MetaValues, context *qor.Context) error {

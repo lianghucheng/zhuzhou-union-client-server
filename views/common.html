@@ -401,63 +401,80 @@
         var password = $('#password').val();
         var code = $('#code').val();
         var cid =$("#code").data('code');
-        $.ajax({
-            type: 'POST',
-            data: {
-                "username": username,
-                'password': password,
-                'captcha_code': code,
-                'captcha_id':cid,
-            },
-            url: '/api/user/login',
-            success: function (r) {
-                if (r.status == 10000) {
-                    window.location.href = '/user/center';
-                } else {
-                    alert(r.message);
-                    update();
+        if (username==''){
+            alert("用户名不能为空");
+        }else if (password==''){
+            alert("密码不能为空");
+        }else if(code==''){
+            alert("验证码不能为空");
+        }else{
+            $.ajax({
+                type: 'POST',
+                data: {
+                    "username": username,
+                    'password': password,
+                    'captcha_code': code,
+                    'captcha_id':cid,
+                },
+                url: '/api/user/login',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.location.href = '/user/center';
+                    } else {
+                        alert(r.message);
+                        update();
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     function clickSmsLogin() {
         var username = $('#phone').val();
         var code = $('#code').val();
-        $.ajax({
-            type: 'POST',
-            data: {
-                "username": username,
-                'code': code,
-            },
-            url: '/api/user/smslogin',
-            success: function (r) {
-                if (r.status == 10000) {
-                    window.location.href = '/user/center';
-                } else {
-                    alert(r.message);
+        if (username==''){
+            alert("用户名不能为空");
+        }else if(code == ''){
+            alert("验证码不能为空");
+        }else{
+            $.ajax({
+                type: 'POST',
+                data: {
+                    "username": username,
+                    'code': code,
+                },
+                url: '/api/user/smslogin',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.location.href = '/user/center';
+                    } else {
+                        alert(r.message);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
-    function getCode() {
+    function getCode(o) {
         var username = $('#phone').val();
-        alert(username);
-        $.ajax({
-            type: 'POST',
-            url: '/api/user/send/sms',
-            data: {
-                'username': username,
-            },
-            success: function (r) {
-                if (r.status == 10000) {
-
-                } else {
-                    alert(r.message)
+        if (username==''){
+            alert('用户名不能为空');
+        }else{
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/send/sms',
+                data: {
+                    'username': username,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+                        time(o)
+                    } else {
+                        alert(r.message)
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     function update() {
@@ -480,6 +497,22 @@
             window.open('{{urlfor "SearchController.Search" }}?str='+e.target.value)
         }
     })
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.innerHTML = "发送验证码";
+            wait = 60;
+            rgetCode();
+        } else {
+            o.setAttribute("disabled", true);
+            o.innerHTML = "重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function () {
+                        time(o)
+                    },
+                    1000)
+        }
+    }
 </script>
 <script src="/static/js/public.js"></script>
 </html>
