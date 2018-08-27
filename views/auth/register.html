@@ -181,7 +181,7 @@
                     <input
                             style="width:110px;"
                             id="code"
-                            type="password"
+                            type="text"
                             placeholder="验证码"
                     >
                     <a href="#" onclick="update()"><img src="" id="picture" style="margin-top: 0;height: 36px;"></a>
@@ -200,7 +200,7 @@
                     <input
                             style="width:110px;"
                             id="smscode"
-                            type="password"
+                            type="text"
                             placeholder="输入手机验证码"
                     >
                 </div>
@@ -236,7 +236,6 @@
             var username = $('#phone').val();
             var code = $('#code').val();
             var cid =$("#code").data('code');
-            alert("即将发送验证码到"+username);
             $.ajax({
                 type: 'POST',
                 url: '/api/user/send/rsms',
@@ -249,7 +248,7 @@
                     if (r.status == 10000) {
 
                     } else {
-                        alert(r.message)
+                        alert("验证码错误，不能获取短信验证码！")
                         update();
                     }
                 }

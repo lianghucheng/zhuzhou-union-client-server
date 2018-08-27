@@ -363,7 +363,7 @@
     <script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
-        var ue = UE.getEditor('container',{initialFrameWidth:null,initialFrameHeight: 500,autoHeightEnabled:false});
+        var ue = UE.getEditor('container',{initialFrameWidth:null,initialFrameHeight: 400,autoHeightEnabled:false});
         var due = UE.getEditor('detail_container',{initialFrameWidth:null,initialFrameHeight: 300,autoHeightEnabled:false});
     </script>
     <script>
@@ -374,6 +374,9 @@
 
         function userInit() {
             $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
                 url: '/api/user/data',
                 type: 'GET',
                 success: function (r) {
@@ -388,93 +391,15 @@
         }
 
         function articleInit() {
-            $.ajax({
-                url: '/api/article/list',
-                type: 'GET',
-                success: function (r) {
-                    if (r.status == 10000) {
-                        console.log(r);
-                        var tmpl = '';
-                        for (var i = 0; i < r.articles.length; i++) {
-                            tmpl += '<li class="row">\n' +
-                                    '                                        <p class="col-6 text-ov"><b\n' +
-                                    '                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>\n' +
-                                    '                                            <a href="#" id="t' + (i + 1) + '" data-toggle="modal" data-target="#exampleModalLong">\n' +
-                                    r.articles[i].Content.slice(3, -4) +
-                                    '                                            </a>\n' +
-                                    '                                        </p>\n' +
-                                    '                                        <span class="col-1"></span>\n' +
-                                    '                                        <span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>\n' +
-                                    '                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>\n' +
-                                    '                                    </li>';
-                        }
-                        $('#articleList').html(tmpl);
-                        for (var i = 0; i < r.articles.length; i++) {
-                            $('#t' + (i + 1)).data('code',r.articles[i].ID);
-                            console.log($('#t' + (i + 1)).data('code'));
-                            $('#t' + (i + 1)).mousedown(function () {
-                                due.setContent($(this).text());
-                                $('#detail_container').data('code',$(this).data('code'));
-                            })
-                        }
-                        var page_count = '<li class="page-item disabled" id="p1">\n' +
-                                '                                            <span class="page-link">上一页</span>\n' +
-                                '                                        </li>' + '<li class="page-item active" id="p2">\n' +
-                                '                                  <span class="page-link">\n' +
-                                '                                    1\n' +
-                                '                                    <span class="sr-only">(current)</span>\n' +
-                                '                                  </span>\n' +
-                                '                                        </li>'
-                        var page_all = parseInt((r.count / 10) + 1);
-                        console.log(page_all);
-                        for (var i = 1; i < page_all; i++) {
-                            page_count += '<li class="page-item" id="p' + (i + 2) + '"><span class="page-link">' + (i + 1) + '</span></li>'
-                        }
-                        if (page_count > 1) {
-                            page_count += '<li class="page-item" id="p' + (page_all + 2) + '">\n' +
-                                    '                                            <span class="page-link">下一页</span>\n' +
-                                    '                                        </li>';
-                        } else {
-                            page_count += '<li class="page-item disabled" id="p' + (page_all + 2) + '">\n' +
-                                    '                                            <span class="page-link">下一页</span>\n' +
-                                    '                                        </li>';
-                        }
-                        $('#page_count').html(page_count);
-                        for (var i = 1; i <= page_all + 2; i++) {
-                            $('#p' + i).click(function () {
-                                var getVal = $(this).text()
-                                if (r.page == 1 && getVal.indexOf("上一页") != -1) {
-                                    alert("这是第一页");
-                                    return;
-                                }
-                                if (r.page == page_all && getVal.indexOf("下一页") != -1) {
-                                    alert("这是最后一页");
-                                    return;
-                                }
-                                if (getVal.indexOf("下一页") != -1) {
-                                    getArticles(r.page + 1);
-                                    return;
-                                }
-                                if (getVal.indexOf("上一页") != -1) {
-                                    getArticles(r.page - 1);
-                                    return;
-                                }
-                                if (getVal.length == 1) {
-                                    getArticles(getVal);
-                                    return;
-                                }
-                            });
-                        }
-                    } else {
-                        alert(r.message);
-                    }
-                }
-            })
+            getArticles(1);
         }
 
         function usrnSubmit() {
             var username = $('#user-recipient-name').val();
             $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
                 url: '/api/user/usrn_update',
                 type: 'POST',
                 data: {
@@ -495,6 +420,9 @@
             var newpwd = $('#newpwd-recipient-name').val();
             var oldpwd = $('#oldpwd-recipient-name').val();
             $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
                 url: '/api/user/pwd_update',
                 type: 'POST',
                 data: {
@@ -514,6 +442,9 @@
         function tSubmit() {
             var contenta = ue.getContent();
             $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
                 url: "/api/article/submit",
                 type: 'POST',
                 data: {
@@ -534,6 +465,9 @@
         function tUpdate(tID) {
             var contenta = due.getContent();
             $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
+                },
                 url: "/api/article/update",
                 type: 'POST',
                 data: {
@@ -554,6 +488,9 @@
 
         function getArticles(page) {
             $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
                 url: '/api/article/list',
                 type: 'GET',
                 data: {
@@ -574,27 +511,16 @@
                                     '<span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>' +
                                     '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>' +
                                     '</li>';
-                            $('#t' + (i + 1)).data('code', r.articles[i].ID);
-                            $('#t' + (i + 1)).click(function () {
-                                var ID = $(this).data('code');
-                                $.ajax({
-                                    url: '/api/article',
-                                    type: 'GET',
-                                    data: {
-                                        'id': ID,
-                                    },
-                                    success: function (r) {
-                                        if (r.status == 10000) {
-                                            console.log(r);
-                                        } else {
-                                            alert(r.message)
-                                        }
-                                    }
-                                })
-                            })
                         }
                         $('#articleList').html(tmpl);
-
+                            for (var i = 0; i < r.articles.length; i++) {
+                                $('#t' + (i + 1)).data('code',r.articles[i].ID);
+                                console.log($('#t' + (i + 1)).data('code'));
+                                $('#t' + (i + 1)).mousedown(function () {
+                                    due.setContent($(this).text());
+                                    $('#detail_container').data('code',$(this).data('code'));
+                                })
+                            }
                         var page_count = '<li class="page-item disabled" id="p1">\n' +
                                 '                                            <span class="page-link">上一页</span>\n' +
                                 '                                        </li>';
@@ -608,7 +534,7 @@
                         for (var i = 0; i < page_all; i++) {
                             if (r.page == (i + 1)) {
                                 page_count += '<li class="page-item active" id="p2">\n' +
-                                        '                                  <span class="page-link">\n' +
+                                        '<span class="page-link">\n' +
                                         '                                    ' + r.page + '\n' +
                                         '                                    <span class="sr-only">(current)</span>\n' +
                                         '                                  </span>\n' +

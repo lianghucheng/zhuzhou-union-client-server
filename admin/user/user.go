@@ -14,9 +14,6 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	roles.Register("admin", func(req *http.Request, currentUser interface{}) bool {
-		return currentUser.(*models.User) != nil && currentUser.(*models.User).Prioty == 1
-	})
 
 	user := adminConfig.AddResource(
 		&models.User{},

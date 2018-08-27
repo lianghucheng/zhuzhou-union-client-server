@@ -63,7 +63,6 @@ func (this *Controller) LoginSubmit() {
 	if password == "" {
 		this.ReturnJson(10004, "您的输入不完整")
 	} else {
-		this.VerityCode(username)
 		if models.DB.Where("username = ? and password = ?", username, utils.Md5(password)).Find(&u).RecordNotFound() {
 			this.ReturnJson(10005, "用户名或者密码错误")
 		} else {
