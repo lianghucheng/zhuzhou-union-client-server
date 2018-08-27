@@ -92,4 +92,4 @@ function add_zero(temp) {
     else return temp;
 }
 
-setInterval("getCurDate()", 1000*10);
+setInterval("getCurDate()", 100);
