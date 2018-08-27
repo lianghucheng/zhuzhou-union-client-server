@@ -25,12 +25,27 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	)
 
-	user.IndexAttrs("-ID","-Password","-Icon")
-	user.EditAttrs("-ID","-Password","-Icon")
+	user.IndexAttrs("ID", "NickName", "UserName", "Sex", "Prioty")
+	user.EditAttrs("-ID", "-Password", "-Icon")
 	user.SearchAttrs("Username")
 
 	user.Meta(&admin.Meta{Name: "Username", Label: "用户名"})
-	user.Meta(&admin.Meta{Name: "Password", Label: "密码", Type: "password"})
+	user.Meta(&admin.Meta{Name: "NickName", Label: "昵称"})
+	user.Meta(&admin.Meta{Name: "Sex", Label: "性别", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.User); ok {
+			if v.Sex == 1 {
+				txt = "男"
+			} else if v.Sex == 2 {
+				txt = "女"
+			} else {
+				txt = "未知"
+			}
+		}
+		return txt
+	}})
+	user.Meta(&admin.Meta{Name: "Prioty", Label: "权限"})
+
 	user.Meta(
 		&admin.Meta{
 			Name:  "Prioty",
@@ -92,6 +107,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return
 			},
 		})
+
+
 	user.AddProcessor(&resource.Processor{
 		Name: "process_user_data",
 		Handler: func(val interface{}, values *resource.MetaValues, context *qor.Context) error {
@@ -117,4 +134,3 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return db.Where("prioty = ?", 3)
 	}})
 }
-

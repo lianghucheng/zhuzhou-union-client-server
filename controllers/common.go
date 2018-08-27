@@ -86,9 +86,8 @@ func (this *Common) Prepare() {
 
 	this.initMenu()
 	this.initFooter()
-
 	if this.IsLogin() {
-		this.Data["user"] = this.GetSessionUser()
+		this.Data["User"] = this.GetSessionUser()
 	}
 
 	var code models.QrCode
@@ -198,7 +197,7 @@ func (this *Common) GetSessionUser() (user *models.User) {
 
 }
 
-func (ctr *Common)CaptchaInterceptor(){
+func (ctr *Common) CaptchaInterceptor() {
 	code := ctr.GetString("captcha_code")
 	captchaId := ctr.GetString("captcha_id")
 	if !captcha.VerifyString(captchaId, code) {

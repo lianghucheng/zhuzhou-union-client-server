@@ -133,7 +133,7 @@ func (this *Controller) RegisterSubmit() {
 //@router /api/user/logout [*]
 func (this *Controller) Logout() {
 	this.DelSession("userinfo")
-	this.ReturnSuccess()
+	this.Redirect("/",302)
 }
 
 //@router /api/user/send/sms [post]

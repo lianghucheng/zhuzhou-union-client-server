@@ -5,6 +5,7 @@ import (
 	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
+	"io/ioutil"
 )
 
 type Controller struct {
@@ -12,15 +13,19 @@ type Controller struct {
 }
 
 //@router /user/center [*]
-func (this *Controller) UserCenter(){
+func (this *Controller) UserCenter() {
 	this.CheckLogin()
-	this.TplName="user/user.html"
+	this.TplName = "user/user.html"
 }
 
 //@router /api/user/data [get]
 func (this *Controller) UserData() {
 	this.CheckLogin()
 	userinfo := this.GetSession("userinfo").(*models.User)
+
+	models.DB.Where("id  = ?", userinfo.ID).
+		First(&userinfo)
+
 	this.ReturnSuccess("userinfo", userinfo)
 }
 
@@ -40,7 +45,7 @@ func (this *Controller) UsrnUpdate() {
 		beego.Debug("更新手机失败", err)
 		this.ReturnJson(1, "更新手机失败"+err.Error())
 	}
-	this.ReturnSuccess("userinfo",userinfo)
+	this.ReturnSuccess("userinfo", userinfo)
 }
 
 //@router /api/user/pwd_update [post]
@@ -62,7 +67,7 @@ func (this *Controller) PwdUpdate() {
 		beego.Debug("更新密码失败", err)
 		this.ReturnJson(1, "更新密码失败"+err.Error())
 	}
-	this.ReturnSuccess("userinfo",userinfo)
+	this.ReturnSuccess("userinfo", userinfo)
 }
 
 //@router /api/user/pwd_find [post]
@@ -137,9 +142,13 @@ func (this *Controller) ArticleSubmit() {
 	this.CheckLogin()
 	userinfo := this.GetSession("userinfo").(*models.User)
 	content := this.GetString("content")
+	title := this.GetString("title")
+	cid, _ := this.GetInt("cid")
 	article := models.Article{}
 	article.UserID = userinfo.ID
 	article.Content = content
+	article.CategoryID = uint(cid)
+	article.Title = title
 	if err := models.DB.Create(&article).Error; err != nil {
 		beego.Debug("存文章失败", err)
 		this.ReturnJson(1, "存文章失败"+err.Error())
@@ -150,6 +159,7 @@ func (this *Controller) ArticleSubmit() {
 //@router /api/article/update [post]
 func (this *Controller) ArticleUpdate() {
 	content := this.GetString("content")
+	cid, _ := this.GetInt("cid")
 	article := models.Article{}
 	if id, err := this.GetByID(&article); err != nil {
 		beego.Debug("通过ID获取文章失败", err)
@@ -163,6 +173,7 @@ func (this *Controller) ArticleUpdate() {
 		this.ReturnJson(1, "该文章已审核通过，不可修改")
 	}
 	article.Content = content
+	article.CategoryID = uint(cid)
 	if err := models.DB.Save(&article).Error; err != nil {
 		beego.Debug("更新文章失败", err)
 		this.ReturnJson(1, "更新文章失败"+err.Error())
@@ -199,3 +210,53 @@ func (this *Controller) Search() {
 	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
 }
 
+//@router /api/user/category [get]
+func (this *Controller) GetCate() {
+	categorys := []models.Category{}
+	if err := models.DB.Where("category = ?", 4).Find(&categorys).Error; err != nil {
+		beego.Error("取分类失败", err)
+		this.ReturnJson(10001, "取分类失败"+err.Error())
+	}
+	this.ReturnSuccess("categories", categorys)
+}
+
+//@router /api/user/update [post]
+func (this *Controller) UpdateUser() {
+	var userinfo models.User
+
+	nickname := this.GetString("nickname")
+	sex, _ := this.GetInt("sex")
+	id, _ := this.GetInt("id")
+
+	models.DB.Where("id = ?", id).First(&userinfo)
+
+	userinfo.Sex = sex
+	userinfo.NickName = nickname
+	if err := models.DB.Save(&userinfo).Error; err != nil {
+		beego.Debug("更新姓名失败", err)
+		this.ReturnJson(10001, "更新姓名失败"+err.Error())
+		return
+	}
+	this.ReturnSuccess()
+	return
+}
+
+//@router /api/user/img/upload [post]
+func (this *Controller) ImgUpload() {
+	file, header, _ := this.GetFile("file")
+
+	fileByte, _ := ioutil.ReadAll(file)
+	url, err := utils.UploadFile(header.Filename, fileByte)
+	if err != nil {
+		this.ReturnJson(10001, "上传失败")
+		return
+	}
+	beego.Debug(url)
+	m := make(map[string]interface{})
+	m["url"] = url
+	m["status"] = 10000
+	m["message"] = "success"
+	this.Data["json"] = m
+	this.ServeJSON()
+	return
+}

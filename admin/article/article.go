@@ -261,9 +261,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	wechat := adminConfig.AddResource(&models.Article{}, &admin.Config{Menu: []string{"文章管理"}, Name: "微信文章", PageCount: 10})
 
-	wechat.IndexAttrs("ID", "Title", "Category","Cover", "Url")
-	wechat.EditAttrs("Title","Category", "Cover", "Url",)
-	wechat.NewAttrs("ID", "Title","Category", "Cover", "Url")
+	wechat.IndexAttrs("ID", "Title", "Category", "Cover", "Url")
+	wechat.EditAttrs("Title", "Category", "Cover", "Url", )
+	wechat.NewAttrs("ID", "Title", "Category", "Cover", "Url")
 	wechat.AddValidator(&resource.Validator{
 		Name: "check_wechat_col",
 		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
@@ -282,7 +282,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	})
 
-	wechat.SearchAttrs("Title", "ID", "Cover", "Url","Category")
+	wechat.SearchAttrs("Title", "ID", "Cover", "Url", "Category")
 
 	wechat.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	wechat.Meta(&admin.Meta{Name: "Title", Label: "标题"})
@@ -349,7 +349,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Config: &admin.SelectOneConfig{
 			Placeholder: "选择选项"}}, )
 
-
 	userArticle := adminConfig.AddResource(&models.Article{},
 		&admin.Config{Menu: []string{"文章管理"},
 			Name: "投稿文章", PageCount: 10, Permission: roles.
@@ -379,14 +378,12 @@ func SetAdmin(adminConfig *admin.Admin) {
 		}
 		return txt
 	}})
-	userArticle.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
-		"Editor", "ResponsibleEditor", "Status", "ReadNum", "Url", "Category")
+	userArticle.IndexAttrs("ID", "Title", "Cover",
+		"Status", "ReadNum", "Category")
 
-	userArticle.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex",
-		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
+	userArticle.EditAttrs("Title", "User", "Category",
+		"Cover", "Content")
 
-	userArticle.NewAttrs("ID", "Title", "Author", "Summary", "Category", "VideoIndex",
-		"Cover", "Content", "Editor", "ResponsibleEditor", "Url", &admin.Section{Title: "添加文章"})
 	//添加过滤条件
 	userArticle.Scope(&admin.Scope{Name: "已审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
 		return db.Where("status = ?", "1")
@@ -447,20 +444,26 @@ func SetAdmin(adminConfig *admin.Admin) {
 		},
 	}})
 	userArticle.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
-	userArticle.Meta(&admin.Meta{Name: "VideoIndex", Label: "视频内容"})
-	userArticle.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页置顶"})
 	userArticle.Meta(&admin.Meta{Name: "Status", Label: "是否审核"})
 	userArticle.Meta(&admin.Meta{Name: "Category", Label: "类别"})
-	userArticle.Meta(&admin.Meta{Name: "Summary", Label: "文章摘要"})
 
 	userArticle.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
 	userArticle.Meta(&admin.Meta{Name: "Title", Label: "标题"})
-	userArticle.Meta(&admin.Meta{Name: "Author", Label: "作者"})
-	userArticle.Meta(&admin.Meta{Name: "Editor", Label: "编辑"})
-	userArticle.Meta(&admin.Meta{Name: "Source", Label: "来源"})
-	userArticle.Meta(&admin.Meta{Name: "ResponsibleEditor", Label: "责任编辑"})
 	userArticle.Meta(&admin.Meta{Name: "ReadNum", Label: "阅读数"})
-	userArticle.Meta(&admin.Meta{Name: "Url", Label: "转载链接(选填)"})
-	userArticle.Meta(&admin.Meta{Name: "IsIndex", Label: "是否显示在主页"})
+	userArticle.Meta(&admin.Meta{Name: "Category", Label: "文章分类",
+		Config: &admin.SelectOneConfig{
+			Placeholder: "选择选项"}}, )
+	userArticle.Meta(&admin.Meta{Name: "User", Label: "用户名",
+		Config: &admin.SelectOneConfig{
+			Collection: func(record interface{}, context *admin.Context) (options [][]string) {
+				var user models.User
+				if a, ok := record.(*models.Article); ok {
 
+					context.GetDB().Where("id =?", a.UserID).First(&user)
+				}
+				var option = []string{cast.ToString(user.ID), user.Username}
+				options = append(options, option)
+				return options
+			},
+		}}, )
 }

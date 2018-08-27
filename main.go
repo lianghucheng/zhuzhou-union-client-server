@@ -11,9 +11,12 @@ import (
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/pkg/LocalI18n"
 	_ "zhuzhou-union-client-server/routers"
+	_ "github.com/astaxie/beego/session/redis"
+	"encoding/gob"
 )
 
 func init() {
+	gob.Register(&models.User{})
 	initI18n()
 	initArgs()
 	models.Connect()
