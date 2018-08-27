@@ -11,6 +11,7 @@ import (
 	"zhuzhou-union-client-server/admin/category"
 	"zhuzhou-union-client-server/admin/home"
 	"zhuzhou-union-client-server/admin/mail"
+	"zhuzhou-union-client-server/admin/staffShow"
 )
 
 func GetHandler() http.Handler {
@@ -19,6 +20,7 @@ func GetHandler() http.Handler {
 
 	user.SetAdmin(Admin)
 	article.SetAdmin(Admin)
+	staffShow.SetAdmin(Admin)
 	menu.SetAdmin(Admin)
 	category.SetAdmin(Admin)
 	home.SetAdmin(Admin)

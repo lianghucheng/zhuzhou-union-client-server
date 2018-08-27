@@ -1,10 +1,15 @@
 {{template "common.html".}}
 
 {{define "meta"}}
-<title>注册</title>
+<title>密码登陆</title>
 {{end}}
 {{define "css"}}
 <style>
+
+    .login-hidden{
+        display: none;
+    }
+
     input {
         outline: none;
         border: none;
@@ -147,7 +152,7 @@
                     <input
                             style="width:110px;"
                             id="password"
-                            type="text"
+                            type="password"
                             placeholder="6-12位数密码"
                     >
                 </div>
@@ -161,10 +166,10 @@
                     <input
                             style="width:110px;"
                             id="code"
-                            type="text"
+                            type="password"
                             placeholder="验证码"
                     >
-                    <a href="#"><img src="" alt="验证码"></a>
+                    <a href="#" onclick="update()"><img src="" id="picture" style="margin-top: 0;height: 36px;"></a>
                 </div>
 
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
@@ -172,14 +177,30 @@
                 <!--</div>-->
             </div>
             <div class="login-button">
-                <button type="button" class="btn btn-danger">登陆</button>
+                <button type="button" class="btn btn-danger" onclick="clickLogin()">登陆</button>
             </div>
             <div class="account-login">
-                <a href="#">手机验证码登陆</a>
+                <a href="/user/smslogin">手机验证码登陆</a>
                 <a href="/user/register">没有账号，前往注册</a>
             </div>
         </div>
     </div>
+    <script>
+        $(function () {
+            $.ajax({
+                url:'/api/common/captcha',
+                type:"GET",
+                success:function (r) {
+                    if (r.status==10000){
+                        $("#code").data('code',r.id);
+                        $('#picture').attr('src',r.src);
+                    }else {
+                        alert("error");
+                    }
+                }
+            })
+        })
+    </script>
 </section>
 {{end}}
 {{define "footer"}}

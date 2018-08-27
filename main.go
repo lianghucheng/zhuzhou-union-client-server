@@ -33,7 +33,7 @@ func initArgs() {
 		}
 		if v == "-transfer" {
 			models.Connect()
-			transfer()
+			//transfer()
 			os.Exit(0)
 		}
 	}

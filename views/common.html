@@ -11,6 +11,7 @@
     <script src="/static/js/jquery.js"></script>
     <script src="/static/js/bootstrap.bundle.js"></script>
     <script src="/static/js/swiper.min.js"></script>
+    <script type="text/javascript" src="/static/jwplayer/jwplayer.js"></script>
     <style>
         nav {
             list-style: none;
@@ -52,7 +53,6 @@
 
         .navbar-nav {
             width: 100%;
-            padding-bottom: 20px;
             justify-content: space-between;
         }
 
@@ -60,19 +60,28 @@
             color: #333333;
             font-size: 18px;
             line-height: 28px;
+            float: left;
+            min-width: 120px\9;
+            text-align: center;
+            padding-bottom: 10px;
         }
-        .nav-item{
+
+        .nav-item {
             border-bottom: 2px solid transparent;
         }
+
         .nav-item:hover .nav-link {
             color: #c73236;
         }
 
         .nav-item .nav-link {
             position: relative;
+            border-bottom: 2px solid transparent;
+            padding: 0;
+            padding-bottom: 10px;
         }
 
-        .nav-item.active .nav-link, .nav-item:hover .nav-link{
+        .nav-item.active .nav-link, .nav-item:hover .nav-link {
             border-bottom: 2px solid #c73236;
         }
 
@@ -100,6 +109,7 @@
             background-color: #c73236;
             z-index: 999;
         }
+
         .sharp.active::after, .sharp:hover::after, .active > .sharp::after, .nav-item:hover .nav-link.sharp::after {
             width: 0;
             height: 0;
@@ -112,6 +122,7 @@
             border-color: #c73236 transparent transparent;
             border-style: solid;
         }
+
         .subnav-item {
             padding: 0 40px;
             line-height: 40px;
@@ -176,9 +187,10 @@
 <header style="width:100%;border-bottom: 2px solid #c73236;" class="header">
     <div class="h-bar-box -box">
         <div class="h-bar h-cell">
-            <div><span>2018年8月4号/农历六月廿三 12:07/星期六</span><span style="margin-left: 40px">长沙<img src="" alt=""
-                                                                                               style="width: 30px;height:28px;"></span><span
-                    style="color:red;">36°C ~ 27°C</span></div>
+            <div><span id="showDate"></span>
+                <!--<span style="margin-left: 40px">长沙<img src="" alt="" style="width: 30px;height:28px;"></span>-->
+                <!--<span style="color:red;">36°C ~ 27°C</span>-->
+            </div>
             <div><p style="margin-bottom: 0">欢迎访问株洲工会！
                 <a href="/user/login" style="color:#333;font-weight: bold;margin-left: 10px;">登录</a>
                 <span style="color:#333;font-weight: bold;">|</span>
@@ -200,7 +212,7 @@
                 <input
                         style="border:none;outline: none;"
                         id="search"
-                        type="text"
+                        type="search"
                 >
             </div>
         </div>
@@ -236,7 +248,7 @@
 
 {{template "content".}}
 
-<div class="other-link">
+<div class="other-link login-hidden">
     <div class="d-lg-flex s-panel justify-content-around">
     {{range .imageLinks}}
         <a href="{{.Url}}" style="width: 180px;height:50px;overflow: hidden;">
@@ -338,7 +350,7 @@
 <script>
     var picSwiper = new Swiper('#pic_swiper', {
         loop: false,
-        width:1200,
+        width: 1200,
         slidesPerView: 5,
         slidesPerGroup: 5,
         // 如果需要前进后退按钮
@@ -358,5 +370,115 @@
             prevEl: '.video-button-prev',
         },
     })
+
+    function clickRegister() {
+        var username = $('#phone').val();
+        var password1 = $('#password1').val();
+        var password2 = $('#password2').val();
+        var smscode = $('#smscode').val();
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'password1': password1,
+                'password2': password2,
+                'code': smscode,
+
+            },
+            url: '/api/user/register',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                }
+            }
+        })
+    }
+
+    function clickLogin() {
+        var username = $('#phone').val();
+        var password = $('#password').val();
+        var code = $('#code').val();
+        var cid =$("#code").data('code');
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'password': password,
+                'captcha_code': code,
+                'captcha_id':cid,
+            },
+            url: '/api/user/login',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                    update();
+                }
+            }
+        })
+    }
+
+    function clickSmsLogin() {
+        var username = $('#phone').val();
+        var code = $('#code').val();
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'code': code,
+            },
+            url: '/api/user/smslogin',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                }
+            }
+        })
+    }
+
+    function getCode() {
+        var username = $('#phone').val();
+        alert(username);
+        $.ajax({
+            type: 'POST',
+            url: '/api/user/send/sms',
+            data: {
+                'username': username,
+            },
+            success: function (r) {
+                if (r.status == 10000) {
+
+                } else {
+                    alert(r.message)
+                }
+            }
+        })
+    }
+
+    function update() {
+        $.ajax({
+            url:'/api/common/captcha',
+            type:"GET",
+            success:function (r) {
+                if (r.status==10000){
+                    $("#code").data('code',r.id);
+                    $('#picture').attr('src',r.src);
+                }else {
+                    alert("error");
+                }
+            }
+        })
+    }
+    $('#search').on('keyup',function(e){
+        if(e.originalEvent.key==='Enter'){
+            window.open('{{urlfor "SearchController.Search" }}?str='+e.target.value)
+        }
+    })
 </script>
+<script src="/static/js/public.js"></script>
 </html>

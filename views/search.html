@@ -1,0 +1,146 @@
+{{template "common.html".}}
+
+{{define "meta"}}
+<title>{{.article.Title}}</title>
+{{end}}
+{{define "css"}}
+
+
+<link rel="stylesheet" href="/static/css/normalize.css">
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+<link rel="stylesheet" href="/static/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="/static/css/public.css">
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.bundle.js"></script>
+<script src="/static/js/bootstrap-datepicker.js"></script>
+<style>
+    .pc-list {
+
+    }
+
+    .item-mark {
+        color: #333;
+    }
+
+    .pc-list-item {
+        position: relative;
+        padding: 0.5rem 1rem 0.5rem 1.6rem;
+        font-size: 0.92rem;
+        border-bottom: 1px solid #ccc;
+    }
+
+    .pc-list-item a {
+        color: #666;
+    }
+
+    .pc-list-item .item-time, .pc-list-item .item-browse {
+        float: right;
+        font-size: 0.88rem;
+        color: #999999;
+    }
+
+    .pc-list-item::before {
+        position: absolute;
+        width: 8px;
+        height: 8px;
+        content: '';
+        left: 0px;
+        top: calc(0.5rem + 7px);
+        border-style: solid;
+        border-width: 2px;
+        border-color: #c73236 #c73236 transparent transparent;
+        transform: rotate(45deg);
+    }
+
+    .search {
+        padding: 20px 0;
+    }
+
+    .search input[type='text'] {
+        outline: none;
+        border: none;
+        width: 90%;
+    }
+</style>
+{{end}}
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
+{{define "content"}}
+<div class="container">
+    <div class="search row">
+        <div class="col-sm-12 col-md-7">
+            <div style="padding:4px 10px;border-radius:40px;border:1px solid #999;height:36px;display:flex;flex-direction:row;align-items: center">
+                <label for="search">
+                    <img
+                            src="/static/images/search.png" alt=""
+                            style="height:20px;">
+                </label>
+                <div style="width:1px;height:24px;background-color: #666666;margin: 0 3px;"></div>
+                <input
+                        id="searchKey"
+                        type="text"
+                >
+            </div>
+        </div>
+        <div class="col-sm-12 col-md-5">
+            <div class="align-items-center" style="justify-content: flex-end;display: flex;">
+                时间：<input data-provide="datepicker" data-date-format="yyyy-mm-dd"
+                          style="width: 100px;margin-right: 6px;" id="startTime"> — <input
+                    style="width: 100px;margin-left: 6px;margin-right: 20px;" data-provide="datepicker"
+                    data-date-format="yyyy-mm-dd" id="endTime">
+                <button style="padding:0.1rem 0.8rem;" class="btn btn-danger" onclick="searchKey()">筛选</button>
+            </div>
+        </div>
+    </div>
+    <ul class="pc-list">
+    {{range $index,$elem:=.articles}}
+        <li class="pc-list-item">
+            <div class="row">
+                <span class="item-mark col-md-1 col-4 text-ov " style="padding:0;">{{str2html .Title}}</span>
+                <div class="col-md-7 col-8 text-ov"><a href="/article/{{.ID}}">{{str2html .Summary}}</a></div>
+                <span class="item-browse col-md-2 col-6" style="padding:0 0.4rem;">浏览次数：{{.ReadNum}}</span>
+                <span class="item-time col-md-2 col-6"
+                      style="padding:0; text-align: right">发布时间：{{date .CreatedAt "Y-m-d"}}</span>
+            </div>
+        </li>
+    {{end}}
+    </ul>
+{{template "paginator.html".}}
+</div>
+{{end}}
+
+{{define "footer"}}
+<script>
+
+    $(function () {
+        $('#searchKey').bind('keypress', function (event) {
+            if (event.keyCode == "13") {
+                searchKey();
+            }
+        });
+    });
+
+    function searchKey() {
+        startTime = $("#startTime").val();
+        endTime = $("#endTime").val();
+
+        var startUnix = new Date(startTime).getDate();
+        var endUnix = new Date(endTime).getDate();
+        if (endUnix - startUnix < 0) {
+            alert("请填入正确的时间")
+            return
+        }
+
+        querys = $("#searchKey").val();
+        console.log(querys);
+        window.location.href = "{{urlfor "SearchController.Search"}}?str=" + querys + "&startTime=" + startTime + "&endTime=" + endTime;
+    }
+
+
+    $('.datepicker').datepicker();
+</script>
+
+{{end}}
+

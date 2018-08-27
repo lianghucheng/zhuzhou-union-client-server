@@ -107,7 +107,7 @@
 
     .article-content img {
         max-width: 100%;
-        width:auto;
+        width: auto;
         margin: 10px 0;
 
     }
@@ -134,7 +134,13 @@
         <ol class="m-breadcrumb">
             <li class="m-breadcrumb-tips">当前位置：</li>
             <li class="m-breadcrumb-item"><a href="#">首页</a></li>
-            <li class="m-breadcrumb-item active" aria-current="page">新闻中心</li>
+        {{range $index,$elem:=.categoryStack}}
+            <li class="m-breadcrumb-item {{if eq $.article.CategoryID $elem.ID}} active {{end}}" aria-current="page">
+                <a href="/category/{{$elem.ID}}">
+                {{$elem.Name}}
+                </a>
+            </li>
+        {{end}}
         </ol>
     </nav>
     <div class="main row">
@@ -163,7 +169,7 @@
                             href="#" class="bds_weixin" data-cmd="weixin"></a></div>
                     <script>window._bd_share_config = {
                         "common": {
-                            "bdUrl":"http://www.zzghw.com/article/{{.article.ID}}",
+                            "bdUrl": "http://www.zzghw.com/article/{{.article.ID}}",
                             "bdSnsKey": {},
                             "bdText": "{{.article.Title}}",
                             "bdDesc": "{{.article.Summary}}",
@@ -190,29 +196,25 @@
         <div class="extra col-sm-12 col-md-3">
             <div class="tabbar">
                 <div class="list-group">
-                    <a class="tabbar-group-item list-group-item-action"
-                       href="">
-                        <span class="tabbar-item-forward"></span>时政要闻</a>
+                {{range $index,$elem:=.categories}}
+                    <a class="tabbar-group-item list-group-item-action{{if eq $elem.ID $.article.CategoryID}} active {{end}}"
+                       href="/category/{{$elem.ID}}" role="tab" aria-controls="home">
+                        <span class="tabbar-item-forward" src="/static/images/forward.png"
+                              style="margin-right: 10px;">
+                        </span>{{$elem.Name}}</a>
+                {{end}}
                 </div>
             </div>
             <div class="side-list" style="margin-top: 20px;">
                 <div class="panel-title">
-                    <span class="panel-title-span">媒体聚焦</span>
-                    <div class="more-cell title-more-cell"><a href="#">查看更多 ></a></div>
+                    <span class="panel-title-span">推荐新闻</span>
                 </div>
                 <ol class="news-content">
-                    <li class="news-content-item text-ov"><a href="#">2018，株洲工会读书活动，就从这场别开生面...株洲工会读书活动，就从这场别开生面...</a>
+                {{range .recommend}}
+                    <li class="news-content-item text-ov">
+                        <a href="/article/{{.ID}}">{{.Title}}</a>
                     </li>
-                    <li class="news-content-item text-ov"><a href="#">王建之一行到株洲县朱亭镇长远村调研扶贫工作</a>
-                    </li>
-                    <li class="news-content-item text-ov"><a href="#">务虚会不虚！2018年株洲工会工作要这么干！</a>
-                    </li>
-                    <li class="news-content-item text-ov"><a href="#">2018“情系夕阳 关爱老人”
-                        迎元旦慰问演出..</a></li>
-                    <li class="news-content-item text-ov"><a
-                            href="#">株洲市总工会2017年“民生100”工程完成情...</a></li>
-                    <li class="news-content-item text-ov"><a href="#">《服饰搭配与美颜美妆》讲座</a>
-                    </li>
+                {{end}}
                 </ol>
             </div>
         </div>
@@ -220,4 +222,15 @@
 </div>
 {{end}}
 {{define "footer"}}
+<script type="text/javascript" src="/static/jwplayer/jwplayer.js"></script>
+<script type='text/javascript'>
+    //非视频，不加载播放器
+    if(document.getElementById('player')!=null)
+    {
+        console.log(1111111111111111);
+        jwplayer('player').onReady(function() {});
+        jwplayer('player').onPlay(function() {});
+        jwplayer('player').play(); //自动播放？
+    }
+</script>
 {{end}}

@@ -81,7 +81,6 @@ routers/c*
 
 lastupdate.tmp
 
-conf/
 
 admin/admina.go
 admin/user/usera.go

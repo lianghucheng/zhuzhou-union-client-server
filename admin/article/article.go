@@ -20,7 +20,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
-		"Editor", "ResponsibleEditor", "IsIndexUp", "IsIndex", "ReadNum", "Url", "Category")
+		"Editor", "ResponsibleEditor", "ReadNum", "Url", "Category")
 
 	article.EditAttrs("Title", "Author", "Summary", "Category", "VideoIndex",
 		"Cover", "Content", "Editor", "ResponsibleEditor", "Url")
@@ -30,18 +30,15 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//添加富文本
 	assetManager := adminConfig.AddResource(&asset_manager.AssetManager{}, &admin.Config{Invisible: true})
-	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Config: &admin.RichEditorConfig{
+	article.Meta(&admin.Meta{Name: "Content", Type: "ueditor", Label: "内容", Config: &admin.RichEditorConfig{
 		AssetManager: assetManager,
 		Plugins: []admin.RedactorPlugin{
 			{Name: "medialibrary", Source: "/admin/assets/javascripts/qor_redactor_medialibrary.js"},
 			{Name: "table", Source: "/admin/assets/javascripts/qor_kindeditor.js"},
 		},
-		Settings: map[string]interface{}{
-			"medialibraryUrl": "/admin/product_images",
-		},
 	}})
 	article.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
-	article.Meta(&admin.Meta{Name: "VideoIndex", Label: "首页封面视频"})
+	article.Meta(&admin.Meta{Name: "VideoIndex", Label: "视频内容"})
 	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "是否首页置顶"})
 	article.Meta(&admin.Meta{Name: "Summary", Label: "文章摘要"})
 
@@ -103,7 +100,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	})
 
 	//重置Status显示
-	/*article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+	article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
 			if v.Status == 1 {
@@ -114,8 +111,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 			}
 		}
 		return txt
-	}})*/
+	}})
 	//是否显示在首页
+	/*
 	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type: "number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		var r int
 		if v, ok := record.(*models.Article); ok {
@@ -123,8 +121,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 		}
 		return r
 	}})
-
+	*/
 	//首页置顶
+	/*
 	article.Meta(&admin.Meta{Name: "IsIndexUp", Label: "置顶/不置顶", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
 		txt := ""
 		if v, ok := record.(*models.Article); ok {
@@ -136,10 +135,11 @@ func SetAdmin(adminConfig *admin.Admin) {
 		}
 		return txt
 	}})
+	*/
 	//添加审核模块
-	/*article.Action(
+	article.Action(
 		&admin.Action{
-			Name:  "verify",
+			Name:  "审核",
 			Label: "审核/撤销",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
@@ -159,8 +159,9 @@ func SetAdmin(adminConfig *admin.Admin) {
 			},
 			Modes: []string{"batch", "show", "menu_item"},
 		},
-	)*/
+	)
 	//添加是否置顶
+	/*
 	article.Action(
 		&admin.Action{
 			Name:  "isUpIndex",
@@ -185,6 +186,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			Modes: []string{"show", "menu_item"},
 		},
 	)
+	*/
 	//重置删除
 	article.Action(&admin.Action{
 		Name:  "Delete",
@@ -203,6 +205,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		Modes: []string{"show", "menu_item"},
 	})
 	//是否显示首页
+	/*
 	article.Action(
 		&admin.Action{
 			Name:  "isIndex",
@@ -227,7 +230,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 			Modes: []string{"show", "menu_item"},
 		},
 	)
-
+*/
 	//添加搜索
 
 	article.SearchAttrs("Title", "Content", "Editor", "ResponsibleEditor", "Author", "ID")

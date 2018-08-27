@@ -2,6 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/dchest/captcha"
 	"zhuzhou-union-client-server/admin"
 	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/controllers/article"
@@ -20,8 +21,11 @@ func init() {
 		&user.Controller{},
 		&article.Controller{},
 		&controllers.CommonController{},
+		&controllers.SearchController{},
 	)
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")
-	beego.SetStaticPath("/image/kindeditor/upload", "/upload")
+	beego.Router("/image/kindeditor/upload", &admin.FileUploadController{})
+	beego.Handler("/api/image/captcha/*.png", captcha.Server(90, 40))
 	beego.SetStaticPath("/UploadFiles", "UploadFiles")
+
 }
