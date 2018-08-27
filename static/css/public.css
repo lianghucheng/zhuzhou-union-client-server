@@ -48,7 +48,7 @@ a{
     display: inline;
     position: relative;
     padding: 0.3rem 0;
-    font-size: 1.2rem;
+    font-size: 18px;
     border-bottom: 2px solid #c73236;
 }
 
@@ -56,7 +56,7 @@ a{
     display: inline;
     position: relative;
     padding: 0.3rem 0;
-    font-size: 1.2rem;
+    font-size: 18px;
     border-bottom: 2px solid transparent;
 }
 
@@ -75,19 +75,19 @@ a{
 
 
 .panel-title-en {
-    font-size: 0.92rem;
+    font-size: 14px;
     font-weight: lighter;
 }
 
 
 .more-cell {
-    font-size: 0.92rem;
+    font-size: 14px;
     height: 30px;
     line-height: 30px;
     text-align: center;
 }
 .more-cell-bg {
-    font-size: 0.82rem;
+    font-size: 14px;
     height: 30px;
     line-height: 30px;
     text-align: center;
@@ -110,12 +110,12 @@ a{
 
 /*文章列表中一项的样式开始*/
 .item-article-title {
-    font-size: 1.2rem;
+    font-size: 16px;
     color: #333;
 }
 .item-article-sub-extra {
     color: #999;
-    font-size: 0.92rem;
+    font-size: 14px;
     margin: 0.6rem auto;
 }
 .item-sub-extra {
@@ -124,7 +124,7 @@ a{
     margin: 0.5rem auto 1.2rem;
 }
 .item-article-content {
-    font-size: 1rem;
+    font-size: 16px;
     line-height: 1.5;
     color: #666;
 }
@@ -134,10 +134,10 @@ a{
 /*面包屑导航样式开始*/
 m-breadcrumb-tips{
     color:#333;
-    font-size: 0.92rem;
+    font-size: 14px;
 }
 .m-breadcrumb {
-    font-size: 0.92rem;
+    font-size: 14px;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
