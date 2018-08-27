@@ -41,7 +41,7 @@ a{
 .panel-title {
     position: relative;
     padding: 0.1rem 0;
-    border-bottom: 2px solid #ccc;
+    border-bottom: 3px solid #ccc;
 }
 
 .panel-title-span-active {
@@ -49,7 +49,7 @@ a{
     position: relative;
     padding: 0.3rem 0;
     font-size: 18px;
-    border-bottom: 2px solid #c73236;
+    border-bottom: 3px solid #c73236;
 }
 
 .panel-title-span {
@@ -57,7 +57,7 @@ a{
     position: relative;
     padding: 0.3rem 0;
     font-size: 18px;
-    border-bottom: 2px solid transparent;
+    border-bottom: 3px solid transparent;
 }
 
 .panel-title-span-active::after {
