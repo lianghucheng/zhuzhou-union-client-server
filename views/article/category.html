@@ -181,7 +181,7 @@
                                 <div class="card-image" style="height:160px;width: 100%;background-image: url({{$elem.Cover}})">
                                     <a href="/article/{{.ID}}" class="image-mask"></a></div>
                                 <div class="card-body">
-                                    <h5 class="card-title text-ov">{{str2html $elem.Title}}</h5>
+                                    <a href="/article/{{.ID}}}"><h5 class="card-title text-ov">{{str2html $elem.Title}}</h5></a>
                                     <!--TODO p可有可无-->
                                     <p class="card-text text-ov-3"> {{str2html .Summary}}</p>
                                 </div>
