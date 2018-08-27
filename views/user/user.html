@@ -175,14 +175,18 @@
                             <div class="row align-items-center" style="margin-bottom: 20px;">
                                 <span class="col-2">用户名</span>
                                 <span class="col-2" id="myname">XXXXXX</span>
+                                <span class="col-2">姓名</span>
+                                <span class="col-2" id="name">XXXXXX</span>
+                                <span class="col-2">性别</span>
+                                <span class="col-2" id="sex">XXXXXX</span>
                             </div>
                             <div class="row">
                                 <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
-                                        data-target="#userModal">修改用户名
+                                        data-target="#userModal">修改姓名
                                 </button>
                                 <div class="col-1"></div>
                                 <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
-                                        data-target="#pwdModal">修改密码
+                                        data-target="#pwdModal">修改性别
                                 </button>
                             </div>
                         </div>
@@ -269,7 +273,15 @@
                         </div>
                         <div class="tab-pane fade" id="v-pills-publish" role="tabpanel"
                              aria-labelledby="v-pills-publish-tab">
-
+                            <label>分类</label>
+                            <select id="category">
+                                <option value ="volvo">Volvo</option>
+                                <option value ="saab">Saab</option>
+                                <option value="opel">Opel</option>
+                                <option value="audi">Audi</option>
+                            </select>
+                            <label>标题</label><input id="title">
+                            <label>封面图</label><input id="picture" type="file">
                             <script id="container" name="content" type="text/plain"></script>
                             <button type="button" class="btn btn-primary" onclick="tSubmit()">保存</button>
                         </div>
@@ -286,7 +298,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">修改用户名</h5>
+                    <h5 class="modal-title">修改姓名</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -313,7 +325,7 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">修改密码</h5>
+                    <h5 class="modal-title">修改性别</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
@@ -343,6 +355,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
+                    <label>分类</label>
+                    <select id="category1">
+                        <option value ="volvo">Volvo</option>
+                        <option value ="saab">Saab</option>
+                        <option value="opel">Opel</option>
+                        <option value="audi">Audi</option>
+                    </select>
                     <h5 class="modal-title" id="exampleModalLongTitle"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
@@ -370,6 +389,7 @@
         $(function () {
             userInit();
             articleInit();
+            categoryInit();
         })
 
         function userInit() {
@@ -383,6 +403,8 @@
                     if (r.status == 10000) {
                         console.log(r);
                         $('#myname').text(r.userinfo.username);
+                        $('#name').text(r.userinfo.Name);
+                        $('#sex').text(r.userinfo.Sex);
                     } else {
                         alert(r.message);
                     }
@@ -392,6 +414,27 @@
 
         function articleInit() {
             getArticles(1);
+        }
+
+        function categoryInit() {
+            $.ajax({
+                url:'/api/user/category',
+                type:'GET',
+                success:function (r) {
+                    if (r.status==10000){
+                        console.log(r);
+                        var ctpl=''
+                        for (var i=0;i<r.categories.length;i++){
+                            ctpl+='<option value ="'+r.categories[i].ID+'">'+r.categories[i].Name+'</option>'
+                        }
+                        $('#category').html(ctpl);
+                        $('#category1').html(ctpl);
+                        $('#category1').text(r.categories[i].Name)
+                    }else{
+                        alert(r.message)
+                    }
+                }
+            })
         }
 
         function usrnSubmit() {
@@ -439,8 +482,11 @@
             })
         }
 
+
         function tSubmit() {
             var contenta = ue.getContent();
+            var cid = $('#category').val();
+            var title = $('#title').val();
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -449,6 +495,8 @@
                 type: 'POST',
                 data: {
                     'content': contenta,
+                    'cid':cid,
+                    'title':title,
                 },
                 success: function (r) {
                     if (r.status = 10000) {
@@ -464,6 +512,7 @@
 
         function tUpdate(tID) {
             var contenta = due.getContent();
+            var cid = $('#category').val();
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
@@ -473,6 +522,7 @@
                 data: {
                     'content': contenta,
                     'id':tID,
+                    'cid':cid,
                 },
                 success: function (r) {
                     if (r.status = 10000) {
@@ -518,6 +568,8 @@
                                 console.log($('#t' + (i + 1)).data('code'));
                                 $('#t' + (i + 1)).mousedown(function () {
                                     due.setContent($(this).text());
+                                    $('#exampleModalLongTitle').text(r.articles[i].title);
+
                                     $('#detail_container').data('code',$(this).data('code'));
                                 })
                             }

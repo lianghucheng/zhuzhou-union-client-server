@@ -137,9 +137,13 @@ func (this *Controller) ArticleSubmit() {
 	this.CheckLogin()
 	userinfo := this.GetSession("userinfo").(*models.User)
 	content := this.GetString("content")
+	title:=this.GetString("title")
+	cid,_:=this.GetInt("cid")
 	article := models.Article{}
 	article.UserID = userinfo.ID
 	article.Content = content
+	article.CategoryID=uint(cid)
+	article.Title=title
 	if err := models.DB.Create(&article).Error; err != nil {
 		beego.Debug("存文章失败", err)
 		this.ReturnJson(1, "存文章失败"+err.Error())
@@ -150,6 +154,7 @@ func (this *Controller) ArticleSubmit() {
 //@router /api/article/update [post]
 func (this *Controller) ArticleUpdate() {
 	content := this.GetString("content")
+	cid,_:=this.GetInt("cid")
 	article := models.Article{}
 	if id, err := this.GetByID(&article); err != nil {
 		beego.Debug("通过ID获取文章失败", err)
@@ -163,6 +168,7 @@ func (this *Controller) ArticleUpdate() {
 		this.ReturnJson(1, "该文章已审核通过，不可修改")
 	}
 	article.Content = content
+	article.CategoryID =uint(cid)
 	if err := models.DB.Save(&article).Error; err != nil {
 		beego.Debug("更新文章失败", err)
 		this.ReturnJson(1, "更新文章失败"+err.Error())
@@ -199,3 +205,39 @@ func (this *Controller) Search() {
 	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
 }
 
+//@router /api/user/category [get]
+func (this *Controller)GetCate(){
+	category:=[]models.Category{}
+	if err:=models.DB.Where("category = ?","4").Find(&category).Error;err!=nil{
+		beego.Error("取分类失败",err)
+		this.ReturnJson(10001,"取分类失败"+err.Error())
+	}
+	beego.Debug(category)
+	this.ReturnSuccess("categories",category)
+}
+
+//@router /api/user/name_update [post]
+func (this *Controller) NameUpdate() {
+	userinfo := this.Userinfo
+	name := this.GetString("name")
+	userinfo.Name = name
+	if err := models.DB.Save(&userinfo).Error; err != nil {
+		beego.Debug("更新姓名失败", err)
+		this.ReturnJson(1, "更新姓名失败"+err.Error())
+	}
+	this.ReturnSuccess()
+	return
+}
+
+//@router /api/user/sex_update [post]
+func (this *Controller) SexUpdate() {
+	userinfo := this.Userinfo
+	sex, _ := this.GetInt("sex")
+	userinfo.Sex = sex
+	if err := models.DB.Save(&userinfo).Error; err != nil {
+		beego.Debug("更新性别失败", err)
+		this.ReturnJson(1, "更新性别失败"+err.Error())
+	}
+	this.ReturnSuccess()
+	return
+}
