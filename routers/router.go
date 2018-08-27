@@ -22,6 +22,7 @@ func init() {
 		&article.Controller{},
 		&controllers.CommonController{},
 		&controllers.SearchController{},
+		&controllers.MailController{},
 	)
 	beego.Router("/api/ueditor_controller", &controllers.Ueditor{}, "*:U_Controller")
 	beego.Router("/image/kindeditor/upload", &admin.FileUploadController{})
