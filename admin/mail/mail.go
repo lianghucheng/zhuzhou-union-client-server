@@ -7,7 +7,7 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	mailBox := adminConfig.AddResource(&models.MailBox{}, &admin.Config{Name: "主席信箱", PageCount: 10, Permission: roles.Allow(roles.Read, "admin")})
+	mailBox := adminConfig.AddResource(&models.MailBox{}, &admin.Config{Name: "主席信箱", PageCount: 10, Permission: roles.Allow(roles.Read, roles.Anyone)})
 
 	mailBox.IndexAttrs("ID", "Title", "CreatedAt", "Ip")
 
