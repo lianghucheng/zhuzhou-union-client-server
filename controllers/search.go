@@ -17,7 +17,7 @@ func (this *SearchController) Search() {
 	startTime := this.GetString("startTime")
 	endTime := this.GetString("endTime")
 
-	pers := 6
+	pers := 12
 
 	qs := models.DB.Select("id,cover,summary,title,author,read_num,created_at").
 		Model(models.Article{})

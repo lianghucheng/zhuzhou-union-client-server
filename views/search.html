@@ -5,19 +5,11 @@
 {{end}}
 {{define "css"}}
 
-
-<link rel="stylesheet" href="/static/css/normalize.css">
-<link rel="stylesheet" href="/static/css/bootstrap.css">
-<link rel="stylesheet" href="/static/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="/static/css/public.css">
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/bootstrap.bundle.js"></script>
 <script src="/static/js/bootstrap-datepicker.js"></script>
 <style>
     .pc-list {
 
     }
-
     .item-mark {
         color: #333;
     }
@@ -72,7 +64,7 @@
     <div class="search row">
         <div class="col-sm-12 col-md-7">
             <div style="padding:4px 10px;border-radius:40px;border:1px solid #999;height:36px;display:flex;flex-direction:row;align-items: center">
-                <label for="search">
+                <label for="searchKey">
                     <img
                             src="/static/images/search.png" alt=""
                             style="height:20px;">
@@ -94,7 +86,7 @@
             </div>
         </div>
     </div>
-    <ul class="pc-list">
+    <ul class="pc-list" style="height:300px;">
     {{if eq .articleLen 0}}
 
         <p>没有搜索到符合的文章</p>

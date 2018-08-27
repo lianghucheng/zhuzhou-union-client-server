@@ -1170,6 +1170,7 @@ aside {
     display: block;
     max-width: 992px;
     margin: auto;
+    overflow: hidden;
 }
 
 /** All media-queries (min-width:576px) **/
