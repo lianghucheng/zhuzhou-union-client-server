@@ -19,7 +19,7 @@ func (this *SearchController) Search() {
 
 	pers := 6
 
-	qs := models.DB.Debug().Select("id,cover,summary,title,author,created_at").
+	qs := models.DB.Select("id,cover,summary,title,author,created_at").
 		Model(models.Article{})
 	if str != "" {
 		qs = qs.Where("title like ? or content like ? or author like ? or editor like ?",
