@@ -17,7 +17,7 @@ import (
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
+	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Menu: []string{"文章管理"}, Name: "普通文章", PageCount: 10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
 		"Editor", "ResponsibleEditor", "ReadNum", "Url", "Category")
@@ -93,6 +93,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				if a.Category != nil {
 					a.CategoryID = a.Category.ID
 				}
+				a.IsWechat = 0
 
 			}
 			return nil
@@ -277,6 +278,18 @@ func SetAdmin(adminConfig *admin.Admin) {
 			return nil
 		},
 	})
+
+	article.FindManyHandler = func(result interface{}, context *qor.Context) error {
+
+		db := context.GetDB()
+		if _, ok := db.Get("qor:getting_total_count"); ok {
+			return context.GetDB().Where("is_wechat = ?", 0).Count(result).Error
+		}
+		return context.GetDB().
+			Set("gorm:order_by_primary_key", "DESC").
+			Where("is_wechat = ?", 0).Find(result).Error
+	}
+
 	article.Filter(&admin.Filter{Name: "Category",
 		Label: "分类筛选", Config: &admin.SelectOneConfig{
 			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
@@ -291,4 +304,69 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return options
 			}, AllowBlank: true}})
 
+	wechat := adminConfig.AddResource(&models.Article{}, &admin.Config{Menu: []string{"文章管理"}, Name: "微信文章", PageCount: 10})
+
+	wechat.IndexAttrs("ID", "Title", "Cover", "Url")
+	wechat.EditAttrs("Title", "Cover", "Url")
+	wechat.NewAttrs("ID", "Title", "Cover", "Url")
+	wechat.AddValidator(&resource.Validator{
+		Name: "check_wechat_col",
+		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+
+			if meta := metaValues.Get("Title"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Title", "标题不能为空")
+				}
+			}
+			if meta := metaValues.Get("Url"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Url", "链接不能为空")
+				}
+			}
+			return nil
+		},
+	})
+
+	wechat.SearchAttrs("Title", "ID", "Cover", "Url")
+
+	wechat.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
+	wechat.Meta(&admin.Meta{Name: "Title", Label: "标题"})
+	wechat.Meta(&admin.Meta{Name: "Url", Label: "微信链接"})
+
+	wechat.AddProcessor(&resource.Processor{
+		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+			if a, ok := value.(*models.Article); ok {
+				fnameCover := cast.ToString(a.Cover.FileName)
+				//调用文件上传函数 更新url
+				fmt.Println("this is a debug ------------------------")
+				if a.Cover.FileHeader != nil {
+					file, err := a.Cover.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
+
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fnameCover, f)
+
+					if err != nil {
+						return err
+					}
+					a.Cover.Url = url
+				}
+				a.IsWechat = 1
+			}
+			return nil
+		},
+	})
+
+	wechat.FindManyHandler = func(result interface{}, context *qor.Context) error {
+
+		db := context.GetDB()
+		if _, ok := db.Get("qor:getting_total_count"); ok {
+			return context.GetDB().Where("is_wechat = ?", 1).Count(result).Error
+		}
+		return context.GetDB().
+			Set("gorm:order_by_primary_key", "DESC").
+			Where("is_wechat =	 ?", 1).Find(result).Error
+	}
 }

@@ -17,9 +17,9 @@ func (this *SearchController) Search() {
 	startTime := this.GetString("startTime")
 	endTime := this.GetString("endTime")
 
-	pers := 6
+	pers := 12
 
-	qs := models.DB.Select("id,cover,summary,title,author,created_at").
+	qs := models.DB.Select("id,cover,summary,title,author,read_num,created_at").
 		Model(models.Article{})
 	if str != "" {
 		qs = qs.Where("title like ? or content like ? or author like ? or editor like ?",
@@ -45,7 +45,7 @@ func (this *SearchController) Search() {
 
 	this.Data["articles"] = articles
 	this.Data["paginator"] = pager
-
+	this.Data["articleLen"] = len(articles)
 	this.TplName = "search.html"
 }
 

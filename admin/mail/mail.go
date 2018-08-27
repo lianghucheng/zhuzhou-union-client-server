@@ -1,9 +1,9 @@
 package mail
 
 import (
-"github.com/qor/admin"
-"zhuzhou-union-client-server/models"
-"github.com/qor/roles"
+	"github.com/qor/admin"
+	"zhuzhou-union-client-server/models"
+	"github.com/qor/roles"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
@@ -18,5 +18,5 @@ func SetAdmin(adminConfig *admin.Admin) {
 	mailBox.EditAttrs("ID", "Title", "Content")
 
 	mailBox.Meta(&admin.Meta{Name: "Content", Type: "kindeditor", Label: "内容"})
-
+	mailBox.SearchAttrs("Title", "Content")
 }
