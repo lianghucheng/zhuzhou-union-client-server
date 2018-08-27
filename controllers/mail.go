@@ -3,7 +3,7 @@ package controllers
 import "zhuzhou-union-client-server/models"
 
 type MailController struct {
-	Common
+	BaseController
 }
 
 //@router /mail     [*]
