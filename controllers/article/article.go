@@ -3,6 +3,7 @@ package article
 import (
 	"strconv"
 	"zhuzhou-union-client-server/models"
+	"github.com/astaxie/beego"
 )
 
 //@router /article/:id [*]
