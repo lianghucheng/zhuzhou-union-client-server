@@ -160,7 +160,7 @@
             </div>
             <div style="margin: 20px 0">
                 <div class="input-box">
-                    <label for="password">
+                    <label for="password2">
                         <img src="/static/images/pwd.png" alt="">
                     </label>
                     <div class="border"></div>
@@ -204,7 +204,7 @@
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger" onclick="rgetCode()">发送验证码</button>
+                <button type="button" class="btn btn-danger" id="getCode" onclick="time(this)">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
@@ -254,6 +254,23 @@
                     }
                 }
             })
+        }
+        var wait=60;
+        function time(o) {
+            if (wait == 0) {
+                o.removeAttribute("disabled");
+                o.value="发送验证码";
+                wait = 60;
+                rgetCode();
+            } else {
+                o.setAttribute("disabled", true);
+                o.value="重新发送(" + wait + ")";
+                wait--;
+                setTimeout(function() {
+                        time(o)
+                    },
+                    1000)
+            }
         }
     </script>
 </section>
