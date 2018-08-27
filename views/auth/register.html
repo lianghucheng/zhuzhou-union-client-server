@@ -236,7 +236,6 @@
             var username = $('#phone').val();
             var code = $('#code').val();
             var cid =$("#code").data('code');
-            alert("即将发送验证码到"+username);
             $.ajax({
                 type: 'POST',
                 url: '/api/user/send/rsms',
@@ -249,7 +248,7 @@
                     if (r.status == 10000) {
 
                     } else {
-                        alert(r.message)
+                        alert("验证码错误，不能获取短信验证码！")
                         update();
                     }
                 }
