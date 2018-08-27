@@ -9,7 +9,6 @@ import (
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/utils"
 	"github.com/qor/roles"
-	"reflect"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
