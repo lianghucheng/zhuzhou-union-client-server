@@ -95,12 +95,16 @@
         </div>
     </div>
     <ul class="pc-list">
+    {{if eq .articleLen 0}}
+
+        <p>没有搜索到符合的文章</p>
+    {{end}}
     {{range $index,$elem:=.articles}}
         <li class="pc-list-item">
             <div class="row">
                 <span class="item-mark col-md-1 col-4 text-ov " style="padding:0;">{{str2html .Title}}</span>
                 <div class="col-md-7 col-8 text-ov"><a href="/article/{{.ID}}">{{str2html .Summary}}</a></div>
-                <span class="item-browse col-md-2 col-6" style="padding:0 0.4rem;">浏览次数：{{.ReadNum}}</span>
+                <span class="item-browse col-md-2 col-6" style="padding:0 0.4rem;">浏览次数：{{printf "%v" .ReadNum}}</span>
                 <span class="item-time col-md-2 col-6"
                       style="padding:0; text-align: right">发布时间：{{date .CreatedAt "Y-m-d"}}</span>
             </div>
