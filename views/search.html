@@ -126,9 +126,14 @@
         startTime = $("#startTime").val();
         endTime = $("#endTime").val();
 
-        var startUnix = new Date(startTime).getDate();
-        var endUnix = new Date(endTime).getDate();
+        var startUnix = new Date(startTime);
+        var endUnix = new Date(endTime);
         if (endUnix - startUnix < 0) {
+            console.log(startTime)
+            console.log(startUnix)
+            console.log(endTime)
+            console.log(endUnix)
+            console.log(startUnix - endUnix)
             alert("请填入正确的时间")
             return
         }

@@ -1,0 +1,78 @@
+{{template "common.html".}}
+
+{{define "meta"}}
+<title>{{.article.Title}}</title>
+{{end}}
+{{define "css"}}
+{{end}}
+{{define "top"}}
+{{end}}
+{{define "nav"}}
+{{end}}
+{{define "content"}}
+<div class="panel-title">
+    <span class="panel-title-span">主席信箱</span>
+</div>
+<div class="_list-panel">
+    <div style="margin: 20px 0;">
+        <div class="row" style="margin-bottom: 20px;"><span class="col-12 col-md-1">主题</span>
+            <div class="col-12 col-md-11"><input id="title" type="text"
+                                                 style="width:100%;border: 1px solid #ccc;box-shadow: inset 1px 1px 4px 0 rgba(0, 0, 0,0.56)">
+            </div>
+        </div>
+        <div class="row">
+            <span class="col-12 col-md-1">正文</span>
+            <div class="col-12 col-md-11">
+                 <textarea id="container" name="content" type="text/plain">
+        这里写你的初始化内容
+        </textarea>
+            </div>
+        </div>
+    </div>
+    <div style="text-align: center;margin-bottom: 20px;">
+        <button class="btn btn-danger" style="padding:0.2rem 8rem" onclick="submit()">提交</button>
+    </div>
+</div>
+{{end}}
+
+{{define "footer"}}
+<!-- 配置文件 -->
+<script type="text/javascript" src="/static/ueditor/ueditor.config.js"></script>
+<!-- 编辑器源码文件 -->
+<script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
+
+
+<script>
+    var ue = UE.getEditor('container');
+
+    function submit() {
+        var title = $("#title").val();
+        var content = ue.getContent();
+        console.log(title, content);
+        $.ajax({
+            url: '/mail/add',
+            type: 'POST',
+            data: {
+                'title': title,
+                'content': content
+            },
+            dataType: 'json',
+            contentType: 'application/x-www-form-urlencoded;charset=UTF-8',
+            cache: false,
+            success: function (data) {
+                if (data.status == 10000) {
+                    window.alert("提交成功");
+                    window.location.reload();
+                } else {
+                    window.alert("服务器错误");
+                }
+            },
+            error: function () {
+                window.alert("服务器错误");
+            }
+        });
+    }
+
+
+</script>
+{{end}}
