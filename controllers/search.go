@@ -2,7 +2,6 @@ package controllers
 
 import (
 	"github.com/astaxie/beego/utils/pagination"
-	"time"
 	"zhuzhou-union-client-server/models"
 )
 
@@ -26,7 +25,7 @@ func (this *SearchController) Search() {
 		qs = qs.Where("title like ? or content like ? or author like ? or editor like ?",
 			"%"+str+"%", "%"+str+"%", "%"+str+"%", "%"+str+"%")
 	}
-	if len(startTime) != 10 && len(endTime) != 10 {
+	if len(startTime) == 10 && len(endTime) == 10 {
 		//sT, err := time.Parse("2006-01-02 15:04:05", startTime)
 		//eT, err := time.Parse("2006-01-02 15:04:05", endTime)
 		//if err == nil {
