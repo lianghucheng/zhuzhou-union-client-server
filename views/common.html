@@ -454,6 +454,7 @@
     }
 
     function update() {
+        $('#code').val('');
         $.ajax({
             url:'/api/common/captcha',
             type:"GET",
