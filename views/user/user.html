@@ -175,18 +175,15 @@
                             <div class="row align-items-center" style="margin-bottom: 20px;">
                                 <span class="col-2">用户名</span>
                                 <span class="col-2" id="myname">XXXXXX</span>
-                                <span class="col-2">姓名</span>
+                                <span class="col-2" id="user_id">姓名</span>
                                 <span class="col-2" id="name">XXXXXX</span>
                                 <span class="col-2">性别</span>
                                 <span class="col-2" id="sex">XXXXXX</span>
                             </div>
                             <div class="row">
-                                <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
-                                        data-target="#userModal">修改姓名
-                                </button>
                                 <div class="col-1"></div>
                                 <button type="button" class="col-2 btn btn-success pwdButton" data-toggle="modal"
-                                        data-target="#pwdModal">修改性别
+                                        onclick="saveUser()">保存
                                 </button>
                             </div>
                         </div>
@@ -297,10 +294,7 @@
                 <div class="modal-header">
                     <label>分类</label>
                     <select id="category1">
-                        <option value="volvo">Volvo</option>
-                        <option value="saab">Saab</option>
-                        <option value="opel">Opel</option>
-                        <option value="audi">Audi</option>
+                        <option value="0">-----</option>
                     </select>
                     <h5 class="modal-title" id="exampleModalLongTitle"></h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -308,7 +302,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <script id="detail_container" name="content" type="text/plain">这里写你的初始化内容</script>
+                    <script id="detail_container" name="content" type="text/plain">-------</script>
                 </div>
                 <div class="modal-footer">
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
@@ -343,11 +337,35 @@
         })
 
         $("#file").change(function () {
-
             getuploadUrl(this.files[0]);
-
-
         });
+
+        function saveUser() {
+            nickname = $("#name").val();
+            sex = $("#sex").val();
+
+
+            $.ajax({
+                headers: {
+                    'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
+                },
+                url: '/api/user/update',
+                type: 'post',
+                data: {
+                    nickname: nickname,
+                    sex: sex
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.alert("保存成功")
+                    }
+                },
+                error: function () {
+                    window.alert("服务链接失败")
+                }
+
+            });
+        }
 
         function getObjectURL(file) {
             var url = null;
@@ -371,9 +389,21 @@
                 success: function (r) {
                     if (r.status == 10000) {
                         console.log(r);
+                        sexText = '';
                         $('#myname').text(r.userinfo.username);
                         $('#name').text(r.userinfo.Name);
-                        $('#sex').text(r.userinfo.Sex);
+                        $('#name').val(r.userinfo.Name);
+
+                        if (r.userinfo.sex == 0) {
+                            sexText = "未知";
+                        } else if (r.userinfo.sex == 1) {
+                            sexText = "男";
+                        } else {
+                            sexText = "女";
+                        }
+                        $('#sex').text(sexText);
+                        $('#sex').val(r.userinfo.Sex);
+                        $('#user_id').val(r.userinfo.ID)
                     } else {
                         alert(r.message);
                     }
@@ -429,8 +459,6 @@
                             }
                             $('#category').html(ctpl);
                             $('#category1').html(ctpl);
-                            console.log(r.categories[i]);
-                            // $('#category1').text(r.categories[i].NickName)
                         }
                     } else {
                         alert(r.message)

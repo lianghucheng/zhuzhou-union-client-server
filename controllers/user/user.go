@@ -22,6 +22,10 @@ func (this *Controller) UserCenter() {
 func (this *Controller) UserData() {
 	this.CheckLogin()
 	userinfo := this.GetSession("userinfo").(*models.User)
+
+	models.DB.Where("id  = ?", userinfo.ID).
+		First(&userinfo)
+
 	this.ReturnSuccess("userinfo", userinfo)
 }
 
@@ -216,27 +220,22 @@ func (this *Controller) GetCate() {
 	this.ReturnSuccess("categories", categorys)
 }
 
-//@router /api/user/name_update [post]
-func (this *Controller) NameUpdate() {
-	userinfo := this.Userinfo
-	name := this.GetString("name")
-	userinfo.NickName = name
+//@router /api/user/update [post]
+func (this *Controller) UpdateUser() {
+	var userinfo models.User
+
+	nickname := this.GetString("nickname")
+	sex, _ := this.GetInt("sex")
+	id, _ := this.GetInt("id")
+
+	models.DB.Where("id = ?", id).First(&userinfo)
+
+	userinfo.Sex = sex
+	userinfo.NickName = nickname
 	if err := models.DB.Save(&userinfo).Error; err != nil {
 		beego.Debug("更新姓名失败", err)
-		this.ReturnJson(1, "更新姓名失败"+err.Error())
-	}
-	this.ReturnSuccess()
-	return
-}
-
-//@router /api/user/sex_update [post]
-func (this *Controller) SexUpdate() {
-	userinfo := this.Userinfo
-	sex, _ := this.GetInt("sex")
-	userinfo.Sex = sex
-	if err := models.DB.Save(&userinfo).Error; err != nil {
-		beego.Debug("更新性别失败", err)
-		this.ReturnJson(1, "更新性别失败"+err.Error())
+		this.ReturnJson(10001, "更新姓名失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess()
 	return
