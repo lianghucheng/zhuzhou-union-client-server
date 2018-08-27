@@ -91,5 +91,5 @@ function add_zero(temp) {
     if (temp < 10) return "0" + temp;
     else return temp;
 }
-
+getCurDate();
 setInterval("getCurDate()", 100);
