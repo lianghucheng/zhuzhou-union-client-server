@@ -260,12 +260,12 @@
         function time(o) {
             if (wait == 0) {
                 o.removeAttribute("disabled");
-                o.innerHtml="发送验证码";
+                o.innerHTML="发送验证码";
                 wait = 60;
                 rgetCode();
             } else {
                 o.setAttribute("disabled", true);
-                o.innerHtml="重新发送(" + wait + ")";
+                o.innerHTML="重新发送(" + wait + ")";
                 wait--;
                 setTimeout(function() {
                         time(o)
