@@ -358,6 +358,23 @@ func SetAdmin(adminConfig *admin.Admin) {
 			return nil
 		},
 	})
+	//重置删除
+	wechat.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.Article); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
 
 	wechat.FindManyHandler = func(result interface{}, context *qor.Context) error {
 
