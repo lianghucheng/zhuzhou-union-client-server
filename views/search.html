@@ -95,6 +95,10 @@
         </div>
     </div>
     <ul class="pc-list">
+    {{if eq .articleLen 0}}
+
+        <p>没有搜索到符合的文章</p>
+    {{end}}
     {{range $index,$elem:=.articles}}
         <li class="pc-list-item">
             <div class="row">

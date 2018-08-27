@@ -45,7 +45,7 @@ func (this *SearchController) Search() {
 
 	this.Data["articles"] = articles
 	this.Data["paginator"] = pager
-
+	this.Data["articleLen"] = len(articles)
 	this.TplName = "search.html"
 }
 
