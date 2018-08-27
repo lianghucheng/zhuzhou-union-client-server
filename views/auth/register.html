@@ -258,12 +258,12 @@
         function time(o) {
             if (wait == 0) {
                 o.removeAttribute("disabled");
-                o.value="发送验证码";
+                o.html="发送验证码";
                 wait = 60;
                 rgetCode();
             } else {
                 o.setAttribute("disabled", true);
-                o.value="重新发送(" + wait + ")";
+                o.html="重新发送(" + wait + ")";
                 wait--;
                 setTimeout(function() {
                         time(o)
