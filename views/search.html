@@ -5,19 +5,11 @@
 {{end}}
 {{define "css"}}
 
-
-<link rel="stylesheet" href="/static/css/normalize.css">
-<link rel="stylesheet" href="/static/css/bootstrap.css">
-<link rel="stylesheet" href="/static/css/bootstrap-datepicker.css">
-<link rel="stylesheet" href="/static/css/public.css">
-<script src="/static/js/jquery.js"></script>
-<script src="/static/js/bootstrap.bundle.js"></script>
 <script src="/static/js/bootstrap-datepicker.js"></script>
 <style>
     .pc-list {
 
     }
-
     .item-mark {
         color: #333;
     }
@@ -68,11 +60,11 @@
 {{define "nav"}}
 {{end}}
 {{define "content"}}
-<div class="container">
+<div class="container" style="height:400px;">
     <div class="search row">
         <div class="col-sm-12 col-md-7">
             <div style="padding:4px 10px;border-radius:40px;border:1px solid #999;height:36px;display:flex;flex-direction:row;align-items: center">
-                <label for="search">
+                <label for="searchKey">
                     <img
                             src="/static/images/search.png" alt=""
                             style="height:20px;">
