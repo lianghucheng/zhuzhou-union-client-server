@@ -218,6 +218,7 @@
         </div>
     </div>
     <script>
+        var wait=60;
         $(function () {
             $.ajax({
                 url:'/api/common/captcha',
@@ -249,12 +250,13 @@
 
                     } else {
                         alert("验证码错误，不能获取短信验证码！")
+                        wair=0;
                         update();
                     }
                 }
             })
         }
-        var wait=60;
+
         function time(o) {
             if (wait == 0) {
                 o.removeAttribute("disabled");
