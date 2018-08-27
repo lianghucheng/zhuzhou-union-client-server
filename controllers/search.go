@@ -1,9 +1,9 @@
 package controllers
 
 import (
-	"zhuzhou-union-client-server/models"
 	"github.com/astaxie/beego/utils/pagination"
 	"time"
+	"zhuzhou-union-client-server/models"
 )
 
 type SearchController struct {
@@ -20,7 +20,7 @@ func (this *SearchController) Search() {
 
 	pers := 6
 
-	qs := models.DB.Select("id,cover,summary,title,author,created_at").
+	qs := models.DB.Debug().Select("id,cover,summary,title,author,created_at").
 		Model(models.Article{})
 	if str != "" {
 		qs = qs.Where("title like ? or content like ? or author like ? or editor like ?",
@@ -49,6 +49,6 @@ func (this *SearchController) Search() {
 }
 
 //@router /test/search[*]
-func (this *SearchController)Test(){
-	this.TplName="search.html"
+func (this *SearchController) Test() {
+	this.TplName = "search.html"
 }
