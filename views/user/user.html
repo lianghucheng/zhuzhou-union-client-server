@@ -527,7 +527,16 @@
                     if (r.status == 10000) {
                         console.log(r);
                         var tmpl = '';
+
+                        var tmplStatus ='';
                         for (var i = 0; i < r.articles.length; i++) {
+                            if (r.articles[i].Status==1){
+                                tmplStatus='<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>';
+                            }
+                            if (r.articles[i].Status==0){
+                                tmplStatus='<span class="col-2 article-status status-pass">状态:<b>未审核</b></span>';
+                            }
+
                             tmpl += '<li class="row">' +
                                     '<p class="col-6 text-ov"><b ' +
                                     'style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">' + (i + 1) + '</b>' +
@@ -536,7 +545,7 @@
                                     '</p>' +
                                     '<span class="col-1"></span>' +
                                     '<span class="col-3 article-time">时间:' + r.articles[i].CreatedAt.slice(0, 10) + '</span>' +
-                                    '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>' +
+                                    tmplStatus +
                                     '</li>';
                         }
                         $('#articleList').html(tmpl);
