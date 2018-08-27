@@ -26,12 +26,14 @@ func (this *SearchController) Search() {
 		qs = qs.Where("title like ? or content like ? or author like ? or editor like ?",
 			"%"+str+"%", "%"+str+"%", "%"+str+"%", "%"+str+"%")
 	}
-	if startTime != "" && endTime != "" {
-		sT, err := time.Parse("2006-01-02 15:04:05", startTime)
-		eT, err := time.Parse("2006-01-02 15:04:05", endTime)
-		if err == nil {
-			qs.Where("created_at between ? and ?", sT, eT)
-		}
+	if len(startTime) != 10 && len(endTime) != 10 {
+		//sT, err := time.Parse("2006-01-02 15:04:05", startTime)
+		//eT, err := time.Parse("2006-01-02 15:04:05", endTime)
+		//if err == nil {
+		//	qs.Where("created_at between ? and ?", sT, eT)
+		//}
+		qs = qs.Where("created_at >= ?", startTime)
+		qs = qs.Where("created_at <= ?", endTime)
 	}
 
 	cnt := 0
