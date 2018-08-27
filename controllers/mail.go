@@ -13,19 +13,17 @@ func (this *MailController) Index() {
 
 //@router /mail/add [post]
 func (this *MailController) Add() {
-	title:=this.GetString("title")
-	content:=this.GetString("content")
+	title := this.GetString("title")
+	content := this.GetString("content")
 
 	var mail models.MailBox
 
-	mail.Title=title
-	mail.Content=content
-
-	if err:=models.DB.Save(&mail).Error;err!=nil{
+	mail.Title = title
+	mail.Content = content
+	mail.Ip = this.Ctx.Input.IP()
+	if err := models.DB.Save(&mail).Error; err != nil {
 		this.Abort("500")
 		return
 	}
 	this.ReturnSuccess()
 }
-
-
