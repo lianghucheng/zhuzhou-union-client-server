@@ -5,6 +5,7 @@ import (
 	"zhuzhou-union-client-server/controllers"
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
+	"io/ioutil"
 )
 
 type Controller struct {
@@ -207,13 +208,12 @@ func (this *Controller) Search() {
 
 //@router /api/user/category [get]
 func (this *Controller) GetCate() {
-	category := []models.Category{}
-	if err := models.DB.Where("category = ?", "4").Find(&category).Error; err != nil {
+	categorys := []models.Category{}
+	if err := models.DB.Where("category = ?", 4).Find(&categorys).Error; err != nil {
 		beego.Error("取分类失败", err)
 		this.ReturnJson(10001, "取分类失败"+err.Error())
 	}
-	beego.Debug(category)
-	this.ReturnSuccess("categories", category)
+	this.ReturnSuccess("categories", categorys)
 }
 
 //@router /api/user/name_update [post]
@@ -239,5 +239,25 @@ func (this *Controller) SexUpdate() {
 		this.ReturnJson(1, "更新性别失败"+err.Error())
 	}
 	this.ReturnSuccess()
+	return
+}
+
+//@router /api/user/img/upload [post]
+func (this *Controller) ImgUpload() {
+	file, header, _ := this.GetFile("file")
+
+	fileByte, _ := ioutil.ReadAll(file)
+	url, err := utils.UploadFile(header.Filename, fileByte)
+	if err != nil {
+		this.ReturnJson(10001, "上传失败")
+		return
+	}
+	beego.Debug(url)
+	m := make(map[string]interface{})
+	m["url"] = url
+	m["status"] = 10000
+	m["message"] = "success"
+	this.Data["json"] = m
+	this.ServeJSON()
 	return
 }

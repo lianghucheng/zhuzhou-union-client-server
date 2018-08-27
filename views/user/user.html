@@ -344,15 +344,8 @@
 
         $("#file").change(function () {
 
-            var objUrl = getObjectURL(this.files[0]);
+            getuploadUrl(this.files[0]);
 
-            console.log("objUrl = " + objUrl);
-
-            if (objUrl) {
-                $("#show-img").html(
-                        '<img src=' + objUrl + ' id="img" style="height:150px; width:250px;">');
-
-            }
 
         });
 
@@ -392,6 +385,36 @@
             getArticles(1);
         }
 
+        function getuploadUrl(file) {
+            image = document.getElementById("file").value;
+            var formData = new FormData();
+            formData.append("file", file);
+            formData.append("name", image);
+
+            $.ajax({
+                url: '{{urlfor "Controller.ImgUpload"}}',
+                type: 'post',
+                data: formData,
+                processData: false,
+                contentType: false,
+                cache: false,
+                success: function (data) {
+                    if (data.status == 10000) {
+                        if (data.url) {
+                            $("#show-img").html(
+                                    '<img src=' + data.url + ' id="img" style="height:150px; width:250px;">');
+
+                        }
+                    }
+                },
+                error: function () {
+                    windows.alert("服务器错误")
+                }
+
+            });
+
+        }
+
         function categoryInit() {
             $.ajax({
                 url: '/api/user/category',
@@ -406,7 +429,8 @@
                             }
                             $('#category').html(ctpl);
                             $('#category1').html(ctpl);
-                            $('#category1').text(r.categories[i].NickName)
+                            console.log(r.categories[i]);
+                            // $('#category1').text(r.categories[i].NickName)
                         }
                     } else {
                         alert(r.message)
@@ -528,13 +552,13 @@
                         console.log(r);
                         var tmpl = '';
 
-                        var tmplStatus ='';
+                        var tmplStatus = '';
                         for (var i = 0; i < r.articles.length; i++) {
-                            if (r.articles[i].Status==1){
-                                tmplStatus='<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>';
+                            if (r.articles[i].Status == 1) {
+                                tmplStatus = '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>';
                             }
-                            if (r.articles[i].Status==0){
-                                tmplStatus='<span class="col-2 article-status status-pass">状态:<b>未审核</b></span>';
+                            if (r.articles[i].Status == 0) {
+                                tmplStatus = '<span class="col-2 article-status status-pass">状态:<b>未审核</b></span>';
                             }
 
                             tmpl += '<li class="row">' +
@@ -549,48 +573,53 @@
                                     '</li>';
                         }
                         $('#articleList').html(tmpl);
-                        for (var i = 0; i < r.articles.length; i++) {
-                            $('#t' + (i + 1)).data('code', r.articles[i].ID);
-                            console.log($('#t' + (i + 1)).data('code'));
-                            $('#t' + (i + 1)).mousedown(function () {
-                                due.setContent($(this).text());
-                                $('#exampleModalLongTitle').text(r.articles[i].title);
 
-                                $('#detail_container').data('code', $(this).data('code'));
-                            })
-                        }
-                        var page_count = '<li class="page-item disabled" id="p1">\n' +
-                                '                                            <span class="page-link">上一页</span>\n' +
-                                '                                        </li>';
-                        if (r.page != 1) {
-                            page_count = '<li class="page-item" id="p1">\n' +
+                        //分页
+                        var page_all = parseInt((r.count / 10) + 1);
+                        if (page_all > 1) {
+                            for (var i = 0; i < r.articles.length; i++) {
+                                $('#t' + (i + 1)).data('code', r.articles[i].ID);
+                                console.log($('#t' + (i + 1)).data('code'));
+                                $('#t' + (i + 1)).mousedown(function () {
+                                    due.setContent($(this).text());
+                                    $('#exampleModalLongTitle').text(r.articles[i].Title);
+
+                                    $('#detail_container').data('code', $(this).data('code'));
+                                })
+                            }
+                            var page_count = '<li class="page-item disabled" id="p1">\n' +
                                     '                                            <span class="page-link">上一页</span>\n' +
                                     '                                        </li>';
-                        }
-                        var page_all = parseInt((r.count / 10) + 1);
-                        console.log(page_all);
-                        for (var i = 0; i < page_all; i++) {
-                            if (r.page == (i + 1)) {
-                                page_count += '<li class="page-item active" id="p2">\n' +
-                                        '<span class="page-link">\n' +
-                                        '                                    ' + r.page + '\n' +
-                                        '                                    <span class="sr-only">(current)</span>\n' +
-                                        '                                  </span>\n' +
-                                        '                                        </li>'
-                            } else {
-                                page_count += '<li class="page-item" id="p' + (i + 2) + '"><span class="page-link">' + (i + 1) + '</span></li>';
+                            if (r.page != 1) {
+                                page_count = '<li class="page-item" id="p1">\n' +
+                                        '                                            <span class="page-link">上一页</span>\n' +
+                                        '                                        </li>';
                             }
+
+                            console.log(page_all);
+                            for (var i = 0; i < page_all; i++) {
+                                if (r.page == (i + 1)) {
+                                    page_count += '<li class="page-item active" id="p2">\n' +
+                                            '<span class="page-link">\n' +
+                                            '                                    ' + r.page + '\n' +
+                                            '                                    <span class="sr-only">(current)</span>\n' +
+                                            '                                  </span>\n' +
+                                            '                                        </li>'
+                                } else {
+                                    page_count += '<li class="page-item" id="p' + (i + 2) + '"><span class="page-link">' + (i + 1) + '</span></li>';
+                                }
+                            }
+                            if (page_all > r.page) {
+                                page_count += '<li class="page-item" id="p' + (page_all + 2) + '">\n' +
+                                        '                                            <span class="page-link">下一页</span>\n' +
+                                        '                                        </li>';
+                            } else {
+                                page_count += '<li class="page-item disabled" id="p' + (page_all + 2) + '">\n' +
+                                        '                                            <span class="page-link">下一页</span>\n' +
+                                        '                                        </li>';
+                            }
+                            $('#page_count').html(page_count)
                         }
-                        if (page_all > r.page) {
-                            page_count += '<li class="page-item" id="p' + (page_all + 2) + '">\n' +
-                                    '                                            <span class="page-link">下一页</span>\n' +
-                                    '                                        </li>';
-                        } else {
-                            page_count += '<li class="page-item disabled" id="p' + (page_all + 2) + '">\n' +
-                                    '                                            <span class="page-link">下一页</span>\n' +
-                                    '                                        </li>';
-                        }
-                        $('#page_count').html(page_count)
                         for (var i = 1; i <= page_all + 2; i++) {
                             $('#p' + i).click(function () {
                                 var getVal = $(this).text()
