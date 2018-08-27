@@ -54,7 +54,7 @@ ul{
     position: relative;
     padding: 0.3rem 0;
     font-size: 1.2rem;
-    border-bottom: 2px solid #FFFFFF;
+    border-bottom: 2px solid transparent;
 }
 
 .panel-title-span-active::after {
