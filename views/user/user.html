@@ -205,67 +205,9 @@
                                         <span class="col-3 article-time">时间:2018-08-17</span>
                                         <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
                                     </li>
-                                    <li class="row">
-                                        <p class="col-6 text-ov"><b
-                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                            <a href="#">
-                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                            </a>
-                                        </p>
-                                        <span class="col-1"></span>
-                                        <span class="col-3 article-time">时间:2018-08-17</span>
-                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                                    </li>
-                                    <li class="row">
-                                        <p class="col-6 text-ov"><b
-                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                            <a href="#">
-                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                            </a>
-                                        </p>
-                                        <span class="col-1"></span>
-                                        <span class="col-3 article-time">时间:2018-08-17</span>
-                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                                    </li>
-                                    <li class="row">
-                                        <p class="col-6 text-ov"><b
-                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                            <a href="#">
-                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                            </a>
-                                        </p>
-                                        <span class="col-1"></span>
-                                        <span class="col-3 article-time">时间:2018-08-17</span>
-                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                                    </li>
-                                    <li class="row">
-                                        <p class="col-6 text-ov"><b
-                                                style="color:#c73236;margin: 0 10px 0 0;font-weight: normal;">1</b>
-                                            <a href="#">
-                                                2018，株洲工会读书活动，就从这场别开生面... 王建之一行到株洲县朱亭镇长远村调研扶贫工作 务虚会不虚！2018年株洲工会
-                                            </a>
-                                        </p>
-                                        <span class="col-1"></span>
-                                        <span class="col-3 article-time">时间:2018-08-17</span>
-                                        <span class="col-2 article-status status-pass">状态:<b>已审核</b></span>
-                                    </li>
                                 </ul>
                                 <nav aria-label="Page navigation">
                                     <ul class="pagination justify-content-center" id="page_count">
-                                        <li class="page-item disabled">
-                                            <span class="page-link">上一页</span>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                        <li class="page-item active">
-                                  <span class="page-link">
-                                    2
-                                    <span class="sr-only">(current)</span>
-                                  </span>
-                                        </li>
-                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                        <li class="page-item">
-                                            <a class="page-link" href="#">下一页</a>
-                                        </li>
                                     </ul>
                                 </nav>
                             </div>
@@ -275,13 +217,11 @@
                              aria-labelledby="v-pills-publish-tab">
                             <label>分类</label>
                             <select id="category">
-                                <option value ="volvo">Volvo</option>
-                                <option value ="saab">Saab</option>
-                                <option value="opel">Opel</option>
-                                <option value="audi">Audi</option>
+                                <option value="volvo">Volvo</option>
                             </select>
                             <label>标题</label><input id="title">
-                            <label>封面图</label><input id="picture" type="file">
+                            <label>封面图</label><input type="file" name="file" id="file" multiple="multiple">
+                            <div id="show-img"></div>
                             <script id="container" name="content" type="text/plain"></script>
                             <button type="button" class="btn btn-primary" onclick="tSubmit()">保存</button>
                         </div>
@@ -357,8 +297,8 @@
                 <div class="modal-header">
                     <label>分类</label>
                     <select id="category1">
-                        <option value ="volvo">Volvo</option>
-                        <option value ="saab">Saab</option>
+                        <option value="volvo">Volvo</option>
+                        <option value="saab">Saab</option>
                         <option value="opel">Opel</option>
                         <option value="audi">Audi</option>
                     </select>
@@ -372,7 +312,9 @@
                 </div>
                 <div class="modal-footer">
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
-                    <button type="button" class="btn btn-primary" onclick="tUpdate($('#detail_container').data('code'))">保存</button>
+                    <button type="button" class="btn btn-primary"
+                            onclick="tUpdate($('#detail_container').data('code'))">保存
+                    </button>
                 </div>
             </div>
         </div>
@@ -382,8 +324,16 @@
     <script type="text/javascript" src="/static/ueditor/ueditor.all.js"></script>
     <!-- 实例化编辑器 -->
     <script type="text/javascript">
-        var ue = UE.getEditor('container',{initialFrameWidth:null,initialFrameHeight: 400,autoHeightEnabled:false});
-        var due = UE.getEditor('detail_container',{initialFrameWidth:null,initialFrameHeight: 300,autoHeightEnabled:false});
+        var ue = UE.getEditor('container', {
+            initialFrameWidth: null,
+            initialFrameHeight: 400,
+            autoHeightEnabled: false
+        });
+        var due = UE.getEditor('detail_container', {
+            initialFrameWidth: null,
+            initialFrameHeight: 300,
+            autoHeightEnabled: false
+        });
     </script>
     <script>
         $(function () {
@@ -391,6 +341,32 @@
             articleInit();
             categoryInit();
         })
+
+        $("#file").change(function () {
+
+            var objUrl = getObjectURL(this.files[0]);
+
+            console.log("objUrl = " + objUrl);
+
+            if (objUrl) {
+                $("#show-img").html(
+                        '<img src=' + objUrl + ' id="img" style="height:150px; width:250px;">');
+
+            }
+
+        });
+
+        function getObjectURL(file) {
+            var url = null;
+            if (window.createObjectURL != undefined) { // basic
+                url = window.createObjectURL(file);
+            } else if (window.URL != undefined) { // mozilla(firefox)
+                url = window.URL.createObjectURL(file);
+            } else if (window.webkitURL != undefined) { // webkit or chrome
+                url = window.webkitURL.createObjectURL(file);
+            }
+            return url;
+        }
 
         function userInit() {
             $.ajax({
@@ -418,19 +394,21 @@
 
         function categoryInit() {
             $.ajax({
-                url:'/api/user/category',
-                type:'GET',
-                success:function (r) {
-                    if (r.status==10000){
+                url: '/api/user/category',
+                type: 'GET',
+                success: function (r) {
+                    if (r.status == 10000) {
                         console.log(r);
-                        var ctpl=''
-                        for (var i=0;i<r.categories.length;i++){
-                            ctpl+='<option value ="'+r.categories[i].ID+'">'+r.categories[i].Name+'</option>'
+                        var ctpl = ''
+                        if (r.categories.length != 0) {
+                            for (var i = 0; i < r.categories.length; i++) {
+                                ctpl += '<option value ="' + r.categories[i].ID + '">' + r.categories[i].Name + '</option>'
+                            }
+                            $('#category').html(ctpl);
+                            $('#category1').html(ctpl);
+                            $('#category1').text(r.categories[i].NickName)
                         }
-                        $('#category').html(ctpl);
-                        $('#category1').html(ctpl);
-                        $('#category1').text(r.categories[i].Name)
-                    }else{
+                    } else {
                         alert(r.message)
                     }
                 }
@@ -482,7 +460,6 @@
             })
         }
 
-
         function tSubmit() {
             var contenta = ue.getContent();
             var cid = $('#category').val();
@@ -495,14 +472,14 @@
                 type: 'POST',
                 data: {
                     'content': contenta,
-                    'cid':cid,
-                    'title':title,
+                    'cid': cid,
+                    'title': title,
                 },
                 success: function (r) {
                     if (r.status = 10000) {
                         alert("您已提交成功");
                         getArticles(1);
-                        window.location.href='/user/center';
+                        window.location.href = '/user/center';
                     } else {
                         alert(r.message);
                     }
@@ -521,14 +498,14 @@
                 type: 'POST',
                 data: {
                     'content': contenta,
-                    'id':tID,
-                    'cid':cid,
+                    'id': tID,
+                    'cid': cid,
                 },
                 success: function (r) {
                     if (r.status = 10000) {
                         alert("您已保存成功");
                         getArticles(1);
-                        window.location.href='/user/center';
+                        window.location.href = '/user/center';
                     } else {
                         alert(r.message);
                     }
@@ -563,16 +540,16 @@
                                     '</li>';
                         }
                         $('#articleList').html(tmpl);
-                            for (var i = 0; i < r.articles.length; i++) {
-                                $('#t' + (i + 1)).data('code',r.articles[i].ID);
-                                console.log($('#t' + (i + 1)).data('code'));
-                                $('#t' + (i + 1)).mousedown(function () {
-                                    due.setContent($(this).text());
-                                    $('#exampleModalLongTitle').text(r.articles[i].title);
+                        for (var i = 0; i < r.articles.length; i++) {
+                            $('#t' + (i + 1)).data('code', r.articles[i].ID);
+                            console.log($('#t' + (i + 1)).data('code'));
+                            $('#t' + (i + 1)).mousedown(function () {
+                                due.setContent($(this).text());
+                                $('#exampleModalLongTitle').text(r.articles[i].title);
 
-                                    $('#detail_container').data('code',$(this).data('code'));
-                                })
-                            }
+                                $('#detail_container').data('code', $(this).data('code'));
+                            })
+                        }
                         var page_count = '<li class="page-item disabled" id="p1">\n' +
                                 '                                            <span class="page-link">上一页</span>\n' +
                                 '                                        </li>';
