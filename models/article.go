@@ -22,6 +22,7 @@ type Article struct {
 	ResponsibleEditor string
 	ReadNum           uint   //阅读数
 	Url               string //媒体聚焦链接或者微信图文链接
+	IsWechat          int    // 0否  1是
 	IsSpecial         int    //是否为文章 用作特殊页面的渲染
 	VideoIndex        oss.OSS
 	IsIndexUp         int
