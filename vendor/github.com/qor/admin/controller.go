@@ -237,8 +237,9 @@ func (ac *Controller) Action(context *Context) {
 		context.AddError(action.Handler(&actionArgument))
 
 		if !actionArgument.SkipDefaultResponse {
+
 			if !context.HasError() {
-				message := string(context.t("qor_admin.actions.executed_successfully", "Action {{.Name}}: Executed successfully", action))
+				message := string(context.t("qor_admin.actions.executed_successfully", " {{.Name}}操作: 执行成功", action))
 				context.Flash(message, "success")
 				responder.With("html", func() {
 					http.Redirect(context.Writer, context.Request, context.Request.Referer(), http.StatusFound)
