@@ -26,5 +26,5 @@ type Article struct {
 	IsSpecial         int    //是否为文章 用作特殊页面的渲染
 	VideoIndex        oss.OSS
 	IsIndexUp         int
-	IsIndex           int
+	IsIndex           int    `gorm:"default:0"`
 }
