@@ -51,7 +51,7 @@ a {
 .panel-title-span-active {
     display: inline;
     position: relative;
-    padding: 5px 0;
+    padding: 8px 0;
     font-size: 24px;
     border-bottom: 3px solid #c73236;
 }
@@ -59,7 +59,7 @@ a {
 .panel-title-span {
     display: inline;
     position: relative;
-    padding: 5px 0;
+    padding: 8px 0;
     font-size: 24px;
     border-bottom: 3px solid transparent;
 }
@@ -78,8 +78,8 @@ a {
 }
 
 .panel-title-en {
-    font-size: 0.92rem;
-    font-weight: lighter;
+    font-size: 14px;
+    color:#333;
 }
 
 .more-cell {
@@ -90,7 +90,7 @@ a {
 }
 
 .more-cell-bg {
-    font-size: 0.82rem;
+    font-size: 14rem;
     height: 30px;
     line-height: 30px;
     text-align: center;
@@ -228,4 +228,12 @@ m-breadcrumb-tips {
 
 .page-link:focus {
     box-shadow: none;
+}
+/*布局*/
+.m-container {
+    width: 1230px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
 }

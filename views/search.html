@@ -72,7 +72,7 @@
     <div class="search row">
         <div class="col-sm-12 col-md-7">
             <div style="padding:4px 10px;border-radius:40px;border:1px solid #999;height:36px;display:flex;flex-direction:row;align-items: center">
-                <label for="search">
+                <label for="searchKey">
                     <img
                             src="/static/images/search.png" alt=""
                             style="height:20px;">
@@ -94,7 +94,7 @@
             </div>
         </div>
     </div>
-    <ul class="pc-list">
+    <ul class="pc-list" style="min-height:300px;">
     {{range $index,$elem:=.articles}}
         <li class="pc-list-item">
             <div class="row">
@@ -116,7 +116,7 @@
 
     $(function () {
         $('#searchKey').bind('keypress', function (event) {
-            if (event.keyCode == "13") {
+            if (event.key === "Enter") {
                 searchKey();
             }
         });
