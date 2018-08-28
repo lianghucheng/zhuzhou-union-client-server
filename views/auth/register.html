@@ -239,10 +239,10 @@
             var code = $('#code').val();
             var cid = $("#code").data('code');
             if (username == '') {
-                toastr.warn("手机号不能为空");
+                toastr.warning("手机号不能为空");
             }
             else if (code == '') {
-                toastr.warn("验证码不能为空");
+                toastr.warning("验证码不能为空");
             } else {
                 $.bootstrapLoading.start({ loadingTips: '加载中'});
                 $.ajax({
@@ -257,11 +257,11 @@
                         if (r.status == 10000) {
                             wait=60;
                             time(o);
-                            alert("发送成功")
+                            toastr.warning("发送成功")
                         } else if(r.status==10001){
-                            alert(r.message)
+                            toastr.warning(r.message)
                         }else{
-                            alert("请输入正确的图片验证码！")
+                            toastr.warning("请输入正确的图片验证码！")
                             update();
                         }
                     }
