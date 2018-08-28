@@ -33,6 +33,7 @@ func SyncDB() {
 		&QrCode{},
 		&MailBox{},
 		&StaffShow{},
+		&Article{},
 		&asset_manager.AssetManager{},
 	)
 }

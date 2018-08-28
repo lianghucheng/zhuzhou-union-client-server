@@ -55,7 +55,6 @@
         text-align: center;
     }
 
-
     .list-group-item-action:last-child .tab-bar-group-item {
         border-bottom: none;
     }
@@ -245,7 +244,7 @@
     }
 
     .more-cell-box {
-        font-size: 0.92rem;
+        font-size: 14px;
         width: 100px;
         height: 32px;
         line-height: 32px;
@@ -266,7 +265,7 @@
     }
 
     .news-content-more-cell-box {
-        bottom: -52px;
+        bottom: -54px;
         right: -18px;
 
     }
@@ -441,15 +440,17 @@
     }
 
     .panel-nav-item .panel-nav-item-title {
-        color: #333;
+        color: #666666;
         font-size: 24px;
         display: inline-block;
         margin-bottom: 0;
         line-height: 62px;
     }
-    .panel-nav-item:hover .panel-nav-item-title{
-        color:#fff;
+
+    .panel-nav-item:hover .panel-nav-item-title {
+        color: #fff;
     }
+
     .panel-nav-item.active, .panel-nav-item:hover {
         background-color: #c73236;
     }
@@ -513,7 +514,6 @@
         width: 100%;
         padding: 10px 0;
         margin: 0 auto;
-        margin-top: 90px;
     }
 
     .news-tab-item {
@@ -530,26 +530,44 @@
         text-decoration: none;
     }
 
+    .news-tab-item.sharp-item.active:after, .news-tab-item.sharp-item:hover:after {
+        bottom: -17px;
+    }
+
     .tabpane-more-cell-box {
-        top: -34px;
-        right: 40px;
+        top: -54px;
+        right: 0;
         bottom: auto;
     }
 
-    .swiper-button-prev {
+    .swiper-button-prev.swiper-button-disabled {
         background-color: #ffffff;
         border: 2px solid #999999;
         left: 0px;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23999999'%2F%3E%3C%2Fsvg%3E");
     }
 
+    .swiper-button-prev {
+        background-color: #c73236;
+        border: 2px solid #c73236;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
+    }
+
+    .swiper-button-next.swiper-button-disabled {
+        background-color: #ffffff;
+        border: 2px solid #999999;
+        background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23999999'%2F%3E%3C%2Fsvg%3E");
+    }
+
     .swiper-button-next {
         background-color: #c73236;
-        right: 0px;
+        border: 2px solid #c73236;
+        right: 5px;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
     }
 
     .swiper-button-prev, .swiper-button-next {
+        outline: none;
         background-size: 18px 30px;
         width: 40px;
         height: 40px;
@@ -609,7 +627,7 @@
     .card-box {
         float: right;
         width: calc(100% - 410px);
-        padding-left: 80px;
+        padding-left: 50px;
     }
 
     .card-list .basic-card {
@@ -619,6 +637,23 @@
 
     .card-list .basic-card:last-child {
         margin-right: 0;
+    }
+
+    .image-list .basic-card {
+        float: left;
+        margin-right: calc(25% - 115px * 5 / 2);
+    }
+
+    .image-list .basic-card:last-child {
+        margin-right: 0;
+    }
+
+    .m-container {
+        width: 1230px;
+        padding-right: 15px;
+        padding-left: 15px;
+        margin-right: auto;
+        margin-left: auto;
     }
 </style>
 {{end}}
@@ -654,8 +689,8 @@
         </div>
     </div>
     <div class="panel"
-         style="background-image: url(/static/images/bg01.png); background-repeat:no-repeat;background-size: contain;background-position-x: 700px;background-position-y: 400px;">
-        <div class="container padding-around-white">
+         style="background-image: url(/static/images/bg01.png); background-repeat:no-repeat;background-size: contain;background-position-x: 700px;background-position-y: 400px;padding-bottom: 90px;margin-top: 20px;">
+        <div class="m-container padding-around-white">
             <div class="tab-view">
                 <div class="tab-bar">
                     <div class="list-group" id="list-tab" role="tablist">
@@ -704,9 +739,11 @@
                                         <div class="carousel-inner">
                                             {{range $index,$elem:=.carouselNews}}
                                             <div class="carousel-item {{if eq $index 0}}active{{end}}">
-                                                <div class="cover-image"
-                                                     style="height:310px;width:100%;background-image: url({{$elem.Cover}});"></div>
-                                                <div class="bottom-mask">{{$elem.Title}}</div>
+                                                <a href="/article/{{.ID}}">
+                                                    <div class="cover-image"
+                                                         style="height:310px;width:100%;background-image: url({{$elem.Cover}});"></div>
+                                                </a>
+                                                <a href="/article/{{.ID}}"><div class="bottom-mask">{{$elem.Title}}</div></a>
                                             </div>
                                             {{end}}
                                         </div>
@@ -864,10 +901,11 @@
                 </div>
             </div>
         </div>
-        <div class="container padding-around-transparent" style="overflow: hidden;margin-top: 50px;">
+        <div class="m-container padding-around-transparent"
+             style="overflow: hidden;margin-top: 30px;padding-top: 10px;">
             <div class="list-cell">
                 <div class="panel-title">
-                    <span class="panel-title-span sharp">政策法规</span>
+                    <span class="panel-title-span-active sharp">政策法规</span>
                     <span class="panel-title-en">Photo News</span>
                     <div class="more-cell-box fixed-more-cell-box"><a href="#">查看更多 ></a></div>
                 </div>
@@ -904,7 +942,7 @@
             </div>
             <div class="list-cell">
                 <div class="panel-title">
-                    <span class="panel-title-span sharp">工会文件</span>
+                    <span class="panel-title-span-active sharp">工会文件</span>
                     <div class="more-cell-box fixed-more-cell-box"><a href="#">查看更多 ></a></div>
                 </div>
                 <div class="panel-content">
@@ -974,7 +1012,8 @@
     </div>
     <div class="panel">
         <div class="news-border-top">
-            <div class="container" style="margin-top: -57px;margin-bottom: 28px;">
+            <div class="m-container"
+                 style="top: -45px;position: absolute;width: 1200px;margin-left: calc(50% - 600px - 15px);">
                 <div class="news-tab">
                     <div class="tabbar">
                         <div class="list-group" id="list-news" role="tablist" style="display: block;">
@@ -982,7 +1021,7 @@
                                data-toggle="list" href="#list-pic" role="tab" aria-controls="home">
                                 图片新闻
                             </a>
-                            <a class="news-tab-item list-group-item-action sharp" id="list-video-news"
+                            <a class="news-tab-item list-group-item-action sharp-item" id="list-video-news"
                                data-toggle="list" href="#list-video" role="tab" aria-controls="home">
                                 视频新闻
                             </a>
@@ -991,20 +1030,21 @@
                     </div>
                 </div>
             </div>
-            <div class="tab-content" id="new-tabContent">
+            <div class="tab-content" id="new-tabContent" style="margin-top: 10px;">
                 <div class="tab-pane fade show active _list" id="list-pic" role="tabpanel"
                      aria-labelledby="list-pic-news">
-                    <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a></div>
-                    <div class="container">
-                        <div style="margin: 0 auto;position: relative;max-height:300px;overflow: hidden;">
-                            <div class="swiper-container" id="pic_swiper" style="width:calc(100% - 100px)">
+                    <div class="m-container" style="position: relative;">
+                        <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a>
+                        </div>
+                        <div style="margin: 0 auto;position: relative;max-height: 300px;overflow: hidden;margin-right: calc(-120px/2);margin-left: calc(-120px/2);">
+                            <div class="swiper-container" id="pic_swiper" style="width: 1200px;margin: 0 auto;">
                                 <div class="swiper-wrapper">
                                     {{range $index,$elem:=.imageNews}}
                                     <div class="swiper-slide">
                                         <div class="card basic-card" style="width:230px;height:300px;">
                                             <div class="card-image">
                                                 <div class="cover-image"
-                                                     style='background-image: url({{$elem.Cover}})'></div>
+                                                     style='height:100%;width:100%; background-image: url({{$elem.Cover}})'></div>
                                                 <a href="/article/{{$elem.ID}}" class="image-mask"></a>
                                             </div>
                                             <div class="card-body basic-card-body">
@@ -1012,7 +1052,8 @@
                                                     <h5 class="card-title  basic-card-title text-ov">
                                                         {{str2html $elem.Title}}</h5></a>
                                                 <a href="/article/{{$elem.ID}}"><p
-                                                        class="card-text basic-card-text text-ov-3">{{str2html $elem.Summary}}</p>
+                                                        class="card-text basic-card-text text-ov-3">{{str2html
+                                                    $elem.Summary}}</p>
                                                 </a>
                                             </div>
                                         </div>
@@ -1028,10 +1069,11 @@
                 </div>
                 <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
                      aria-labelledby="list-video-news" style="">
-                    <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a></div>
-                    <div class="container">
+                    <div class="m-container" style="position: relative;">
+                        <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a>
+                        </div>
                         <div style="margin: 0 auto;position: relative;max-height:300px;overflow: hidden;">
-                            <div class="swiper-container" id="video_swiper" style="width:calc(100% - 100px)">
+                            <div class="swiper-container" id="video_swiper" style="width:1200px">
                                 <div class="swiper-wrapper">
                                     {{range $index,$elem:=.imageNews}}
                                     <div class="swiper-slide">
@@ -1066,10 +1108,10 @@
             </div>
         </div>
         <div style="background-image: url(/static/images/bg02.png); background-repeat:no-repeat;background-size: contain;background-position-x: -500px;background-position-y: 0px;">
-            <div class="container padding-around-white" style="overflow: hidden;margin-top: 66px;">
+            <div class="m-container padding-around-white" style="overflow: hidden;margin-top: 66px;">
                 <div class="list-cell">
                     <div class="panel-title">
-                        <span class="panel-title-span sharp">政策法规</span>
+                        <span class="panel-title-span-active sharp">职工风采</span>
                         <span class="panel-title-en">Photo News</span>
                         <div class="more-cell-box fixed-more-cell-box"><a href="#">查看更多 ></a></div>
                     </div>
@@ -1106,8 +1148,7 @@
                 </div>
                 <div class="card-box">
                     <div class="panel-title">
-                        <span class="panel-title-span sharp">政策法规</span>
-                        <span class="panel-title-en">Photo News</span>
+                        <span class="panel-title-span-active sharp">职工服务</span>
                         <div class="more-cell-box fixed-more-cell-box"><a href="#">查看更多 ></a></div>
                     </div>
                     <div class="card-list">
@@ -1171,16 +1212,17 @@
                     </div>
                 </div>
             </div>
-            <div class="container padding-around-white" style="overflow: hidden;margin-top: 30px;">
-                <div class="panel-title" style="padding:4px 0">
+            <div class="m-container padding-around-white" style="overflow: hidden;margin-top: 30px;">
+                <div class="panel-title" style="padding:2px 0 0">
                     <span class="news-tab-item sharp-item active">职工摄影</span>
                     <div class="fixed-more-cell-box more-cell-box"><a href="#">查看更多 ></a></div>
                 </div>
                 <div class="image-list" style="margin-top: 20px;">
                     {{range .photoNews}}
-                    <div class="card basic-card" style="width:230px;float: left;">
+                    <div class="card basic-card" style="width:230px;">
                         <div class="card-image">
-                            <div class="cover-image" style="background-image: url({{.Cover}})"></div>
+                            <div class="cover-image"
+                                 style="height:100%;width:100%; background-image: url({{.Cover}})"></div>
                             <a href="/article/{{.ID}}" class="image-mask"></a>
                         </div>
                         <div class="card-body" style="border:none;line-height: 30px;padding:0;">

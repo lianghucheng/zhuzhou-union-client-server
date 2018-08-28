@@ -146,7 +146,7 @@
             </div>
             <div style="margin: 20px 0">
                 <div class="input-box">
-                    <label for="password">
+                    <label for="password1">
                         <img src="/static/images/pwd.png" alt="">
                     </label>
                     <div class="border"></div>
@@ -160,7 +160,7 @@
             </div>
             <div style="margin: 20px 0">
                 <div class="input-box">
-                    <label for="password">
+                    <label for="password2">
                         <img src="/static/images/pwd.png" alt="">
                     </label>
                     <div class="border"></div>
@@ -204,7 +204,7 @@
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger" onclick="rgetCode()">发送验证码</button>
+                <button type="button" class="btn btn-danger" onclick="rgetCode(this)">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
@@ -232,27 +232,36 @@
                 }
             })
         })
-        function rgetCode() {
+        function rgetCode(o) {
             var username = $('#phone').val();
             var code = $('#code').val();
-            var cid =$("#code").data('code');
-            $.ajax({
-                type: 'POST',
-                url: '/api/user/send/rsms',
-                data: {
-                    'username': username,
-                    'captcha_code': code,
-                    'captcha_id':cid,
-                },
-                success: function (r) {
-                    if (r.status == 10000) {
-                        alert("发送成功")
-                    } else {
-                        alert("图片验证码错误，不能获取短信验证码！")
-                        update();
+            var cid = $("#code").data('code');
+            if (username == '') {
+                alert("手机号不能为空");
+            }
+            else if (code == '') {
+                alert("验证码不能为空");
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: '/api/user/send/rsms',
+                    data: {
+                        'username': username,
+                        'captcha_code': code,
+                        'captcha_id': cid,
+                    },
+                    success: function (r) {
+                        if (r.status == 10000) {
+                            wait=60;
+                            time(o);
+                            alert("发送成功")
+                        } else {
+                            alert("请输入正确的图片验证码！")
+                            update();
+                        }
                     }
-                }
-            })
+                })
+            }
         }
     </script>
 </section>

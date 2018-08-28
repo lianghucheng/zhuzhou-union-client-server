@@ -1,4 +1,4 @@
-(function(factory) {
+(function (factory) {
     if (typeof define === 'function' && define.amd) {
         // AMD. Register as anonymous module.
         define(['jquery'], factory);
@@ -9,7 +9,7 @@
         // Browser globals.
         factory(jQuery);
     }
-})(function($) {
+})(function ($) {
     'use strict';
 
     let _ = window._,
@@ -68,7 +68,7 @@
             prop = 'href';
 
         isScript && (prop = 'src');
-        $ele.each(function() {
+        $ele.each(function () {
             array.push($(this).attr(prop));
         });
         return _.uniq(array);
@@ -91,7 +91,7 @@
         for (let i = 0, len = srcs.length; i < len; i++) {
             let script = document.createElement('script');
 
-            script.onload = function() {
+            script.onload = function () {
                 scriptsLoaded++;
 
                 if (scriptsLoaded === srcs.length) {
@@ -116,7 +116,7 @@
 
         ss.type = 'text/css';
         ss.rel = 'stylesheet';
-        ss.onload = function() {
+        ss.onload = function () {
             if (srcs.length) {
                 loadStyles(srcs);
             }
@@ -152,12 +152,12 @@
     QorBottomSheets.prototype = {
         constructor: QorBottomSheets,
 
-        init: function() {
+        init: function () {
             this.build();
             this.bind();
         },
 
-        build: function() {
+        build: function () {
             let $bottomsheets;
 
             this.$bottomsheets = $bottomsheets = $(QorBottomSheets.TEMPLATE).appendTo('body');
@@ -169,7 +169,7 @@
             this.searchParams = '';
         },
 
-        bind: function() {
+        bind: function () {
             this.$bottomsheets
                 .on(EVENT_SUBMIT, 'form', this.submit.bind(this))
                 .on(EVENT_CLICK, '[data-dismiss="bottomsheets"]', this.hide.bind(this))
@@ -180,7 +180,7 @@
                 .on('filterChanged.qor.filter', this.filterChanged.bind(this));
         },
 
-        unbind: function() {
+        unbind: function () {
             this.$bottomsheets
                 .off(EVENT_SUBMIT, 'form')
                 .off(EVENT_CLICK)
@@ -188,14 +188,14 @@
                 .off('filterChanged.qor.filter');
         },
 
-        bindActionData: function(actiondData) {
+        bindActionData: function (actiondData) {
             var $form = this.$body.find('[data-toggle="qor-action-slideout"]').find('form');
             for (var i = actiondData.length - 1; i >= 0; i--) {
                 $form.prepend('<input type="hidden" name="primary_values[]" value="' + actiondData[i] + '" />');
             }
         },
 
-        filterChanged: function(e, search, key) {
+        filterChanged: function (e, search, key) {
             // if this event triggered:
             // search: ?locale_mode=locale, ?filters[Color].Value=2
             // key: search param name: locale_mode
@@ -207,7 +207,7 @@
             return false;
         },
 
-        selectorChanged: function(e, url, key) {
+        selectorChanged: function (e, url, key) {
             // if this event triggered:
             // url: /admin/!remote_data_searcher/products/Collections?locale=en-US
             // key: search param key: locale
@@ -219,7 +219,7 @@
             return false;
         },
 
-        keyup: function(e) {
+        keyup: function (e) {
             var searchInput = this.$bottomsheets.find(CLASS_BOTTOMSHEETS_INPUT);
 
             if (e.which === 13 && searchInput.length && searchInput.is(':focus')) {
@@ -227,7 +227,7 @@
             }
         },
 
-        search: function() {
+        search: function () {
             var $bottomsheets = this.$bottomsheets,
                 param = '?keyword=',
                 baseUrl = $bottomsheets.data().url,
@@ -237,7 +237,7 @@
             this.reload(url);
         },
 
-        pagination: function(e) {
+        pagination: function (e) {
             var $ele = $(e.target),
                 url = $ele.prop('href');
             if (url) {
@@ -246,18 +246,18 @@
             return false;
         },
 
-        reload: function(url) {
+        reload: function (url) {
             var $content = this.$bottomsheets.find(CLASS_BODY_CONTENT);
 
             this.addLoading($content);
             this.fetchPage(url);
         },
 
-        fetchPage: function(url) {
+        fetchPage: function (url) {
             var $bottomsheets = this.$bottomsheets,
                 _this = this;
 
-            $.get(url, function(response) {
+            $.get(url, function (response) {
                 var $response = $(response).find(CLASS_MAIN_CONTENT),
                     $responseHeader = $response.find(CLASS_BODY_HEAD),
                     $responseBody = $response.find(CLASS_BODY_CONTENT);
@@ -277,12 +277,12 @@
                 } else {
                     _this.reload(url);
                 }
-            }).fail(function() {
-                window.alert('server error, please try again later!');
+            }).fail(function () {
+                window.alert('服务器错误,请重试!');
             });
         },
 
-        constructloadURL: function(url, key) {
+        constructloadURL: function (url, key) {
             var fakeURL,
                 value,
                 filterURL = this.filterURL,
@@ -303,7 +303,7 @@
             return filterURL;
         },
 
-        addHeaderClass: function() {
+        addHeaderClass: function () {
             this.$body.find(CLASS_BODY_HEAD).hide();
             if (this.$bottomsheets.find(CLASS_BODY_HEAD).children(CLASS_BOTTOMSHEETS_FILTER).length) {
                 this.$body
@@ -313,14 +313,14 @@
             }
         },
 
-        addLoading: function($element) {
+        addLoading: function ($element) {
             $element.html('');
             $(QorBottomSheets.TEMPLATE_LOADING)
                 .appendTo($element)
                 .trigger('enable.qor.material');
         },
 
-        loadExtraResource: function(data) {
+        loadExtraResource: function (data) {
             let styleDiff = compareLinks(data.$links),
                 scriptDiff = compareScripts(data.$scripts);
 
@@ -328,13 +328,13 @@
             scriptDiff.length && loadScripts(scriptDiff, data);
         },
 
-        loadMedialibraryJS: function($response) {
+        loadMedialibraryJS: function ($response) {
             var $script = $response.filter('script'),
                 theme = /theme=media_library/g,
                 src,
                 _this = this;
 
-            $script.each(function() {
+            $script.each(function () {
                 src = $(this).prop('src');
                 if (theme.test(src)) {
                     var script = document.createElement('script');
@@ -345,7 +345,7 @@
             });
         },
 
-        submit: function(e) {
+        submit: function (e) {
             let form = e.target,
                 $form = $(form),
                 _this = this,
@@ -382,10 +382,10 @@
                 dataType: ajaxType ? ajaxType : 'html',
                 processData: false,
                 contentType: false,
-                beforeSend: function() {
+                beforeSend: function () {
                     $submit.prop('disabled', true);
                 },
-                success: function(data, textStatus, jqXHR) {
+                success: function (data, textStatus, jqXHR) {
                     if (resourseData.ajaxMute) {
                         $bottomsheets.remove();
                         return;
@@ -437,16 +437,16 @@
 
                     $(document).trigger(EVENT_BOTTOMSHEET_SUBMIT);
                 },
-                error: function(err) {
+                error: function (err) {
                     window.QOR.handleAjaxError(err);
                 },
-                complete: function() {
+                complete: function () {
                     $submit.prop('disabled', false);
                 }
             });
         },
 
-        load: function(url, data, callback) {
+        load: function (url, data, callback) {
             var options = this.options,
                 method,
                 dataType,
@@ -474,11 +474,11 @@
             method = data.method ? data.method : 'GET';
             dataType = data.datatype ? data.datatype : 'html';
 
-            load = $.proxy(function() {
+            load = $.proxy(function () {
                 $.ajax(url, {
                     method: method,
                     dataType: dataType,
-                    success: $.proxy(function(response) {
+                    success: $.proxy(function (response) {
                         if (method === 'GET') {
                             let $response = $(response),
                                 $content,
@@ -522,7 +522,7 @@
                                 this.$title.append(
                                     `<button class="mdl-button mdl-button--primary" type="button" data-load-inline="true" data-select-nohint="${
                                         data.selectNohint
-                                    }" data-select-modal="${data.selectModal}" data-select-listing-url="${data.selectListingUrl}">${data.selectBacktolistTitle}</button>`
+                                        }" data-select-modal="${data.selectModal}" data-select-listing-url="${data.selectListingUrl}">${data.selectBacktolistTitle}</button>`
                                 );
                             }
 
@@ -559,7 +559,7 @@
 
                             $bottomsheets.trigger('enable');
 
-                            $bottomsheets.one(EVENT_HIDDEN, function() {
+                            $bottomsheets.one(EVENT_HIDDEN, function () {
                                 $(this).trigger('disable');
                             });
 
@@ -582,7 +582,7 @@
                         }
                     }, this),
 
-                    error: $.proxy(function() {
+                    error: $.proxy(function () {
                         this.$bottomsheets.remove();
                         if (!$('.qor-bottomsheets').is(':visible')) {
                             $('body').removeClass(CLASS_OPEN);
@@ -590,7 +590,7 @@
                         var errors;
                         if ($('.qor-error span').length > 0) {
                             errors = $('.qor-error span')
-                                .map(function() {
+                                .map(function () {
                                     return $(this).text();
                                 })
                                 .get()
@@ -606,7 +606,7 @@
             load();
         },
 
-        open: function(options, callback) {
+        open: function (options, callback) {
             if (!options.loadInline) {
                 this.init();
             }
@@ -614,13 +614,13 @@
             this.load(options.url, options, callback);
         },
 
-        show: function() {
+        show: function () {
             this.$bottomsheets.addClass(CLASS_IS_SHOWN).get(0).offsetHeight;
             this.$bottomsheets.addClass(CLASS_IS_SLIDED);
             $('body').addClass(CLASS_OPEN);
         },
 
-        hide: function(e) {
+        hide: function (e) {
             let $bottomsheets = $(e.target).closest('.qor-bottomsheets'),
                 $datePicker = $('.qor-datepicker').not('.hidden');
 
@@ -637,16 +637,16 @@
             return false;
         },
 
-        refresh: function() {
+        refresh: function () {
             this.$bottomsheets.remove();
             $('body').removeClass(CLASS_OPEN);
 
-            setTimeout(function() {
+            setTimeout(function () {
                 window.location.reload();
             }, 350);
         },
 
-        destroy: function() {
+        destroy: function () {
             this.unbind();
             this.$element.removeData(NAMESPACE);
         }
@@ -674,8 +674,8 @@
             <div class="qor-bottomsheets__body"></div>
         </div>`;
 
-    QorBottomSheets.plugin = function(options) {
-        return this.each(function() {
+    QorBottomSheets.plugin = function (options) {
+        return this.each(function () {
             var $this = $(this);
             var data = $this.data(NAMESPACE);
             var fn;

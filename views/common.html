@@ -18,7 +18,7 @@
         }
 
         .s-panel {
-            margin: 0 auto;
+            margin: 0 auto !important;
             max-width: 1200px;
         }
 
@@ -61,7 +61,7 @@
             font-size: 18px;
             line-height: 28px;
             float: left;
-            min-width: 120px\0;
+            min-width: 120px \0;
             text-align: center;
             padding-bottom: 10px;
         }
@@ -109,6 +109,7 @@
             background-color: #c73236;
             z-index: 999;
         }
+
         .sharp.active::after, .sharp:hover::after, .active > .sharp::after, .nav-item:hover .nav-link.sharp::after {
             width: 0;
             height: 0;
@@ -153,7 +154,7 @@
             padding: 20px 0 0;
         }
 
-        .other-link-btn {
+        .dropup .other-link-btn {
             background-color: #fff;
             color: #333;
             border-radius: 20px;
@@ -165,11 +166,11 @@
             padding: 0.4rem 1rem;
         }
 
-        .other-link-btn::after {
+        .dropup .other-link-btn::after {
             margin-left: 4.8rem;
         }
 
-        .other-link-btn:hover, .other-link-btn:focus {
+        .dropup .other-link-btn:hover, .dropup .other-link-btn:focus {
             color: #333;
             outline: none;
             box-shadow: none;
@@ -178,7 +179,7 @@
     </style>
 {{template "css".}}
     <!--[if lt IE 10]>
-    <link href ="/static/css/bootstrap-ie8.css" rel ="stylesheet">
+    <link href="/static/css/bootstrap-ie8.css" rel="stylesheet">
     <script src="/static/js/html5shiv.js"></script>
     <script src="/static/js/respond.src.js"></script>
     <![endif]-->
@@ -192,10 +193,15 @@
                 <!--<span style="color:red;">36°C ~ 27°C</span>-->
             </div>
             <div><p style="margin-bottom: 0">欢迎访问株洲工会！
+            {{if .User}}
+                <a href="/user/center">
+                {{$.User.Username}}</a>
+            {{else}}
                 <a href="/user/login" style="color:#333;font-weight: bold;margin-left: 10px;">登录</a>
                 <span style="color:#333;font-weight: bold;">|</span>
                 <a href="/user/register" style="color:#333;font-weight: bold;margin-right: 10px;">注册</a>
-                <a href="#" style="color:#666;">我要反馈</a>
+            {{end}}
+                <a href="/mail " style="color:#666;">我要反馈</a>
             </p></div>
         </div>
     </div>
@@ -258,7 +264,7 @@
     </div>
 </div>
 <footer class="footer">
-    <div class="f-content s-panel row">
+    <div class="f-content row s-panel">
         <div class="col-10" style="padding:40px 0 0">
             <div class="row" style="padding: 0 30px">
                 <div class="dropup show col-4">
@@ -376,110 +382,155 @@
         var password1 = $('#password1').val();
         var password2 = $('#password2').val();
         var smscode = $('#smscode').val();
-        $.ajax({
-            type: 'POST',
-            data: {
-                "username": username,
-                'password1': password1,
-                'password2': password2,
-                'code': smscode,
+        if (username==''){
+            alert("手机号不能为空")
+        }else if (password1==''||password2==''){
+            alert("密码不能为空")
+        }else if(password1!=password2){
+            alert("两次密码不一致")
+        }else if (smscode==''){
+            alert("短信验证码不能为空")
+        }else{
+            $.ajax({
+                type: 'POST',
+                data: {
+                    "username": username,
+                    'password1': password1,
+                    'password2': password2,
+                    'code': smscode,
 
-            },
-            url: '/api/user/register',
-            success: function (r) {
-                if (r.status == 10000) {
-                    window.location.href = '/user/login';
-                } else {
-                    alert(r.message);
+                },
+                url: '/api/user/register',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.location.href = '/user/login';
+                    } else {
+                        alert(r.message);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     function clickLogin() {
         var username = $('#phone').val();
         var password = $('#password').val();
         var code = $('#code').val();
-        var cid =$("#code").data('code');
-        $.ajax({
-            type: 'POST',
-            data: {
-                "username": username,
-                'password': password,
-                'captcha_code': code,
-                'captcha_id':cid,
-            },
-            url: '/api/user/login',
-            success: function (r) {
-                if (r.status == 10000) {
-                    window.location.href = '/user/center';
-                } else {
-                    alert("验证码输入错误");
-                    update();
+        var cid = $("#code").data('code');
+        if (username == '') {
+            alert("用户名不能为空");
+        } else if (password == '') {
+            alert("密码不能为空");
+        } else if (code == '') {
+            alert("验证码不能为空");
+        } else {
+            $.ajax({
+                type: 'POST',
+                data: {
+                    "username": username,
+                    'password': password,
+                    'captcha_code': code,
+                    'captcha_id': cid,
+                },
+                url: '/api/user/login',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.location.href = '/user/center';
+                    } else {
+                        alert(r.message);
+                        update();
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     function clickSmsLogin() {
         var username = $('#phone').val();
         var code = $('#code').val();
-        $.ajax({
-            type: 'POST',
-            data: {
-                "username": username,
-                'code': code,
-            },
-            url: '/api/user/smslogin',
-            success: function (r) {
-                if (r.status == 10000) {
-                    window.location.href = '/user/center';
-                } else {
-                    alert("验证码输入错误");
+        if (username == '') {
+            alert("用户名不能为空");
+        } else if (code == '') {
+            alert("验证码不能为空");
+        } else {
+            $.ajax({
+                type: 'POST',
+                data: {
+                    "username": username,
+                    'code': code,
+                },
+                url: '/api/user/smslogin',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.location.href = '/user/login';
+                    } else {
+                        alert(r.message);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
-    function getCode() {
+    function getCode(o) {
         var username = $('#phone').val();
-        alert(username);
-        $.ajax({
-            type: 'POST',
-            url: '/api/user/send/sms',
-            data: {
-                'username': username,
-            },
-            success: function (r) {
-                if (r.status == 10000) {
-
-                } else {
-                    alert(r.message)
+        if (username == '') {
+            alert('用户名不能为空');
+        } else {
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/send/sms',
+                data: {
+                    'username': username,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+                        wait=60;
+                        time(o);
+                    } else {
+                        alert(r.message)
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     function update() {
         $('#code').val('');
         $.ajax({
-            url:'/api/common/captcha',
-            type:"GET",
-            success:function (r) {
-                if (r.status==10000){
-                    $("#code").data('code',r.id);
-                    $('#picture').attr('src',r.src);
-                }else {
+            url: '/api/common/captcha',
+            type: "GET",
+            success: function (r) {
+                if (r.status == 10000) {
+                    $("#code").data('code', r.id);
+                    $('#picture').attr('src', r.src);
+                } else {
                     alert("error");
                 }
             }
         })
     }
-    $('#search').on('keyup',function(e){
-        if(e.originalEvent.key==='Enter'){
-            window.open('{{urlfor "SearchController.Search" }}?str='+e.target.value)
+
+    $('#search').on('keyup', function (e) {
+        if (e.originalEvent.key === 'Enter') {
+            window.open('{{urlfor "SearchController.Search" }}?str=' + e.target.value)
         }
     })
+    var wait;
+    function time(o) {
+        if (wait == 0) {
+            o.removeAttribute("disabled");
+            o.innerHTML = "发送验证码";
+            wait = 60;
+        } else {
+            o.setAttribute("disabled", true);
+            o.innerHTML = "重新发送(" + wait + ")";
+            wait--;
+            setTimeout(function () {
+                        time(o)
+                    },
+                    1000)
+        }
+    }
 </script>
 <script src="/static/js/public.js"></script>
 </html>

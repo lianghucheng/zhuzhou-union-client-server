@@ -6,6 +6,7 @@ import (
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
 	"github.com/dchest/captcha"
+	"time"
 )
 
 type Controller struct {
@@ -132,7 +133,7 @@ func (this *Controller) RegisterSubmit() {
 //@router /api/user/logout [*]
 func (this *Controller) Logout() {
 	this.DelSession("userinfo")
-	this.ReturnSuccess()
+	this.Redirect("/",302)
 }
 
 //@router /api/user/send/sms [post]
@@ -149,6 +150,10 @@ func (this *Controller) SendSms() {
 	code := string(utils.Krand(6, 0))
 	this.SetSession(username, code)
 	go utils.SendMsg(username, code)
+	go func(this *Controller,username string){
+		time.Sleep(300*time.Second)
+		this.DelSession(username)
+	}(this,username)
 	this.ReturnSuccess()
 }
 

@@ -97,7 +97,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//设置为一级导航
 	menu.Action(&admin.Action{
-		Name:  "reset_menu",
+		Name:  "设置导航操作",
 		Label: "置为一级导航",
 		Handler: func(argument *admin.ActionArgument) error {
 			for _, record := range argument.FindSelectedRecords() {
@@ -114,8 +114,8 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//取消栏目分类关联
 	menu.Action(&admin.Action{
-		Name:  "reset_cate",
-		Label: "取消栏目关联",
+		Name:  "取消栏目-分类关联",
+		Label: "取消栏目-分类关联",
 		Handler: func(argument *admin.ActionArgument) error {
 			for _, record := range argument.FindSelectedRecords() {
 
