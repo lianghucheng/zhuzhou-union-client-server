@@ -255,9 +255,7 @@
                             wait=60;
                             time(o);
                             alert("发送成功")
-                        } else if(r.status==10001){
-                            alert(r.message)
-                        }else{
+                        } else {
                             alert("请输入正确的图片验证码！")
                             update();
                         }
