@@ -20,7 +20,6 @@ func (this *MailController) Prepare() {
 
 	this.Data["Code"] = code
 
-
 	if u, ok := this.GetSession("userinfo").(*models.User); ok {
 
 		if err := models.DB.Where("id = ?", u.ID).First(u).Error; err != nil {
@@ -42,14 +41,21 @@ func (this *MailController) Index() {
 
 //@router /mail/add [post]
 func (this *MailController) Add() {
+	user := this.GetSessionUser()
 	title := this.GetString("title")
 	content := this.GetString("content")
+
+	if title == "" || content == "" {
+		this.ReturnJson(10001, "空的内容或者标题")
+		return
+	}
 
 	var mail models.MailBox
 
 	mail.Title = title
 	mail.Content = content
 	mail.Ip = this.Ctx.Input.IP()
+	mail.UserID = user.ID
 	if err := models.DB.Save(&mail).Error; err != nil {
 		this.Abort("500")
 		return

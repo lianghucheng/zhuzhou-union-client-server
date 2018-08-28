@@ -11,29 +11,29 @@
 {{end}}
 {{define "content"}}
 <div class="m-container">
-<div class="panel-title">
-    <span class="panel-title-span">主席信箱</span>
-</div>
-<div class="_list-panel">
-    <div style="margin: 20px 0;">
-        <div class="row" style="margin-bottom: 20px;"><span class="col-12 col-md-1">主题</span>
-            <div class="col-12 col-md-11"><input id="title" type="text"
-                                                 style="width:100%;border: 1px solid #ccc;box-shadow: inset 1px 1px 4px 0 rgba(0, 0, 0,0.56)">
+    <div class="panel-title">
+        <span class="panel-title-span">主席信箱</span>
+    </div>
+    <div class="_list-panel">
+        <div style="margin: 20px 0;">
+            <div class="row" style="margin-bottom: 20px;"><span class="col-12 col-md-1">主题</span>
+                <div class="col-12 col-md-11"><input id="title" type="text"
+                                                     style="width:100%;border: 1px solid #ccc;box-shadow: inset 1px 1px 4px 0 rgba(0, 0, 0,0.56)">
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <span class="col-12 col-md-1">正文</span>
-            <div class="col-12 col-md-11">
+            <div class="row">
+                <span class="col-12 col-md-1">正文</span>
+                <div class="col-12 col-md-11">
                  <textarea id="container" name="content" type="text/plain">
-        这里写你的初始化内容
+
         </textarea>
+                </div>
             </div>
         </div>
+        <div style="text-align: center;margin-bottom: 20px;">
+            <button class="btn btn-danger" style="padding:0.2rem 8rem" onclick="submit()">提交</button>
+        </div>
     </div>
-    <div style="text-align: center;margin-bottom: 20px;">
-        <button class="btn btn-danger" style="padding:0.2rem 8rem" onclick="submit()">提交</button>
-    </div>
-</div>
 </div>
 {{end}}
 
@@ -64,7 +64,10 @@
             success: function (data) {
                 if (data.status == 10000) {
                     toastr.success("提交成功");
-                    window.location.reload();
+                    $("#title").val("");
+                    ue.setContent("");
+                } else if (data.status == 10001) {
+                    toastr.error("标题或内容不能为空");
                 } else {
                     toastr.error("服务器错误");
                 }
