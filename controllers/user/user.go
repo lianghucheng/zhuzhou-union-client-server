@@ -44,6 +44,7 @@ func (this *Controller) UsrnUpdate() {
 	if err := models.DB.Save(&userinfo).Error; err != nil {
 		beego.Debug("更新手机失败", err)
 		this.ReturnJson(1, "更新手机失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess("userinfo", userinfo)
 }
@@ -61,11 +62,13 @@ func (this *Controller) PwdUpdate() {
 	if md5_old_pwd != userinfo.Password {
 		beego.Debug("旧密码错误")
 		this.ReturnJson(1, "旧密码错误")
+		return
 	}
 	userinfo.Password = md5_new_pwd
 	if err := models.DB.Save(&userinfo).Error; err != nil {
 		beego.Debug("更新密码失败", err)
 		this.ReturnJson(1, "更新密码失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess("userinfo", userinfo)
 }
@@ -85,6 +88,7 @@ func (this *Controller) PwdFind() {
 		Error; err != nil {
 		beego.Debug("找回密码--读取用户失败" + err.Error())
 		this.ReturnJson(1, "找回密码--读取用户失败"+err.Error())
+		return
 	}
 	userinfo.Password = md5_pwd
 	if err := models.
@@ -93,6 +97,7 @@ func (this *Controller) PwdFind() {
 		Error; err != nil {
 		beego.Debug("找回密码--保存密码失败" + err.Error())
 		this.ReturnJson(1, "找回密码--保存密码失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess()
 }
@@ -120,6 +125,7 @@ func (this *Controller) ArticleList() {
 	if err := qs.Where("user_id = ?", userinfo.ID).Limit(per).Offset((page - 1) * per).Order("id desc").Find(&articles).Error; err != nil {
 		beego.Debug("读取文章列表错误" + err.Error())
 		this.ReturnJson(1, "读取文章列表错误"+err.Error())
+		return
 	}
 	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
 }
@@ -130,6 +136,7 @@ func (this *Controller) Article() {
 	if id, err := this.GetByID(&article); err != nil {
 		beego.Debug("读取文章错误", err)
 		this.ReturnJson(1, "读取文章错误"+err.Error())
+		return
 	} else {
 		beego.Debug("文章——", id)
 	}
@@ -144,6 +151,22 @@ func (this *Controller) ArticleSubmit() {
 	content := this.GetString("content")
 	title := this.GetString("title")
 	cid, _ := this.GetInt("cid")
+	cover:=this.GetString("cover")
+	if cid == 0 {
+		this.ReturnJson(10001, "请选择分类")
+		return
+	}
+
+	if content == "" || title == "" {
+		this.ReturnJson(10002, "标题或者内容不能为空")
+		return
+	}
+
+	if cover==""{
+		this.ReturnJson(10003,"请上传封面图")
+		return
+	}
+
 	article := models.Article{}
 	article.UserID = userinfo.ID
 	article.Content = content
@@ -152,6 +175,7 @@ func (this *Controller) ArticleSubmit() {
 	if err := models.DB.Create(&article).Error; err != nil {
 		beego.Debug("存文章失败", err)
 		this.ReturnJson(1, "存文章失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess()
 }
@@ -164,6 +188,7 @@ func (this *Controller) ArticleUpdate() {
 	if id, err := this.GetByID(&article); err != nil {
 		beego.Debug("通过ID获取文章失败", err)
 		this.ReturnJson(1, "通过ID获取文章失败"+err.Error())
+		return
 	} else {
 		beego.Debug("文章——", id)
 	}
@@ -171,12 +196,14 @@ func (this *Controller) ArticleUpdate() {
 	if article.Status == 1 {
 		beego.Debug("该文章已审核通过，不可修改")
 		this.ReturnJson(1, "该文章已审核通过，不可修改")
+		return
 	}
 	article.Content = content
 	article.CategoryID = uint(cid)
 	if err := models.DB.Save(&article).Error; err != nil {
 		beego.Debug("更新文章失败", err)
 		this.ReturnJson(1, "更新文章失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess()
 }
@@ -206,6 +233,7 @@ func (this *Controller) Search() {
 	if err := qs.Where("user_id = ? and (title LIKE ? or content LIKE ?)", userinfo.ID, s, s).Limit(per).Offset((page - 1) * per).Order("id desc").Find(&articles).Error; err != nil {
 		beego.Error("查找失败", err)
 		this.ReturnJson(1, "查找失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess("articles", articles, "page", page, "sum", sum, "count", count, "per", per)
 }
@@ -216,6 +244,7 @@ func (this *Controller) GetCate() {
 	if err := models.DB.Where("is_submission = ?", 1).Find(&categorys).Error; err != nil {
 		beego.Error("取分类失败", err)
 		this.ReturnJson(10001, "取分类失败"+err.Error())
+		return
 	}
 	this.ReturnSuccess("categories", categorys)
 }

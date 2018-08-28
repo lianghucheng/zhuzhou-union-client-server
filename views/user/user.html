@@ -311,7 +311,7 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <script id="detail_container" name="content" type="text/plain">-------</script>
+                    <script id="detail_container" name="content" type="text/plain"></script>
                 </div>
                 <div class="modal-footer">
                     <!--<button type="button" class="btn btn-secondary" data-dismiss="modal"></button>-->
@@ -366,11 +366,11 @@
                 },
                 success: function (r) {
                     if (r.status == 10000) {
-                        window.alert("保存成功")
+                        toastr.error("保存成功")
                     }
                 },
                 error: function () {
-                    window.alert("服务链接失败")
+                    toastr.error("服务器错误")
                 }
 
             });
@@ -414,7 +414,7 @@
                         $('#sex').val(r.userinfo.Sex);
                         $('#user_id').val(r.userinfo.ID)
                     } else {
-                        alert(r.message);
+                        toastr.error(r.message);
                     }
                 }
             })
@@ -441,13 +441,13 @@
                     if (data.status == 10000) {
                         if (data.url) {
                             $("#show-img").html(
-                                    '<img src=' + data.url + ' id="img" style="height:150px; width:250px;">');
+                                    '<img src=' + data.url + ' id="imgs" style="height:150px; width:250px;">');
 
                         }
                     }
                 },
                 error: function () {
-                    windows.alert("服务器错误")
+                    toastr.error("服务器错误")
                 }
 
             });
@@ -470,7 +470,7 @@
                             $('#category1').html(ctpl);
                         }
                     } else {
-                        alert(r.message)
+                        toastr.error(r.message)
                     }
                 }
             })
@@ -492,7 +492,7 @@
                         $('#myname').text(r.userinfo.username);
                         console.log($('#myname').text());
                     } else {
-                        alert(r.message);
+                        toastr.error(r.message);
                     }
                 }
             })
@@ -513,9 +513,9 @@
                 },
                 success: function (r) {
                     if (r.status == 10000) {
-                        alert("修改成功");
+                        toastr.success("修改成功");
                     } else {
-                        alert(r.message);
+                        toastr.error(r.message);
                     }
                 }
             })
@@ -525,6 +525,22 @@
             var contenta = ue.getContent();
             var cid = $('#category').val();
             var title = $('#title').val();
+            var img = $('#imgs').attr("src");
+            console.log(img);
+            if (img == "" || img == undefined) {
+                toastr.error("请上传文章的封面图");
+                return
+            }
+            if (contenta == "" || title == "") {
+                toastr.error("标题或者内容不能为空");
+                return
+            }
+
+            if (cid == 0) {
+                toastr.error("请选择分类");
+                return
+            }
+
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -535,14 +551,25 @@
                     'content': contenta,
                     'cid': cid,
                     'title': title,
+                    'cover': img
                 },
                 success: function (r) {
                     if (r.status = 10000) {
-                        alert("您已提交成功");
-                        getArticles(1);
-                        window.location.href = '/user/center';
+                        toastr.success("您已提交成功");
+                        ue.setContent("");
+                        $('#title').val("")
+                        // getArticles(1);
+                        // window.location.href = '/user/center';
+                    } else if (r.status == 10001) {
+                        toastr.error("请选择分类");
+
+                    } else if (r.status == 10002) {
+                        toastr.error("标题或者内容不能为空")
+
+                    } else if (r.status == 10003) {
+                        toastr.success("请上传封面图")
                     } else {
-                        alert(r.message);
+                        toastr.success("服务器错误")
                     }
                 }
             })
@@ -568,7 +595,7 @@
                         getArticles(1);
                         window.location.href = '/user/center';
                     } else {
-                        alert(r.message);
+                        toastr.error(r.message);
                     }
                 }
             })
@@ -683,7 +710,7 @@
                             });
                         }
                     } else {
-                        alert(r.message)
+                        toastr.error(r.message)
                     }
                 }
             })
