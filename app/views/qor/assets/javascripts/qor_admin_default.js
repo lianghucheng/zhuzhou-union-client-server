@@ -2480,7 +2480,7 @@ _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? fu
         }, shown: function () {
             this.slided = !0, q("body").addClass(d), this.$slideout.trigger("beforeEnable.qor.slideout").trigger(w).trigger("afterEnable.qor.slideout")
         }, hide: function () {
-            q.fn.qorSlideoutBeforeHide ? l.qorConfirm({confirm: "您确定要关闭边框吗，您做的修改将不被保存"}, function (t) {
+            q.fn.qorSlideoutBeforeHide ? l.qorConfirm({confirm: "您确定要关闭吗，您做的修改将不被保存"}, function (t) {
                 t && this.hideSlideout()
             }.bind(this)) : this.hideSlideout(), this.removeSelectedClass()
         }, hideSlideout: function () {
