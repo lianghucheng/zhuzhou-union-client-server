@@ -362,7 +362,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		}
 		return context.GetDB().
 			Set("gorm:order_by_primary_key", "DESC").
-			Where("user_id !=? ", 0).Find(result).Error
+			Where("user_id !=?", 0).Find(result).Error
 	}
 
 	//重置Status显示
@@ -379,7 +379,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 	userArticle.IndexAttrs("ID", "Title", "Cover",
-		"Status", "ReadNum", "Category","IsSubmission")
+		"Status", "ReadNum", "Category")
 
 	userArticle.EditAttrs("Title", "User", "Category",
 		"Cover", "Content")

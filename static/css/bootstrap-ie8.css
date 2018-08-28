@@ -289,6 +289,7 @@ fieldset[disabled] .btn {
 /* cards */
 .card {
     margin-bottom: 12px;
+    border: 1px solid #ddd;
 }
 .card-block {
     padding: 20px;
@@ -1167,8 +1168,9 @@ footer,
 aside {
     clear: both;
     display: block;
-    max-width: 1200px;
+    max-width: 992px;
     margin: auto;
+    overflow: hidden;
 }
 
 /** All media-queries (min-width:576px) **/
