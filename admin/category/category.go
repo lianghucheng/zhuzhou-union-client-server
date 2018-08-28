@@ -154,7 +154,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//将节点设置为根分类
 	cate.Action(&admin.Action{
-		Name:  "enable",
+		Name:  "设置一级分类操作",
 		Label: "置为一级分类",
 		Handler: func(argument *admin.ActionArgument) error {
 			for _, record := range argument.FindSelectedRecords() {
@@ -172,7 +172,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//是否设置为侧边栏分类
 	cate.Action(
 		&admin.Action{
-			Name:  "isSpecialCate",
+			Name:  "设置侧边栏操作",
 			Label: "置为侧边栏/取消",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
