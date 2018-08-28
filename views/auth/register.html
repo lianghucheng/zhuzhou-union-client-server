@@ -219,6 +219,7 @@
     </div>
     <script>
         $(function () {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 url:'/api/common/captcha',
                 type:"GET",
@@ -231,6 +232,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end();
         })
         function rgetCode(o) {
             var username = $('#phone').val();
@@ -242,6 +244,7 @@
             else if (code == '') {
                 toastr.warn("验证码不能为空");
             } else {
+                $.bootstrapLoading.start({ loadingTips: '加载中'});
                 $.ajax({
                     type: 'POST',
                     url: '/api/user/send/rsms',
@@ -263,6 +266,7 @@
                         }
                     }
                 })
+                $.bootstrapLoading.end();
             }
         }
     </script>

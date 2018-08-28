@@ -187,6 +187,7 @@
     </div>
     <script>
         $(function () {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 url:'/api/common/captcha',
                 type:"GET",
@@ -199,6 +200,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end();
         })
     </script>
 </section>

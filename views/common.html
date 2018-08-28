@@ -393,6 +393,7 @@
         }else if (smscode==''){
             alert("短信验证码不能为空")
         }else{
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 data: {
@@ -411,6 +412,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end();
         }
     }
 
@@ -426,6 +428,7 @@
         } else if (code == '') {
             alert("验证码不能为空");
         } else {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 data: {
@@ -444,6 +447,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end();
         }
     }
 
@@ -455,6 +459,7 @@
         } else if (code == '') {
             alert("验证码不能为空");
         } else {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 data: {
@@ -470,6 +475,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
     }
 
@@ -478,6 +484,7 @@
         if (username == '') {
             alert('用户名不能为空');
         } else {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 url: '/api/user/send/sms',
@@ -493,11 +500,13 @@
                     }
                 }
             })
+            $.bootstrapLoading.end();
         }
     }
 
     function update() {
         $('#code').val('');
+        $.bootstrapLoading.start({ loadingTips: '加载中'});
         $.ajax({
             url: '/api/common/captcha',
             type: "GET",
@@ -510,6 +519,7 @@
                 }
             }
         })
+        $.bootstrapLoading.end()
     }
 
     $('#search').on('keyup', function (e) {
@@ -536,4 +546,5 @@
 </script>
 <script src="/static/js/toastr.min.js"></script>
 <script src="/static/js/public.js"></script>
+<script src="/static/js/loading.js"></script>
 </html>
