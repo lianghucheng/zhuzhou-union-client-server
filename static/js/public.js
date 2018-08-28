@@ -93,3 +93,21 @@ function add_zero(temp) {
 }
 getCurDate();
 setInterval("getCurDate()", 100);
+
+toastr.options = {
+    "closeButton": false,
+    "debug": false,
+    "newestOnTop": false,
+    "progressBar": false,
+    "positionClass": "toast-top-center",
+    "preventDuplicates": false,
+    "onclick": null,
+    "showDuration": "300",
+    "hideDuration": "300",
+    "timeOut": "1000",
+    "extendedTimeOut": "1000",
+    "showEasing": "swing",
+    "hideEasing": "swing",
+    "showMethod": "fadeIn",
+    "hideMethod": "fadeOut"
+}

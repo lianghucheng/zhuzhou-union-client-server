@@ -61,14 +61,14 @@
             cache: false,
             success: function (data) {
                 if (data.status == 10000) {
-                    window.alert("提交成功");
+                    toastr.success("提交成功");
                     window.location.reload();
                 } else {
-                    window.alert("服务器错误");
+                    toastr.error("服务器错误");
                 }
             },
             error: function () {
-                window.alert("服务器错误");
+                toastr.error("服务器错误");
             }
         });
     }
