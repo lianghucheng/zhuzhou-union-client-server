@@ -1,14 +1,6 @@
-body {
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-}
-
 ul{
     list-style: none;
     padding: 0;
-}
-a{
-    color:#333;
 }
 .text-ov {
     overflow: hidden;
@@ -40,27 +32,22 @@ a{
 /*标题样式开始*/
 .panel-title {
     position: relative;
-    padding: 0.1rem 0;
+    line-height: 39px;
     border-bottom: 3px solid #ccc;
-}
-
-.panel-title-span-active {
-    display: inline;
-    position: relative;
-    padding: 0.3rem 0;
-    font-size: 18px;
-    border-bottom: 3px solid #c73236;
 }
 
 .panel-title-span {
     display: inline;
     position: relative;
-    padding: 0.3rem 0;
-    font-size: 18px;
-    border-bottom: 3px solid transparent;
+    font-size: 24px;
+    padding: 8px 0;
+    border-bottom: 3px solid #c73236;
 }
-
-.panel-title-span-active::after {
+.panel-title-en {
+    font-size: 14px;
+    /*font-weight: lighter;*/
+}
+.panel-title-span::after {
     width: 0;
     height: 0;
     content: '';
@@ -72,22 +59,14 @@ a{
     border-color: #c73236 transparent transparent;
     border-style: solid;
 }
-
-
-.panel-title-en {
-    font-size: 14px;
-    font-weight: lighter;
-}
-
-
 .more-cell {
-    font-size: 14px;
+    font-size: 0.92rem;
     height: 30px;
     line-height: 30px;
     text-align: center;
 }
 .more-cell-bg {
-    font-size: 14px;
+    font-size: 0.82rem;
     height: 30px;
     line-height: 30px;
     text-align: center;
@@ -110,12 +89,12 @@ a{
 
 /*文章列表中一项的样式开始*/
 .item-article-title {
-    font-size: 16px;
+    font-size: 1.2rem;
     color: #333;
 }
 .item-article-sub-extra {
     color: #999;
-    font-size: 14px;
+    font-size: 0.92rem;
     margin: 0.6rem auto;
 }
 .item-sub-extra {
@@ -124,7 +103,7 @@ a{
     margin: 0.5rem auto 1.2rem;
 }
 .item-article-content {
-    font-size: 16px;
+    font-size: 1rem;
     line-height: 1.5;
     color: #666;
 }
@@ -134,10 +113,10 @@ a{
 /*面包屑导航样式开始*/
 m-breadcrumb-tips{
     color:#333;
-    font-size: 14px;
+    font-size: 0.92rem;
 }
 .m-breadcrumb {
-    font-size: 14px;
+    font-size: 0.92rem;
     display: -ms-flexbox;
     display: flex;
     -ms-flex-wrap: wrap;
@@ -173,20 +152,6 @@ m-breadcrumb-tips{
     color: #c73236;
 }
 /*面包屑导航样式结束*/
-.tabbar-item-forward{
-    width:20px;
-    height:20px;
-    margin-right: 10px;
-    display: inline-block;
-    background-image: url(../images/forward.png);
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center;
-    vertical-align: center;
-}
-.tabbar-group-item:hover .tabbar-item-forward,.tabbar-group-item.active .tabbar-item-forward{
-    background-image: url("../images/forward-select.png");
-}
 
 .cover-image{
     background-position: center;
@@ -194,6 +159,7 @@ m-breadcrumb-tips{
     background-repeat: no-repeat;
     display: block;
 }
+
 /*翻页样式*/
 .page-item{
     margin: 0 4px;

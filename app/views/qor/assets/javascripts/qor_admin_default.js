@@ -566,7 +566,7 @@ _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? fu
                 t && r.get(o, r.param({delete_saved_filter: n})).done(function () {
                     e.closest("li").remove(), 0 === i.find("li").length && i.remove()
                 }).fail(function () {
-                    a.qorConfirm("服务器错误,请重试!")
+                    a.qorConfirm("Server error, please try again!")
                 })
             }), !1
         }, start: function () {

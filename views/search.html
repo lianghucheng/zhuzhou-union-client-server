@@ -5,11 +5,19 @@
 {{end}}
 {{define "css"}}
 
+
+<link rel="stylesheet" href="/static/css/normalize.css">
+<link rel="stylesheet" href="/static/css/bootstrap.css">
+<link rel="stylesheet" href="/static/css/bootstrap-datepicker.css">
+<link rel="stylesheet" href="/static/css/public.css">
+<script src="/static/js/jquery.js"></script>
+<script src="/static/js/bootstrap.bundle.js"></script>
 <script src="/static/js/bootstrap-datepicker.js"></script>
 <style>
     .pc-list {
 
     }
+
     .item-mark {
         color: #333;
     }
@@ -64,7 +72,7 @@
     <div class="search row">
         <div class="col-sm-12 col-md-7">
             <div style="padding:4px 10px;border-radius:40px;border:1px solid #999;height:36px;display:flex;flex-direction:row;align-items: center">
-                <label for="searchKey">
+                <label for="search">
                     <img
                             src="/static/images/search.png" alt=""
                             style="height:20px;">
@@ -86,17 +94,13 @@
             </div>
         </div>
     </div>
-    <ul class="pc-list" style="height:300px;">
-    {{if eq .articleLen 0}}
-
-        <p>没有搜索到符合的文章</p>
-    {{end}}
+    <ul class="pc-list">
     {{range $index,$elem:=.articles}}
         <li class="pc-list-item">
             <div class="row">
                 <span class="item-mark col-md-1 col-4 text-ov " style="padding:0;">{{str2html .Title}}</span>
                 <div class="col-md-7 col-8 text-ov"><a href="/article/{{.ID}}">{{str2html .Summary}}</a></div>
-                <span class="item-browse col-md-2 col-6" style="padding:0 0.4rem;">浏览次数：{{printf "%v" .ReadNum}}</span>
+                <span class="item-browse col-md-2 col-6" style="padding:0 0.4rem;">浏览次数：{{.ReadNum}}</span>
                 <span class="item-time col-md-2 col-6"
                       style="padding:0; text-align: right">发布时间：{{date .CreatedAt "Y-m-d"}}</span>
             </div>

@@ -18,7 +18,7 @@
         }
 
         .s-panel {
-            margin: 0 auto !important;
+            margin: 0 auto;
             max-width: 1200px;
         }
 
@@ -61,13 +61,13 @@
             font-size: 18px;
             line-height: 28px;
             float: left;
-            min-width: 120px \0;
+            min-width: 120px\0;
             text-align: center;
             padding-bottom: 10px;
         }
 
         .nav-item {
-            border-bottom: 3px solid transparent;
+            border-bottom: 2px solid transparent;
         }
 
         .nav-item:hover .nav-link {
@@ -76,13 +76,13 @@
 
         .nav-item .nav-link {
             position: relative;
-            border-bottom: 3px solid transparent;
+            border-bottom: 2px solid transparent;
             padding: 0;
             padding-bottom: 10px;
         }
 
         .nav-item.active .nav-link, .nav-item:hover .nav-link {
-            border-bottom: 3px solid #c73236;
+            border-bottom: 2px solid #c73236;
         }
 
         .nav-item:hover .h-subnav {
@@ -109,7 +109,6 @@
             background-color: #c73236;
             z-index: 999;
         }
-
         .sharp.active::after, .sharp:hover::after, .active > .sharp::after, .nav-item:hover .nav-link.sharp::after {
             width: 0;
             height: 0;
@@ -154,23 +153,23 @@
             padding: 20px 0 0;
         }
 
-        .dropup .other-link-btn {
+        .other-link-btn {
             background-color: #fff;
             color: #333;
             border-radius: 20px;
             border: none;
             outline: none;
-            font-size: 14px;
+            font-size: 0.92rem;
             text-align: left;
             width: 220px;
             padding: 0.4rem 1rem;
         }
 
-        .dropup .other-link-btn::after {
+        .other-link-btn::after {
             margin-left: 4.8rem;
         }
 
-        .dropup .other-link-btn:hover, .dropup .other-link-btn:focus {
+        .other-link-btn:hover, .other-link-btn:focus {
             color: #333;
             outline: none;
             box-shadow: none;
@@ -179,13 +178,13 @@
     </style>
 {{template "css".}}
     <!--[if lt IE 10]>
-    <link href="/static/css/bootstrap-ie8.css" rel="stylesheet">
+    <link href ="/static/css/bootstrap-ie8.css" rel ="stylesheet">
     <script src="/static/js/html5shiv.js"></script>
     <script src="/static/js/respond.src.js"></script>
     <![endif]-->
 </head>
 <body>
-<header style="width:100%;border-bottom: 3px solid #c73236;" class="header">
+<header style="width:100%;border-bottom: 2px solid #c73236;" class="header">
     <div class="h-bar-box -box">
         <div class="h-bar h-cell">
             <div><span id="showDate"></span>
@@ -193,15 +192,10 @@
                 <!--<span style="color:red;">36°C ~ 27°C</span>-->
             </div>
             <div><p style="margin-bottom: 0">欢迎访问株洲工会！
-            {{if .User}}
-                <a href="/user/center">
-                {{$.User.Username}}</a>
-            {{else}}
                 <a href="/user/login" style="color:#333;font-weight: bold;margin-left: 10px;">登录</a>
                 <span style="color:#333;font-weight: bold;">|</span>
                 <a href="/user/register" style="color:#333;font-weight: bold;margin-right: 10px;">注册</a>
-            {{end}}
-                <a href="/mail " style="color:#666;">我要反馈</a>
+                <a href="#" style="color:#666;">我要反馈</a>
             </p></div>
         </div>
     </div>
@@ -264,7 +258,7 @@
     </div>
 </div>
 <footer class="footer">
-    <div class="f-content row s-panel">
+    <div class="f-content s-panel row">
         <div class="col-10" style="padding:40px 0 0">
             <div class="row" style="padding: 0 30px">
                 <div class="dropup show col-4">
@@ -337,17 +331,17 @@
                 </div>
             </div>
             <div class="copyright" style="padding:30px 30px 0;">
-                <p style="font-size: 12px;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">版权所有 Copyright© 2016
+                <p style="font-size: 0.82rem;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">版权所有 Copyright© 2016
                     株洲工会网 www.zzghw.com 办公电话：0731-28686131</p>
-                <p style="font-size: 12px;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">地址：湖南省株洲市天元区天伦西路86号
+                <p style="font-size: 0.82rem;font-weight: lighter;line-height: 1.5;color:#fdf7ff;">地址：湖南省株洲市天元区天伦西路86号
                     网站管理员邮箱：zhzhgy@sina.com</p>
             </div>
         </div>
         <div class="col-2 text-center">
             <div style="width: 116px;height: 116px;overflow: hidden; background-color: #28a745;margin: 0 auto;"><img
                     src="{{.Code.CodeImage.Url}}" alt="二维码" style="width: 100%;height: 100%;"></div>
-            <p style="font-size: 12px;">关注二维码</p>
-            <p style="font-size: 12px;">查看更多信息</p>
+            <p style="font-size: 0.88rem;">关注二维码</p>
+            <p style="font-size: 0.88rem;">查看更多信息</p>
         </div>
     </div>
 </footer>
@@ -406,121 +400,86 @@
         var username = $('#phone').val();
         var password = $('#password').val();
         var code = $('#code').val();
-        var cid = $("#code").data('code');
-        if (username == '') {
-            alert("用户名不能为空");
-        } else if (password == '') {
-            alert("密码不能为空");
-        } else if (code == '') {
-            alert("验证码不能为空");
-        } else {
-            $.ajax({
-                type: 'POST',
-                data: {
-                    "username": username,
-                    'password': password,
-                    'captcha_code': code,
-                    'captcha_id': cid,
-                },
-                url: '/api/user/login',
-                success: function (r) {
-                    if (r.status == 10000) {
-                        window.location.href = '/user/center';
-                    } else {
-                        alert(r.message);
-                        update();
-                    }
-                }
-            })
-        }
-    }
-
-    function clickSmsLogin() {
-        var username = $('#phone').val();
-        var code = $('#code').val();
-        if (username == '') {
-            alert("用户名不能为空");
-        } else if (code == '') {
-            alert("验证码不能为空");
-        } else {
-            $.ajax({
-                type: 'POST',
-                data: {
-                    "username": username,
-                    'code': code,
-                },
-                url: '/api/user/smslogin',
-                success: function (r) {
-                    if (r.status == 10000) {
-                        window.location.href = '/user/center';
-                    } else {
-                        alert(r.message);
-                    }
-                }
-            })
-        }
-    }
-
-    function getCode(o) {
-        var username = $('#phone').val();
-        if (username == '') {
-            alert('用户名不能为空');
-        } else {
-            $.ajax({
-                type: 'POST',
-                url: '/api/user/send/sms',
-                data: {
-                    'username': username,
-                },
-                success: function (r) {
-                    if (r.status == 10000) {
-                        time(o)
-                    } else {
-                        alert(r.message)
-                    }
-                }
-            })
-        }
-    }
-
-    function update() {
-        $('#code').val('');
+        var cid =$("#code").data('code');
         $.ajax({
-            url: '/api/common/captcha',
-            type: "GET",
+            type: 'POST',
+            data: {
+                "username": username,
+                'password': password,
+                'captcha_code': code,
+                'captcha_id':cid,
+            },
+            url: '/api/user/login',
             success: function (r) {
                 if (r.status == 10000) {
-                    $("#code").data('code', r.id);
-                    $('#picture').attr('src', r.src);
+                    window.location.href = '/user/center';
                 } else {
-                    alert("error");
+                    alert(r.message);
+                    update();
                 }
             }
         })
     }
 
-    $('#search').on('keyup', function (e) {
-        if (e.originalEvent.key === 'Enter') {
-            window.open('{{urlfor "SearchController.Search" }}?str=' + e.target.value)
+    function clickSmsLogin() {
+        var username = $('#phone').val();
+        var code = $('#code').val();
+        $.ajax({
+            type: 'POST',
+            data: {
+                "username": username,
+                'code': code,
+            },
+            url: '/api/user/smslogin',
+            success: function (r) {
+                if (r.status == 10000) {
+                    window.location.href = '/user/center';
+                } else {
+                    alert(r.message);
+                }
+            }
+        })
+    }
+
+    function getCode() {
+        var username = $('#phone').val();
+        alert(username);
+        $.ajax({
+            type: 'POST',
+            url: '/api/user/send/sms',
+            data: {
+                'username': username,
+            },
+            success: function (r) {
+                if (r.status == 10000) {
+
+                } else {
+                    alert(r.message)
+                }
+            }
+        })
+    }
+
+    function update() {
+        $('#code').val('');
+        $.ajax({
+            url:'/api/common/captcha',
+            type:"GET",
+            success:function (r) {
+                if (r.status==10000){
+                    $("#code").data('code',r.id);
+                    $('#picture').attr('src',r.src);
+                }else {
+                    alert("error");
+                }
+            }
+        })
+    }
+    $('#search').on('keyup',function(e){
+        if(e.originalEvent.key==='Enter'){
+            window.open('{{urlfor "SearchController.Search" }}?str='+e.target.value)
         }
     })
-
-    function time(o) {
-        if (wait == 0) {
-            o.removeAttribute("disabled");
-            o.innerHTML = "发送验证码";
-            wait = 60;
-            rgetCode();
-        } else {
-            o.setAttribute("disabled", true);
-            o.innerHTML = "重新发送(" + wait + ")";
-            wait--;
-            setTimeout(function () {
-                        time(o)
-                    },
-                    1000)
-        }
-    }
 </script>
 <script src="/static/js/public.js"></script>
 </html>

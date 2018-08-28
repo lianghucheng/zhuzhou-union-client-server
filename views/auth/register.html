@@ -7,7 +7,7 @@
 <style>
 
 
-    .login-hidden {
+    .login-hidden{
         display: none;
     }
 
@@ -28,14 +28,12 @@
         width: 100%;
         height: 700px;
     }
-
-    .s-main {
+    .s-main{
         max-width: 1200px;
-        height: 100%;
+        height:100%;
         margin: 0 auto;
         position: relative;
     }
-
     .login {
         position: absolute;
         width: 380px;
@@ -162,7 +160,7 @@
             </div>
             <div style="margin: 20px 0">
                 <div class="input-box">
-                    <label for="password2">
+                    <label for="password">
                         <img src="/static/images/pwd.png" alt="">
                     </label>
                     <div class="border"></div>
@@ -206,7 +204,7 @@
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger" onclick="rgetCode(this)">发送验证码</button>
+                <button type="button" class="btn btn-danger" onclick="rgetCode()">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
@@ -220,51 +218,41 @@
         </div>
     </div>
     <script>
-        var wait = 60;
         $(function () {
             $.ajax({
-                url: '/api/common/captcha',
-                type: "GET",
-                success: function (r) {
-                    if (r.status == 10000) {
-                        $("#code").data('code', r.id);
-                        $('#picture').attr('src', r.src);
-                    } else {
+                url:'/api/common/captcha',
+                type:"GET",
+                success:function (r) {
+                    if (r.status==10000){
+                        $("#code").data('code',r.id);
+                        $('#picture').attr('src',r.src);
+                    }else {
                         alert("error");
                     }
                 }
             })
         })
-
-        function rgetCode(o) {
+        function rgetCode() {
             var username = $('#phone').val();
             var code = $('#code').val();
-            var cid = $("#code").data('code');
-            if (username == '') {
-                alert("手机号不能为空");
-            }
-            else if (code == '') {
-                alert("验证码不能为空");
-            } else {
-                $.ajax({
-                    type: 'POST',
-                    url: '/api/user/send/rsms',
-                    data: {
-                        'username': username,
-                        'captcha_code': code,
-                        'captcha_id': cid,
-                    },
-                    success: function (r) {
-                        if (r.status == 10000) {
-                            time(o);
-                        } else {
-                            alert("验证码错误，不能获取短信验证码！")
-                            wair = 0;
-                            update();
-                        }
+            var cid =$("#code").data('code');
+            $.ajax({
+                type: 'POST',
+                url: '/api/user/send/rsms',
+                data: {
+                    'username': username,
+                    'captcha_code': code,
+                    'captcha_id':cid,
+                },
+                success: function (r) {
+                    if (r.status == 10000) {
+
+                    } else {
+                        alert("验证码错误，不能获取短信验证码！")
+                        update();
                     }
-                })
-            }
+                }
+            })
         }
     </script>
 </section>

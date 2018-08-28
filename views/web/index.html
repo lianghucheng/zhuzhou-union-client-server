@@ -447,7 +447,9 @@
         margin-bottom: 0;
         line-height: 62px;
     }
-
+    .panel-nav-item:hover .panel-nav-item-title{
+        color:#fff;
+    }
     .panel-nav-item.active, .panel-nav-item:hover {
         background-color: #c73236;
     }
@@ -1010,8 +1012,7 @@
                                                     <h5 class="card-title  basic-card-title text-ov">
                                                         {{str2html $elem.Title}}</h5></a>
                                                 <a href="/article/{{$elem.ID}}"><p
-                                                        class="card-text basic-card-text text-ov-3">{{str2html
-                                                    $elem.Summary}}</p>
+                                                        class="card-text basic-card-text text-ov-3">{{str2html $elem.Summary}}</p>
                                                 </a>
                                             </div>
                                         </div>
@@ -1177,7 +1178,7 @@
                 </div>
                 <div class="image-list" style="margin-top: 20px;">
                     {{range .photoNews}}
-                    <div class="card basic-card" style="width:230px;">
+                    <div class="card basic-card" style="width:230px;float: left;">
                         <div class="card-image">
                             <div class="cover-image" style="background-image: url({{.Cover}})"></div>
                             <a href="/article/{{.ID}}" class="image-mask"></a>

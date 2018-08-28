@@ -29,12 +29,10 @@ func (this *Controller) ArticleDetail() {
 		Where("category_id=?", article.CategoryID).Order("read_num desc").Limit(6).Find(&recommend)
 
 	categoryStack := make([]models.Category, 0)
-	if article.Category != nil {
-		categoryStack = append(categoryStack, *article.Category)
-		categoryStack = getCategoryStack(categoryStack)
-		for i, j := 0, len(categoryStack)-1; i < j; i, j = i+1, j-1 {
-			categoryStack[i], categoryStack[j] = categoryStack[j], categoryStack[i]
-		}
+	categoryStack = append(categoryStack, *article.Category)
+	categoryStack = getCategoryStack(categoryStack)
+	for i, j := 0, len(categoryStack)-1; i < j; i, j = i+1, j-1 {
+		categoryStack[i], categoryStack[j] = categoryStack[j], categoryStack[i]
 	}
 
 	this.Data["categoryStack"] = categoryStack
