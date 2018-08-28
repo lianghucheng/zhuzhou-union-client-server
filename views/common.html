@@ -385,14 +385,15 @@
         var password2 = $('#password2').val();
         var smscode = $('#smscode').val();
         if (username==''){
-            alert("手机号不能为空")
+            toastr.warning("手机号不能为空")
         }else if (password1==''||password2==''){
-            alert("密码不能为空")
+            toastr.warning("密码不能为空")
         }else if(password1!=password2){
-            alert("两次密码不一致")
+            toastr.warning("两次密码不一致")
         }else if (smscode==''){
-            alert("短信验证码不能为空")
+            toastr.warning("短信验证码不能为空")
         }else{
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 data: {
@@ -400,17 +401,17 @@
                     'password1': password1,
                     'password2': password2,
                     'code': smscode,
-
                 },
                 url: '/api/user/register',
                 success: function (r) {
                     if (r.status == 10000) {
                         window.location.href = '/user/login';
                     } else {
-                        alert(r.message);
+                        toastr.warning(r.message);
                     }
                 }
             })
+            $.bootstrapLoading.end();
         }
     }
 
@@ -420,12 +421,13 @@
         var code = $('#code').val();
         var cid = $("#code").data('code');
         if (username == '') {
-            alert("用户名不能为空");
+            toastr.warning("用户名不能为空");
         } else if (password == '') {
-            alert("密码不能为空");
+            toastr.warning("密码不能为空");
         } else if (code == '') {
-            alert("验证码不能为空");
+            toastr.warning("验证码不能为空");
         } else {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 data: {
@@ -439,11 +441,12 @@
                     if (r.status == 10000) {
                         window.location.href = '/user/center';
                     } else {
-                        alert(r.message);
+                        toastr.warning(r.message);
                         update();
                     }
                 }
             })
+            $.bootstrapLoading.end();
         }
     }
 
@@ -451,10 +454,11 @@
         var username = $('#phone').val();
         var code = $('#code').val();
         if (username == '') {
-            alert("用户名不能为空");
+            toastr.warning("用户名不能为空");
         } else if (code == '') {
-            alert("验证码不能为空");
+            toastr.warning("验证码不能为空");
         } else {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 data: {
@@ -466,18 +470,20 @@
                     if (r.status == 10000) {
                         window.location.href = '/user/login';
                     } else {
-                        alert(r.message);
+                        toastr.warning(r.message);
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
     }
 
     function getCode(o) {
         var username = $('#phone').val();
         if (username == '') {
-            alert('用户名不能为空');
+            toastr.warning('用户名不能为空');
         } else {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 type: 'POST',
                 url: '/api/user/send/sms',
@@ -489,15 +495,17 @@
                         wait=60;
                         time(o);
                     } else {
-                        alert(r.message)
+                        toastr.warning(r.message)
                     }
                 }
             })
+            $.bootstrapLoading.end();
         }
     }
 
     function update() {
         $('#code').val('');
+        $.bootstrapLoading.start({ loadingTips: '加载中'});
         $.ajax({
             url: '/api/common/captcha',
             type: "GET",
@@ -506,10 +514,11 @@
                     $("#code").data('code', r.id);
                     $('#picture').attr('src', r.src);
                 } else {
-                    alert("error");
+                    toastr.warning("error");
                 }
             }
         })
+        $.bootstrapLoading.end()
     }
 
     $('#search').on('keyup', function (e) {
@@ -536,4 +545,5 @@
 </script>
 <script src="/static/js/toastr.min.js"></script>
 <script src="/static/js/public.js"></script>
+<script src="/static/js/loading.js"></script>
 </html>
