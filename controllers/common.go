@@ -110,18 +110,17 @@ func (this *Common) GetByID(obj interface{}) (int64, error) {
 func (this *Common) VerityCode(username string) {
 	code := this.GetString("code")
 	if code == "" {
-		this.DelSession(username)
-		this.ReturnJson(10003, "验证码不能为空")
+		this.ReturnJson(10003, "短信验证码不能为空")
 	}
 
 	if local_code, ok := this.GetSession(username).(string); ok {
 		if local_code == code {
 			this.DelSession(username)
 		} else {
-			this.ReturnJson(10003, "验证码输入错误")
+			this.ReturnJson(10003, "短信验证码输入错误")
 		}
 	} else {
-		this.ReturnJson(10004, "验证码输入错误")
+		this.ReturnJson(10004, "短信验证码输入错误")
 	}
 }
 
