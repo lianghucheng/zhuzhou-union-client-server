@@ -41,12 +41,14 @@ func (this *Controller) ListSpacial() {
 	for i, j := 0, len(categoryStack)-1; i < j; i, j = i+1, j-1 {
 		categoryStack[i], categoryStack[j] = categoryStack[j], categoryStack[i]
 	}
+
 	this.Data["categoryStack"] = categoryStack
 
 	this.Data["articles"] = articles
 	this.Data["subCategory"] = subCategory
 	this.Data["category"] = category
 	this.Data["categories"] = categories
+
 	this.TplName = "article/category_spacial.html"
 }
 
@@ -95,8 +97,20 @@ func (this *Controller) List() {
 	if category.Category == 0 {
 		pers = 9
 	}
-	qs := models.DB.Select("id,cover,summary,title,author,created_at").
-		Model(models.Article{}).Where("category_id=?", id)
+
+	cateIDs := make([]uint, 0)
+	for _, category := range categories {
+		cateIDs = append(cateIDs, category.ID)
+	}
+	qs := models.DB
+	if category.HigherID == 0 {
+		qs = qs.Select("id,cover,summary,title,author,created_at").
+			Model(models.Article{}).Where("category_id  in (?)", cateIDs)
+	} else {
+		qs = qs.Select("id,cover,summary,title,author,created_at").
+			Model(models.Article{}).Where("category_id = ?", category.ID)
+	}
+
 	cnt := 0
 	qs.Count(&cnt)
 

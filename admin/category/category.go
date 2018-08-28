@@ -67,7 +67,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 			return nil
 		}})
 
-
 	//添加分类选项
 	cate.Meta(&admin.Meta{Name: "Category", Label: "请选择类别", Type: "select_many",
 		Config: &admin.SelectOneConfig{
@@ -84,19 +83,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 			},
 		},
 	})
-
-	cate.Meta(&admin.Meta{Name: "IsSubmission", Label: "是否为投稿分类", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
-		txt := ""
-		if v, ok := record.(*models.Category); ok {
-			if v.IsSubmission == 1 {
-
-				txt = "可投稿分类"
-			} else {
-				txt = "不可投稿分类"
-			}
-		}
-		return txt
-	}})
 
 	//新增时候的验证
 	cate.AddValidator(&resource.Validator{
@@ -168,7 +154,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	//将节点设置为根分类
 	cate.Action(&admin.Action{
-		Name:  "enable",
+		Name:  "设置一级分类操作",
 		Label: "置为一级分类",
 		Handler: func(argument *admin.ActionArgument) error {
 			for _, record := range argument.FindSelectedRecords() {
@@ -186,7 +172,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	//是否设置为侧边栏分类
 	cate.Action(
 		&admin.Action{
-			Name:  "isSpecialCate",
+			Name:  "设置侧边栏操作",
 			Label: "置为侧边栏/取消",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
@@ -207,6 +193,19 @@ func SetAdmin(adminConfig *admin.Admin) {
 			Modes: []string{"show", "menu_item", "edit"},
 		},
 	)
+
+	cate.Meta(&admin.Meta{Name: "IsSubmission", Label: "是否为投稿分类", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.Category); ok {
+			if v.IsSubmission == 1 {
+
+				txt = "投稿分类"
+			} else {
+				txt = "非投稿分类"
+			}
+		}
+		return txt
+	}})
 	cate.Action(
 		&admin.Action{
 			Name:  "置为投稿分类",
@@ -215,7 +214,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				for _, record := range argument.FindSelectedRecords() {
 
 					if a, ok := record.(*models.Category); ok {
-						//执行a.IsSubmission更新状态
+						//执行a.status更新状态
 						if a.IsSubmission == 1 {
 							a.IsSubmission = 0
 						} else {
