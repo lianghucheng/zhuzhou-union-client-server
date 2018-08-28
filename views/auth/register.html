@@ -254,9 +254,9 @@
                         if (r.status == 10000) {
                             wait=60;
                             time(o);
-                            toastr.success("发送成功")
+                            alert("发送成功")
                         } else {
-                            toastr.info("请输入正确的图片验证码！")
+                            alert("请输入正确的图片验证码！")
                             update();
                         }
                     }
