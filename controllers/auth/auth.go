@@ -159,6 +159,7 @@ func (this *Controller) SendSms() {
 
 //@router /api/user/send/rsms [post]
 func (this *Controller) SendrSms() {
+	this.CaptchaInterceptor()
 	username := this.GetString("username")
 	if username == "" {
 		this.ReturnJson(10001, "手机号不能为空")
@@ -168,7 +169,6 @@ func (this *Controller) SendrSms() {
 		this.ReturnJson(10001, "请输入正确的手机号码")
 		return
 	}
-	this.CaptchaInterceptor()
 	code := string(utils.Krand(6, 0))
 	this.SetSession(username, code)
 	go utils.SendMsg(username, code)

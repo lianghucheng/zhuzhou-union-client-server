@@ -83,14 +83,14 @@ a {
 }
 
 .more-cell {
-    font-size: 0.92rem;
+    font-size: 14px;
     height: 30px;
     line-height: 30px;
     text-align: center;
 }
 
 .more-cell-bg {
-    font-size: 14rem;
+    font-size: 14px;
     height: 30px;
     line-height: 30px;
     text-align: center;
