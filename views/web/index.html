@@ -632,6 +632,13 @@
     .card-list .basic-card:last-child {
         margin-right: 0;
     }
+    .image-list .basic-card{
+        float: left;
+        margin-right: calc(25% - 115px * 5 / 2);
+    }
+    .image-list .basic-card:last-child{
+        margin-right: 0;
+    }
     .m-container{
         width: 1230px;
         padding-right: 15px;
@@ -1023,7 +1030,7 @@
                                         <div class="card basic-card" style="width:230px;height:300px;">
                                             <div class="card-image">
                                                 <div class="cover-image"
-                                                     style='background-image: url({{$elem.Cover}})'></div>
+                                                     style='height:100%;width:100%; background-image: url({{$elem.Cover}})'></div>
                                                 <a href="/article/{{$elem.ID}}" class="image-mask"></a>
                                             </div>
                                             <div class="card-body basic-card-body">
@@ -1197,9 +1204,9 @@
                 </div>
                 <div class="image-list" style="margin-top: 20px;">
                     {{range .photoNews}}
-                    <div class="card basic-card" style="width:230px;float: left;">
+                    <div class="card basic-card" style="width:230px;">
                         <div class="card-image">
-                            <div class="cover-image" style="background-image: url({{.Cover}})"></div>
+                            <div class="cover-image" style="height:100%;width:100%; background-image: url({{.Cover}})"></div>
                             <a href="/article/{{.ID}}" class="image-mask"></a>
                         </div>
                         <div class="card-body" style="border:none;line-height: 30px;padding:0;">
