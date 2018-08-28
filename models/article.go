@@ -26,4 +26,5 @@ type Article struct {
 	VideoIndex        oss.OSS
 	IsIndexUp         int
 	IsIndex           int
+	IsWechat          int
 }

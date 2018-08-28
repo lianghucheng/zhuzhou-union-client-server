@@ -87,3 +87,10 @@ admin/user/usera.go
 utils/send_msg_test.go
 controllers/date.c
 controllers/date1.exe
+
+UploadFiles
+conf/app.conf
+
+nohup.out
+
+routers/controller*

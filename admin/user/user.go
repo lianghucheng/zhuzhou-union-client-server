@@ -9,7 +9,6 @@ import (
 	"github.com/astaxie/beego"
 	"zhuzhou-union-client-server/utils"
 	"github.com/qor/roles"
-	"net/http"
 	"reflect"
 )
 
@@ -94,7 +93,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return
 			},
 		})
-	user.Meta(&admin.Meta{Name: "Name", Label: "姓名"})
+	user.Meta(&admin.Meta{Name: "NickName", Label: "昵称"})
 	user.Meta(
 		&admin.Meta{
 			Type:  "text",
@@ -170,10 +169,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 			},
 		},
 	)
-	user.Meta(&admin.Meta{Name: "Icon", Label: "头像"})
-	user.Meta(&admin.Meta{Name: "QQ", Label: "QQ"})
-	user.Meta(&admin.Meta{Name: "Email", Label: "邮箱"})
-	user.Meta(&admin.Meta{Name: "Sign", Label: "个性签名"})
 	user.AddProcessor(&resource.Processor{
 		Name: "process_user_data",
 		Handler: func(val interface{}, values *resource.MetaValues, context *qor.Context) error {

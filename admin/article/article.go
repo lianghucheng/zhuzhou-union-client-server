@@ -14,10 +14,11 @@ import (
 	"strings"
 	"zhuzhou-union-client-server/models"
 	"zhuzhou-union-client-server/utils"
+	"github.com/qor/roles"
 )
 
 func SetAdmin(adminConfig *admin.Admin) {
-	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Name: "文章管理", PageCount: 10})
+	article := adminConfig.AddResource(&models.Article{}, &admin.Config{Menu: []string{"文章管理"}, Name: "普通文章", PageCount: 10})
 	//对增删查改的局部显示
 	article.IndexAttrs("ID", "Title", "Author", "Cover", "VideoIndex",
 		"Editor", "ResponsibleEditor", "ReadNum", "Url", "Category")
@@ -93,25 +94,13 @@ func SetAdmin(adminConfig *admin.Admin) {
 				if a.Category != nil {
 					a.CategoryID = a.Category.ID
 				}
+				a.IsWechat = 0
 
 			}
 			return nil
 		},
 	})
 
-	//重置Status显示
-	article.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
-		txt := ""
-		if v, ok := record.(*models.Article); ok {
-			if v.Status == 1 {
-
-				txt = "已审核"
-			} else {
-				txt = "未审核"
-			}
-		}
-		return txt
-	}})
 	//是否显示在首页
 	/*
 	article.Meta(&admin.Meta{Name: "IsIndex", Label: "首页新闻轮播", Type: "number", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
@@ -136,31 +125,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 		return txt
 	}})
 	*/
-	//添加审核模块
-	article.Action(
-		&admin.Action{
-			Name:  "审核",
-			Label: "审核/撤销",
-			Handler: func(argument *admin.ActionArgument) error {
-				for _, record := range argument.FindSelectedRecords() {
 
-					if a, ok := record.(*models.Article); ok {
-						//执行a.status更新状态
-						if a.Status == 1 {
-							a.Status = 0
-						} else {
-							a.Status = 1
-						}
-						models.DB.Model(&a).Update("status", a.Status)
-
-					}
-				}
-				return nil
-			},
-			Modes: []string{"batch", "show", "menu_item"},
-		},
-	)
-	//添加是否置顶
 	/*
 	article.Action(
 		&admin.Action{
@@ -235,15 +200,6 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	article.SearchAttrs("Title", "Content", "Editor", "ResponsibleEditor", "Author", "ID")
 
-	//添加过滤条件
-	article.Scope(&admin.Scope{Name: "已审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
-		return db.Where("status = ?", "1")
-	}})
-
-	article.Scope(&admin.Scope{Name: "未审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
-		return db.Where("status = ?", "0")
-	}})
-
 	//添加分类选项
 	article.Meta(&admin.Meta{Name: "Category", Label: "文章分类",
 		Config: &admin.SelectOneConfig{
@@ -277,6 +233,18 @@ func SetAdmin(adminConfig *admin.Admin) {
 			return nil
 		},
 	})
+
+	article.FindManyHandler = func(result interface{}, context *qor.Context) error {
+
+		db := context.GetDB()
+		if _, ok := db.Get("qor:getting_total_count"); ok {
+			return context.GetDB().Where("is_wechat = ?", 0).Count(result).Error
+		}
+		return context.GetDB().
+			Set("gorm:order_by_primary_key", "DESC").
+			Where("is_wechat = ?", 0).Find(result).Error
+	}
+
 	article.Filter(&admin.Filter{Name: "Category",
 		Label: "分类筛选", Config: &admin.SelectOneConfig{
 			Collection: func(_ interface{}, context *admin.Context) (options [][]string) {
@@ -291,4 +259,211 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return options
 			}, AllowBlank: true}})
 
+	wechat := adminConfig.AddResource(&models.Article{}, &admin.Config{Menu: []string{"文章管理"}, Name: "微信文章", PageCount: 10})
+
+	wechat.IndexAttrs("ID", "Title", "Category", "Cover", "Url")
+	wechat.EditAttrs("Title", "Category", "Cover", "Url", )
+	wechat.NewAttrs("ID", "Title", "Category", "Cover", "Url")
+	wechat.AddValidator(&resource.Validator{
+		Name: "check_wechat_col",
+		Handler: func(record interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+
+			if meta := metaValues.Get("Title"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Title", "标题不能为空")
+				}
+			}
+			if meta := metaValues.Get("Url"); meta != nil {
+				if name := utils2.ToString(meta.Value); strings.TrimSpace(name) == "" {
+					return validations.NewError(record, "Url", "链接不能为空")
+				}
+			}
+			return nil
+		},
+	})
+
+	wechat.SearchAttrs("Title", "ID", "Cover", "Url", "Category")
+
+	wechat.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
+	wechat.Meta(&admin.Meta{Name: "Title", Label: "标题"})
+	wechat.Meta(&admin.Meta{Name: "Url", Label: "微信链接"})
+
+	wechat.AddProcessor(&resource.Processor{
+		Handler: func(value interface{}, metaValues *resource.MetaValues, context *qor.Context) error {
+			if a, ok := value.(*models.Article); ok {
+				fnameCover := cast.ToString(a.Cover.FileName)
+				//调用文件上传函数 更新url
+				fmt.Println("this is a debug ------------------------")
+				if a.Cover.FileHeader != nil {
+					file, err := a.Cover.FileHeader.Open()
+					f, err := ioutil.ReadAll(file)
+
+					if err != nil {
+						return err
+					}
+					url, err := utils.UploadFile(fnameCover, f)
+
+					if err != nil {
+						return err
+					}
+					a.Cover.Url = url
+				}
+				a.IsWechat = 1
+			}
+			return nil
+		},
+	})
+	//重置删除
+	wechat.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.Article); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
+
+	wechat.FindManyHandler = func(result interface{}, context *qor.Context) error {
+
+		db := context.GetDB()
+		if _, ok := db.Get("qor:getting_total_count"); ok {
+			return context.GetDB().Where("is_wechat = ?", 1).Count(result).Error
+		}
+		return context.GetDB().
+			Set("gorm:order_by_primary_key", "DESC").
+			Where("is_wechat =	 ?", 1).Find(result).Error
+	}
+
+	wechat.SearchAttrs("Title", "Content", "Editor", "ResponsibleEditor", "Author", "ID")
+
+	//添加分类选项
+	wechat.Meta(&admin.Meta{Name: "Category", Label: "文章分类",
+		Config: &admin.SelectOneConfig{
+			Placeholder: "选择选项"}}, )
+
+	userArticle := adminConfig.AddResource(&models.Article{},
+		&admin.Config{Menu: []string{"文章管理"},
+			Name: "投稿文章", PageCount: 10, Permission: roles.
+				Allow(roles.Read, roles.Anyone).
+				Allow(roles.Update, roles.Anyone),})
+
+	userArticle.FindManyHandler = func(result interface{}, context *qor.Context) error {
+		db := context.GetDB()
+		if _, ok := db.Get("qor:getting_total_count"); ok {
+			return context.GetDB().Where("user_id != ?", 0).Count(result).Error
+		}
+		return context.GetDB().
+			Set("gorm:order_by_primary_key", "DESC").
+			Where("user_id !=? ", 0).Find(result).Error
+	}
+
+	//重置Status显示
+	userArticle.Meta(&admin.Meta{Name: "Status", Label: "审核状态", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.Article); ok {
+			if v.Status == 1 {
+
+				txt = "已审核"
+			} else {
+				txt = "未审核"
+			}
+		}
+		return txt
+	}})
+	userArticle.IndexAttrs("ID", "Title", "Cover",
+		"Status", "ReadNum", "Category","IsSubmission")
+
+	userArticle.EditAttrs("Title", "User", "Category",
+		"Cover", "Content")
+
+	//添加过滤条件
+	userArticle.Scope(&admin.Scope{Name: "已审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
+		return db.Where("status = ?", "1")
+	}})
+
+	userArticle.Scope(&admin.Scope{Name: "未审核", Group: "审核状态", Handler: func(db *gorm.DB, context *qor.Context) *gorm.DB {
+		return db.Where("status = ?", "0")
+	}})
+	userArticle.SearchAttrs("Title", "Content", "Editor", "ResponsibleEditor", "Author", "ID")
+
+	//重置删除
+	userArticle.Action(&admin.Action{
+		Name:  "Delete",
+		Label: "删除",
+		Handler: func(argument *admin.ActionArgument) error {
+			for _, record := range argument.FindSelectedRecords() {
+
+				if a, ok := record.(*models.Article); ok {
+					if err := models.DB.Delete(&a).Error; err != nil {
+						return err
+					}
+				}
+			}
+			return nil
+		},
+		Modes: []string{"show", "menu_item"},
+	})
+
+	//添加审核模块
+	userArticle.Action(
+		&admin.Action{
+			Name:  "审核",
+			Label: "审核/撤销",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
+
+					if a, ok := record.(*models.Article); ok {
+						//执行a.status更新状态
+						if a.Status == 1 {
+							a.Status = 0
+						} else {
+							a.Status = 1
+						}
+						models.DB.Model(&a).Update("status", a.Status)
+
+					}
+				}
+				return nil
+			},
+			Modes: []string{"batch", "show", "menu_item"},
+		},
+	)
+	userArticle.Meta(&admin.Meta{Name: "Content", Type: "kindeditor", Label: "内容", Config: &admin.RichEditorConfig{
+		AssetManager: assetManager,
+		Plugins: []admin.RedactorPlugin{
+			{Name: "medialibrary", Source: "/admin/assets/javascripts/qor_redactor_medialibrary.js"},
+			{Name: "table", Source: "/admin/assets/javascripts/qor_kindeditor.js"},
+		},
+	}})
+	userArticle.Meta(&admin.Meta{Name: "Content", Label: "内容", Type: "kindeditor"})
+	userArticle.Meta(&admin.Meta{Name: "Status", Label: "是否审核"})
+	userArticle.Meta(&admin.Meta{Name: "Category", Label: "类别"})
+
+	userArticle.Meta(&admin.Meta{Name: "Cover", Label: "封面图"})
+	userArticle.Meta(&admin.Meta{Name: "Title", Label: "标题"})
+	userArticle.Meta(&admin.Meta{Name: "ReadNum", Label: "阅读数"})
+	userArticle.Meta(&admin.Meta{Name: "Category", Label: "文章分类",
+		Config: &admin.SelectOneConfig{
+			Placeholder: "选择选项"}}, )
+	userArticle.Meta(&admin.Meta{Name: "User", Label: "用户名",
+		Config: &admin.SelectOneConfig{
+			Collection: func(record interface{}, context *admin.Context) (options [][]string) {
+				var user models.User
+				if a, ok := record.(*models.Article); ok {
+
+					context.GetDB().Where("id =?", a.UserID).First(&user)
+				}
+				var option = []string{cast.ToString(user.ID), user.Username}
+				options = append(options, option)
+				return options
+			},
+		}}, )
 }
