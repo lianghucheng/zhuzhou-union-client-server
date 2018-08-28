@@ -102,9 +102,15 @@ func (this *Controller) List() {
 	for _, category := range categories {
 		cateIDs = append(cateIDs, category.ID)
 	}
+	qs := models.DB
+	if category.HigherID == 0 {
+		qs = qs.Select("id,cover,summary,title,author,created_at").
+			Model(models.Article{}).Where("category_id  in (?)", cateIDs)
+	} else {
+		qs = qs.Select("id,cover,summary,title,author,created_at").
+			Model(models.Article{}).Where("category_id = ?", category.ID)
+	}
 
-	qs := models.DB.Select("id,cover,summary,title,author,created_at").
-		Model(models.Article{}).Where("category_id  in (?)", cateIDs)
 	cnt := 0
 	qs.Count(&cnt)
 
@@ -124,4 +130,3 @@ func (this *Controller) List() {
 
 	this.TplName = "article/category.html"
 }
-
