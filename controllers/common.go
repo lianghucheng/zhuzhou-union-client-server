@@ -112,8 +112,8 @@ func (this *Common) VerityCode(username string) {
 	if code == "" {
 		this.ReturnJson(10003, "短信验证码不能为空")
 	}
-
 	if local_code, ok := this.GetSession(username).(string); ok {
+		beego.Debug(code,local_code)
 		if local_code == code {
 			this.DelSession(username)
 		} else {
