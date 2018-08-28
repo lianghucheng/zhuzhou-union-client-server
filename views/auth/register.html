@@ -227,7 +227,7 @@
                         $("#code").data('code',r.id);
                         $('#picture').attr('src',r.src);
                     }else {
-                        alert("error");
+                        toastr.error("error");
                     }
                 }
             })
@@ -237,10 +237,10 @@
             var code = $('#code').val();
             var cid = $("#code").data('code');
             if (username == '') {
-                alert("手机号不能为空");
+                toastr.warn("手机号不能为空");
             }
             else if (code == '') {
-                alert("验证码不能为空");
+                toastr.warn("验证码不能为空");
             } else {
                 $.ajax({
                     type: 'POST',
