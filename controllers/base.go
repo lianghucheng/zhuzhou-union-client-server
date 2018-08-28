@@ -16,7 +16,7 @@ func (this *BaseController) Prepare() {
 			return
 		}
 		this.Userinfo = u
-		this.Data["user"] = u
+		this.Data["User"] = u
 	} else {
 		this.Ctx.Redirect(302, "/")
 		return
