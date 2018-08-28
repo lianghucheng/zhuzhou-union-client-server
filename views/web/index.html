@@ -55,7 +55,6 @@
         text-align: center;
     }
 
-
     .list-group-item-action:last-child .tab-bar-group-item {
         border-bottom: none;
     }
@@ -447,9 +446,11 @@
         margin-bottom: 0;
         line-height: 62px;
     }
-    .panel-nav-item:hover .panel-nav-item-title{
-        color:#fff;
+
+    .panel-nav-item:hover .panel-nav-item-title {
+        color: #fff;
     }
+
     .panel-nav-item.active, .panel-nav-item:hover {
         background-color: #c73236;
     }
@@ -528,7 +529,8 @@
         background-color: #c73236;
         text-decoration: none;
     }
-    .news-tab-item.sharp-item.active:after,.news-tab-item.sharp-item:hover:after{
+
+    .news-tab-item.sharp-item.active:after, .news-tab-item.sharp-item:hover:after {
         bottom: -17px;
     }
 
@@ -537,22 +539,26 @@
         right: 0;
         bottom: auto;
     }
-    .swiper-button-prev.swiper-button-disabled{
+
+    .swiper-button-prev.swiper-button-disabled {
         background-color: #ffffff;
         border: 2px solid #999999;
         left: 0px;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23999999'%2F%3E%3C%2Fsvg%3E");
     }
+
     .swiper-button-prev {
         background-color: #c73236;
         border: 2px solid #c73236;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M0%2C22L22%2C0l2.1%2C2.1L4.2%2C22l19.9%2C19.9L22%2C44L0%2C22L0%2C22L0%2C22z'%20fill%3D'%23ffffff'%2F%3E%3C%2Fsvg%3E");
     }
-    .swiper-button-next.swiper-button-disabled{
+
+    .swiper-button-next.swiper-button-disabled {
         background-color: #ffffff;
         border: 2px solid #999999;
         background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D'http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg'%20viewBox%3D'0%200%2027%2044'%3E%3Cpath%20d%3D'M27%2C22L27%2C22L5%2C44l-2.1-2.1L22.8%2C22L2.9%2C2.1L5%2C0L27%2C22L27%2C22z'%20fill%3D'%23999999'%2F%3E%3C%2Fsvg%3E");
     }
+
     .swiper-button-next {
         background-color: #c73236;
         border: 2px solid #c73236;
@@ -632,14 +638,17 @@
     .card-list .basic-card:last-child {
         margin-right: 0;
     }
-    .image-list .basic-card{
+
+    .image-list .basic-card {
         float: left;
         margin-right: calc(25% - 115px * 5 / 2);
     }
-    .image-list .basic-card:last-child{
+
+    .image-list .basic-card:last-child {
         margin-right: 0;
     }
-    .m-container{
+
+    .m-container {
         width: 1230px;
         padding-right: 15px;
         padding-left: 15px;
@@ -730,9 +739,11 @@
                                         <div class="carousel-inner">
                                             {{range $index,$elem:=.carouselNews}}
                                             <div class="carousel-item {{if eq $index 0}}active{{end}}">
-                                                <div class="cover-image"
-                                                     style="height:310px;width:100%;background-image: url({{$elem.Cover}});"></div>
-                                                <div class="bottom-mask">{{$elem.Title}}</div>
+                                                <a href="/article/{{.ID}}">
+                                                    <div class="cover-image"
+                                                         style="height:310px;width:100%;background-image: url({{$elem.Cover}});"></div>
+                                                </a>
+                                                <a href="/article/{{.ID}}"><div class="bottom-mask">{{$elem.Title}}</div></a>
                                             </div>
                                             {{end}}
                                         </div>
@@ -890,7 +901,8 @@
                 </div>
             </div>
         </div>
-        <div class="m-container padding-around-transparent" style="overflow: hidden;margin-top: 30px;padding-top: 10px;">
+        <div class="m-container padding-around-transparent"
+             style="overflow: hidden;margin-top: 30px;padding-top: 10px;">
             <div class="list-cell">
                 <div class="panel-title">
                     <span class="panel-title-span-active sharp">政策法规</span>
@@ -1000,7 +1012,8 @@
     </div>
     <div class="panel">
         <div class="news-border-top">
-            <div class="m-container" style="top: -45px;position: absolute;width: 1200px;margin-left: calc(50% - 600px - 15px);">
+            <div class="m-container"
+                 style="top: -45px;position: absolute;width: 1200px;margin-left: calc(50% - 600px - 15px);">
                 <div class="news-tab">
                     <div class="tabbar">
                         <div class="list-group" id="list-news" role="tablist" style="display: block;">
@@ -1021,7 +1034,8 @@
                 <div class="tab-pane fade show active _list" id="list-pic" role="tabpanel"
                      aria-labelledby="list-pic-news">
                     <div class="m-container" style="position: relative;">
-                        <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a></div>
+                        <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a>
+                        </div>
                         <div style="margin: 0 auto;position: relative;max-height: 300px;overflow: hidden;margin-right: calc(-120px/2);margin-left: calc(-120px/2);">
                             <div class="swiper-container" id="pic_swiper" style="width: 1200px;margin: 0 auto;">
                                 <div class="swiper-wrapper">
@@ -1038,7 +1052,8 @@
                                                     <h5 class="card-title  basic-card-title text-ov">
                                                         {{str2html $elem.Title}}</h5></a>
                                                 <a href="/article/{{$elem.ID}}"><p
-                                                        class="card-text basic-card-text text-ov-3">{{str2html $elem.Summary}}</p>
+                                                        class="card-text basic-card-text text-ov-3">{{str2html
+                                                    $elem.Summary}}</p>
                                                 </a>
                                             </div>
                                         </div>
@@ -1055,7 +1070,8 @@
                 <div class="tab-pane fade show _list" id="list-video" role="tabpanel"
                      aria-labelledby="list-video-news" style="">
                     <div class="m-container" style="position: relative;">
-                        <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a></div>
+                        <div class="more-cell-box fixed-more-cell-box tabpane-more-cell-box"><a href="#">查看更多 ></a>
+                        </div>
                         <div style="margin: 0 auto;position: relative;max-height:300px;overflow: hidden;">
                             <div class="swiper-container" id="video_swiper" style="width:1200px">
                                 <div class="swiper-wrapper">
@@ -1205,7 +1221,8 @@
                     {{range .photoNews}}
                     <div class="card basic-card" style="width:230px;">
                         <div class="card-image">
-                            <div class="cover-image" style="height:100%;width:100%; background-image: url({{.Cover}})"></div>
+                            <div class="cover-image"
+                                 style="height:100%;width:100%; background-image: url({{.Cover}})"></div>
                             <a href="/article/{{.ID}}" class="image-mask"></a>
                         </div>
                         <div class="card-body" style="border:none;line-height: 30px;padding:0;">
