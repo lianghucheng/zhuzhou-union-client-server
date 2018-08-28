@@ -19,7 +19,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 
 	cate.SearchAttrs("Name", "Category", "Higher", "ID")
 
-	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher")
+	cate.IndexAttrs("ID", "Name", "Sequence", "Category", "Higher", "IsSubmission")
 	cate.EditAttrs("ID", "Name", "Sequence", "Category", "Higher")
 	cate.NewAttrs("ID", "Name", "Sequence", "Category", "Higher")
 
@@ -191,6 +191,42 @@ func SetAdmin(adminConfig *admin.Admin) {
 				return nil
 			},
 			Modes: []string{"show", "menu_item", "edit"},
+		},
+	)
+
+	cate.Meta(&admin.Meta{Name: "IsSubmission", Label: "是否为投稿分类", Type: "String", FormattedValuer: func(record interface{}, context *qor.Context) (result interface{}) {
+		txt := ""
+		if v, ok := record.(*models.Category); ok {
+			if v.IsSubmission == 1 {
+
+				txt = "投稿分类"
+			} else {
+				txt = "非投稿分类"
+			}
+		}
+		return txt
+	}})
+	cate.Action(
+		&admin.Action{
+			Name:  "置为投稿分类",
+			Label: "置为投稿分类/取消",
+			Handler: func(argument *admin.ActionArgument) error {
+				for _, record := range argument.FindSelectedRecords() {
+
+					if a, ok := record.(*models.Category); ok {
+						//执行a.status更新状态
+						if a.IsSubmission == 1 {
+							a.IsSubmission = 0
+						} else {
+							a.IsSubmission = 1
+						}
+						models.DB.Model(&a).Update("is_submission", a.IsSubmission)
+
+					}
+				}
+				return nil
+			},
+			Modes: []string{"batch", "show", "menu_item"},
 		},
 	)
 }
