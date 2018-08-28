@@ -9,7 +9,7 @@ import (
 
 type Common struct {
 	beego.Controller
-	UserID   int64
+	UserID   uint
 	Token    string
 	Userinfo *models.User
 }

@@ -7,7 +7,7 @@
       <textarea class="qor-field__input ueditor-id" id="ueditor-id" name="{{.InputName}}"
                 style="width:700px;height:650px;"
                 data-redactor-settings="{&quot;plugins&quot;:[&quot;source&quot;,&quot;filemanager&quot;,]}"
-                data-toggle="qor.editor"
+                data-toggle="qor.ueditor"
                 {{if not (has_change_permission .Meta) }}disabled{{end}}>{{.Value}}</textarea>
   </div>
 </div>
