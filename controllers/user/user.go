@@ -213,7 +213,7 @@ func (this *Controller) Search() {
 //@router /api/user/category [get]
 func (this *Controller) GetCate() {
 	categorys := []models.Category{}
-	if err := models.DB.Where("category = ?", 4).Find(&categorys).Error; err != nil {
+	if err := models.DB.Where("IsSubmission = ?", 1).Find(&categorys).Error; err != nil {
 		beego.Error("取分类失败", err)
 		this.ReturnJson(10001, "取分类失败"+err.Error())
 	}
