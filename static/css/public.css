@@ -229,3 +229,11 @@ m-breadcrumb-tips {
 .page-link:focus {
     box-shadow: none;
 }
+/*布局*/
+.m-container {
+    width: 1230px;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
