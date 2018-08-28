@@ -144,6 +144,11 @@
         color: #329459;
         font-weight: normal;
     }
+
+    .article-status.status-nopass b {
+        color: #e42031;
+        font-weight: normal;
+    }
 </style>
 {{end}}
 {{define "top"}}
@@ -586,7 +591,7 @@
                                 tmplStatus = '<span class="col-2 article-status status-pass">状态:<b>已审核</b></span>';
                             }
                             if (r.articles[i].Status == 0) {
-                                tmplStatus = '<span class="col-2 article-status status-pass">状态:<b>未审核</b></span>';
+                                tmplStatus = '<span class="col-2 article-status status-nopass">状态:<b>未审核</b></span>';
                             }
 
                             tmpl += '<li class="row">' +

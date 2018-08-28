@@ -384,24 +384,34 @@
         var password1 = $('#password1').val();
         var password2 = $('#password2').val();
         var smscode = $('#smscode').val();
-        $.ajax({
-            type: 'POST',
-            data: {
-                "username": username,
-                'password1': password1,
-                'password2': password2,
-                'code': smscode,
+        if (username==''){
+            alert("手机号不能为空")
+        }else if (password1==''||password2==''){
+            alert("密码不能为空")
+        }else if(password1!=password2){
+            alert("两次密码不一致")
+        }else if (smscode==''){
+            alert("短信验证码不能为空")
+        }else{
+            $.ajax({
+                type: 'POST',
+                data: {
+                    "username": username,
+                    'password1': password1,
+                    'password2': password2,
+                    'code': smscode,
 
-            },
-            url: '/api/user/register',
-            success: function (r) {
-                if (r.status == 10000) {
-                    window.location.href = '/user/center';
-                } else {
-                    alert(r.message);
+                },
+                url: '/api/user/register',
+                success: function (r) {
+                    if (r.status == 10000) {
+                        window.location.href = '/user/login';
+                    } else {
+                        alert(r.message);
+                    }
                 }
-            }
-        })
+            })
+        }
     }
 
     function clickLogin() {
@@ -454,7 +464,7 @@
                 url: '/api/user/smslogin',
                 success: function (r) {
                     if (r.status == 10000) {
-                        window.location.href = '/user/center';
+                        window.location.href = '/user/login';
                     } else {
                         alert(r.message);
                     }
@@ -476,7 +486,8 @@
                 },
                 success: function (r) {
                     if (r.status == 10000) {
-                        time(o)
+                        wait=60;
+                        time(o);
                     } else {
                         alert(r.message)
                     }
@@ -506,13 +517,12 @@
             window.open('{{urlfor "SearchController.Search" }}?str=' + e.target.value)
         }
     })
-
+    var wait;
     function time(o) {
         if (wait == 0) {
             o.removeAttribute("disabled");
             o.innerHTML = "发送验证码";
             wait = 60;
-            rgetCode();
         } else {
             o.setAttribute("disabled", true);
             o.innerHTML = "重新发送(" + wait + ")";
