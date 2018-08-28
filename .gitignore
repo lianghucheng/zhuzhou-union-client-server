@@ -89,7 +89,6 @@ controllers/date.c
 controllers/date1.exe
 
 UploadFiles
-conf/app.conf
 
 nohup.out
 
