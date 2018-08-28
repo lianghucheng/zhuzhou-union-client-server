@@ -209,7 +209,7 @@ func SetAdmin(adminConfig *admin.Admin) {
 	cate.Action(
 		&admin.Action{
 			Name:  "置为投稿分类",
-			Label: "置为投稿分类/取消",
+			Label: "置为/取消投稿分类",
 			Handler: func(argument *admin.ActionArgument) error {
 				for _, record := range argument.FindSelectedRecords() {
 
