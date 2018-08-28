@@ -388,7 +388,7 @@
             url: '/api/user/register',
             success: function (r) {
                 if (r.status == 10000) {
-                    window.location.href = '/user/center';
+                    window.location.href = '/user/login';
                 } else {
                     alert(r.message);
                 }
@@ -414,7 +414,7 @@
                 if (r.status == 10000) {
                     window.location.href = '/user/center';
                 } else {
-                    alert(r.message);
+                    alert("验证码输入错误");
                     update();
                 }
             }
@@ -435,7 +435,7 @@
                 if (r.status == 10000) {
                     window.location.href = '/user/center';
                 } else {
-                    alert(r.message);
+                    alert("验证码输入错误");
                 }
             }
         })

@@ -122,10 +122,10 @@ func (this *Controller) RegisterSubmit() {
 	u.Prioty = 3
 
 	if err := models.DB.Create(&u).Error; err != nil {
+		beego.Debug(err)
 		this.ReturnJson(10006, "注册用户失败")
 	}
 
-	this.SetSession("userinfo", &u)
 	this.ReturnSuccess()
 }
 

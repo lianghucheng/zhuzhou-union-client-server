@@ -119,12 +119,10 @@ func (this *Common) VerityCode(username string) {
 		if local_code == code {
 			this.DelSession(username)
 		} else {
-			this.DelSession(username)
-			this.ReturnJson(10003, "验证码无效")
+			this.ReturnJson(10003, "验证码输入错误")
 		}
 	} else {
-		this.DelSession(username)
-		this.ReturnJson(10004, "验证码无效")
+		this.ReturnJson(10004, "验证码输入错误")
 	}
 }
 
