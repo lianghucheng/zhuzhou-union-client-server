@@ -353,7 +353,7 @@
             nickname = $("#name").val();
             sex = $("#sex").val();
 
-
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -374,6 +374,7 @@
                 }
 
             });
+            $.bootstrapLoading.end()
         }
 
         function getObjectURL(file) {
@@ -389,6 +390,7 @@
         }
 
         function userInit() {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -418,6 +420,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
 
         function articleInit() {
@@ -429,7 +432,7 @@
             var formData = new FormData();
             formData.append("file", file);
             formData.append("name", image);
-
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 url: '{{urlfor "Controller.ImgUpload"}}',
                 type: 'post',
@@ -451,10 +454,11 @@
                 }
 
             });
-
+            $.bootstrapLoading.end()
         }
 
         function categoryInit() {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 url: '/api/user/category',
                 type: 'GET',
@@ -474,10 +478,12 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
 
         function usrnSubmit() {
             var username = $('#user-recipient-name').val();
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -496,11 +502,13 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
 
         function pwdSubmit() {
             var newpwd = $('#newpwd-recipient-name').val();
             var oldpwd = $('#oldpwd-recipient-name').val();
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -519,6 +527,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
 
         function tSubmit() {
@@ -540,7 +549,7 @@
                 toastr.error("请选择分类");
                 return
             }
-
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -573,11 +582,13 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
 
         function tUpdate(tID) {
             var contenta = due.getContent();
             var cid = $('#category').val();
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded; charset=utf-8'
@@ -599,9 +610,11 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
 
         function getArticles(page) {
+            $.bootstrapLoading.start({ loadingTips: '加载中'});
             $.ajax({
                 headers: {
                     'Content-type': 'application/x-www-form-urlencoded;charset=utf-8'
@@ -714,6 +727,7 @@
                     }
                 }
             })
+            $.bootstrapLoading.end()
         }
     </script>
 </section>
