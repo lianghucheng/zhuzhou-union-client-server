@@ -204,7 +204,7 @@
                             placeholder="输入手机验证码"
                     >
                 </div>
-                <button type="button" class="btn btn-danger" onclick="time(this)">发送验证码</button>
+                <button type="button" class="btn btn-danger" onclick="rgetCode(this)">发送验证码</button>
                 <!--<div class="input-box" style="background-color: #c73236;line-height: 42px;color:white;border:none;width:110px;justify-content: center;">-->
                 <!---->
                 <!--</div>-->
@@ -252,31 +252,15 @@
                     },
                     success: function (r) {
                         if (r.status == 10000) {
+                            wait=60;
                             time(o);
+                            alert("发送成功")
                         } else {
-                            toastr.error("验证码错误，不能获取短信验证码！")
-                            wair = 0;
+                            alert("请输入正确的图片验证码！")
                             update();
                         }
                     }
                 })
-            }
-        }
-
-        function time(o) {
-            if (wait == 0) {
-                o.removeAttribute("disabled");
-                o.innerHTML = "发送验证码";
-                wait = 60;
-                rgetCode();
-            } else {
-                o.setAttribute("disabled", true);
-                o.innerHTML = "重新发送(" + wait + ")";
-                wait--;
-                setTimeout(function () {
-                        time(o)
-                    },
-                    1000)
             }
         }
     </script>
